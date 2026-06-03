@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Users, Trophy, Calendar, Settings, BarChart3, Bell, Plus, Edit, Trash2 } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import { cn } from '@/lib/utils';
-import { TEAMS, PLAYERS } from '@/lib/data';
+import { TEAMS } from '@/lib/data';
 
 const TABS = [
   { id: 'overview', label: 'Overview', icon: <BarChart3 className="w-4 h-4" /> },
@@ -132,7 +132,7 @@ export default function AdminPage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {TEAMS.slice(0, 32).map(team => (
-                <Card key={team.id} className="p-4 flex items-center gap-3 hover:border-emerald-500/20 transition-all group">
+                <Card key={team.code + team.group} className="p-4 flex items-center gap-3 hover:border-emerald-500/20 transition-all group">
                   <span className="text-3xl">{team.flag}</span>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-white truncate">{team.name}</p>

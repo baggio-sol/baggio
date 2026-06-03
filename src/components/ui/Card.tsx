@@ -9,9 +9,11 @@ const glowStyles: Record<string, string> = {
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   glow?: 'purple' | 'blue' | 'spice';
+  /** Alias for glass className — kept for legacy compat */
+  glass?: boolean;
 }
 
-export default function Card({ className, glow, style, ...props }: CardProps) {
+export default function Card({ className, glow, glass: _glass, style, ...props }: CardProps) {
   return (
     <div
       className={cn('rounded-2xl glass', className)}

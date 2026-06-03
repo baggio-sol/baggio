@@ -46,7 +46,7 @@ export default function TeamFlag({ team, size = 'md', showName = false, classNam
         'w-14 h-14': size === 'md',
         'w-16 h-16': size === 'lg',
         'w-20 h-20': size === 'xl',
-      })} style={{ borderColor: team.color || '#6b7280', background: `${team.color}22` }}>
+      })} style={{ borderColor: '#6b7280', background: 'rgba(107,114,128,0.13)' }}>
         <span className={sizes[size]}>{team.flag}</span>
       </div>
       {showName && (
