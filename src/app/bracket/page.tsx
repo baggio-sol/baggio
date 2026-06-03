@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import BracketView from '@/components/bracket/BracketView';
-import { usePredictionStore } from '@/lib/store';
+import { usePredictionStore, deriveTree } from '@/lib/store';
+import { TEAM_BY_CODE } from '@/lib/tournament';
 import { Trophy, ArrowLeft, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
@@ -15,7 +16,8 @@ export default function BracketPage() {
 
   if (!mounted) return null;
 
-  const champion = bracket?.knockout.champion;
+  const championCode = deriveTree(bracket)?.winners['M104'];
+  const champion = championCode ? TEAM_BY_CODE[championCode] : undefined;
 
   return (
     <div className="min-h-screen py-8">
@@ -56,7 +58,9 @@ export default function BracketPage() {
               <p className="text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: '#fbbf24' }}>
                 Your Predicted World Champion
               </p>
-              <h2 className="text-2xl font-black" style={{ color: '#f5f3ff' }}>{champion}</h2>
+              <h2 className="text-2xl font-black" style={{ color: '#f5f3ff' }}>
+                {champion.flag} {champion.name}
+              </h2>
             </div>
           </div>
         )}

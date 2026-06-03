@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Bracket, GroupId } from './types';
-import { GROUP_IDS, TEAM_BY_CODE } from './tournament';
+import {
+  GROUP_IDS,
+  TEAM_BY_CODE,
+  buildKnockoutTree,
+  applyWinners,
+  type KnockoutTree,
+} from './tournament';
 
 interface PredictionState {
   bracket: Bracket | null;
@@ -14,6 +20,9 @@ interface PredictionState {
   /** Toggle a team in/out of the 8 third-place qualifiers. Only teams currently
    *  placed 3rd are eligible, and at most 8 may be selected. */
   toggleThird: (code: string) => void;
+  /** Pick the winner of a knockout match; re-derives the tree and drops any
+   *  downstream picks the change invalidated. */
+  setKnockoutWinner: (matchId: string, code: string) => void;
   resetPredictions: () => void;
 }
 
@@ -36,6 +45,54 @@ export function thirdPlacedCodes(bracket: Bracket): string[] {
 function pruneThirds(bracket: Bracket): string[] {
   const eligible = new Set(thirdPlacedCodes(bracket));
   return bracket.thirdPlaceQualifiers.filter((c) => eligible.has(c));
+}
+
+// ── Knockout bracket helpers ─────────────────────────────────────────────────
+function knockoutRound(id: string): keyof Bracket['knockout'] | null {
+  const n = Number(id.slice(1));
+  if (n >= 73 && n <= 88) return 'r32';
+  if (n >= 89 && n <= 96) return 'r16';
+  if (n >= 97 && n <= 100) return 'qf';
+  if (n >= 101 && n <= 102) return 'sf';
+  if (n === 104) return 'final';
+  return null;
+}
+
+/** Flatten the stored grouped knockout picks into a {matchId: winner} map. */
+function flattenWinners(k: Bracket['knockout']): Record<string, string> {
+  const out: Record<string, string> = { ...k.r32, ...k.r16, ...k.qf, ...k.sf };
+  if (k.final) out['M104'] = k.final;
+  return out;
+}
+
+/** Regroup a cleaned {matchId: winner} map back into the Bracket.knockout shape. */
+function groupWinners(winners: Record<string, string>): Bracket['knockout'] {
+  const k: Bracket['knockout'] = { r32: {}, r16: {}, qf: {}, sf: {}, final: '', champion: '' };
+  for (const [id, code] of Object.entries(winners)) {
+    const round = knockoutRound(id);
+    if (round === 'final') {
+      k.final = code;
+      k.champion = code;
+    } else if (round) {
+      (k[round] as Record<string, string>)[id] = code;
+    }
+  }
+  return k;
+}
+
+/**
+ * Derive the live knockout tree for a bracket: builds the tree from the user's
+ * predicted standings + third-place picks, applies their stored winner picks,
+ * and returns the resolved tree plus the cleaned winner map. Returns null until
+ * the group stage is complete (12 groups ranked + 8 thirds chosen).
+ */
+export function deriveTree(
+  bracket: Bracket | null,
+): { tree: KnockoutTree; winners: Record<string, string> } | null {
+  if (!groupStageReady(bracket) || !bracket) return null;
+  const tree = buildKnockoutTree(bracket.groupPredictions, bracket.thirdPlaceQualifiers);
+  const { winners } = applyWinners(tree, flattenWinners(bracket.knockout));
+  return { tree, winners };
 }
 
 export const usePredictionStore = create<PredictionState>()(
@@ -84,6 +141,17 @@ export const usePredictionStore = create<PredictionState>()(
             return {}; // not eligible or already at 8 — no-op
           }
           return { bracket: { ...current, thirdPlaceQualifiers: nextThirds } };
+        }),
+
+      setKnockoutWinner: (matchId, code) =>
+        set((state) => {
+          const current = state.bracket;
+          if (!groupStageReady(current) || !current) return {};
+          const tree = buildKnockoutTree(current.groupPredictions, current.thirdPlaceQualifiers);
+          const flat = flattenWinners(current.knockout);
+          flat[matchId] = code;
+          const { winners } = applyWinners(tree, flat);
+          return { bracket: { ...current, knockout: groupWinners(winners) } };
         }),
 
       resetPredictions: () => set({ bracket: null }),
