@@ -20,50 +20,44 @@ const ISO2: Record<string, string> = {
 
 function flagUrl(code: string) {
   const iso = ISO2[code];
-  if (!iso) return null;
-  return `https://flagcdn.com/w40/${iso}.png`;
+  return iso ? `https://flagcdn.com/w40/${iso}.png` : null;
 }
 
-// Inner ring: tier-1 teams (the 8 elite + 4 co-hosts that are tier 1)
-// Outer ring: everyone else
+// Inner ring: tier-1 teams · Outer ring: everyone else
 const tier1 = TEAMS.filter((t) => t.tier === 1);
 const rest = TEAMS.filter((t) => t.tier !== 1);
 
 interface FlagPillProps {
   code: string;
   name: string;
+  flag: string;
   size: number;
-  index: number;
-  total: number;
+  angle: number;
   radius: number;
-  /** counter-rotate each pill so text always faces up */
-  counterRotate?: boolean;
+  /** keyframe name used to counter-rotate so the flag stays upright */
+  counterAnim: string;
+  duration: number;
 }
 
-function FlagPill({ code, name, size, index, total, radius, counterRotate }: FlagPillProps) {
-  const angle = (360 / total) * index;
+function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration }: FlagPillProps) {
   const url = flagUrl(code);
 
   return (
+    // Outer wrapper: a full-size, centred box rotated to `angle`, with the pill
+    // pushed out to `radius`. The parent ring spins this whole thing around.
     <div
-      className="absolute flex flex-col items-center gap-1"
+      className="absolute left-1/2 top-1/2"
       style={{
-        width: size,
-        left: '50%',
-        top: '50%',
-        marginLeft: -size / 2,
-        marginTop: -size / 2,
-        transformOrigin: `${size / 2}px ${size / 2 + radius}px`,
+        width: 0,
+        height: 0,
         transform: `rotate(${angle}deg) translateY(-${radius}px)`,
       }}
     >
+      {/* Counter-rotate (animated, opposite the ring) so flags stay upright. */}
       <div
         style={{
-          transform: counterRotate ? `rotate(-${angle}deg)` : undefined,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 4,
+          transform: 'translate(-50%, -50%)',
+          animation: `${counterAnim} ${duration}s linear infinite`,
         }}
       >
         <div
@@ -74,6 +68,7 @@ function FlagPill({ code, name, size, index, total, radius, counterRotate }: Fla
             borderColor: 'rgba(255,255,255,0.20)',
             background: 'rgba(255,255,255,0.06)',
             backdropFilter: 'blur(4px)',
+            boxShadow: '0 4px 14px -4px rgba(0,0,0,0.5)',
           }}
         >
           {url ? (
@@ -86,7 +81,7 @@ function FlagPill({ code, name, size, index, total, radius, counterRotate }: Fla
               unoptimized
             />
           ) : (
-            <span className="text-lg">{TEAMS.find((t) => t.code === code)?.flag}</span>
+            <span className="text-lg leading-none">{flag}</span>
           )}
         </div>
       </div>
@@ -99,6 +94,8 @@ export default function FlagOrbit() {
   const OUTER_R = 240;
   const INNER_SIZE = 44;
   const OUTER_SIZE = 36;
+  const INNER_DUR = 40; // seconds per revolution
+  const OUTER_DUR = 60;
   const CONTAINER = (OUTER_R + OUTER_SIZE) * 2 + 20;
 
   return (
@@ -107,46 +104,40 @@ export default function FlagOrbit() {
       style={{ width: CONTAINER, height: CONTAINER, maxWidth: '100%' }}
       aria-hidden
     >
-      {/* Glow rings */}
+      {/* Glow rings (static guide circles) */}
       <div
-        className="absolute rounded-full"
+        className="absolute rounded-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          inset: (CONTAINER / 2 - INNER_R - INNER_SIZE / 2 - 8),
-          width: (INNER_R + INNER_SIZE / 2 + 8) * 2,
-          height: (INNER_R + INNER_SIZE / 2 + 8) * 2,
-          border: '1px solid rgba(139,92,246,0.25)',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
+          width: INNER_R * 2,
+          height: INNER_R * 2,
+          border: '1px solid rgba(139,92,246,0.22)',
         }}
       />
       <div
-        className="absolute rounded-full"
+        className="absolute rounded-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: (OUTER_R + OUTER_SIZE / 2 + 8) * 2,
-          height: (OUTER_R + OUTER_SIZE / 2 + 8) * 2,
-          border: '1px solid rgba(59,130,246,0.20)',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%,-50%)',
+          width: OUTER_R * 2,
+          height: OUTER_R * 2,
+          border: '1px solid rgba(59,130,246,0.18)',
         }}
       />
 
       {/* Inner ring — clockwise */}
       <div
         className="absolute inset-0"
-        style={{ animation: 'spin-cw 40s linear infinite' }}
+        style={{ animation: `spin-cw ${INNER_DUR}s linear infinite` }}
       >
         {tier1.map((t, i) => (
           <FlagPill
             key={t.code}
             code={t.code}
             name={t.name}
+            flag={t.flag}
             size={INNER_SIZE}
-            index={i}
-            total={tier1.length}
+            angle={(360 / tier1.length) * i}
             radius={INNER_R}
-            counterRotate
+            counterAnim="spin-ccw"
+            duration={INNER_DUR}
           />
         ))}
       </div>
@@ -154,18 +145,19 @@ export default function FlagOrbit() {
       {/* Outer ring — anti-clockwise */}
       <div
         className="absolute inset-0"
-        style={{ animation: 'spin-ccw 60s linear infinite' }}
+        style={{ animation: `spin-ccw ${OUTER_DUR}s linear infinite` }}
       >
         {rest.map((t, i) => (
           <FlagPill
             key={t.code}
             code={t.code}
             name={t.name}
+            flag={t.flag}
             size={OUTER_SIZE}
-            index={i}
-            total={rest.length}
+            angle={(360 / rest.length) * i}
             radius={OUTER_R}
-            counterRotate
+            counterAnim="spin-cw"
+            duration={OUTER_DUR}
           />
         ))}
       </div>
@@ -182,7 +174,9 @@ export default function FlagOrbit() {
         }}
       >
         <span className="text-2xl">⚽</span>
-        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#c4bdec' }}>2026</span>
+        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#c4bdec' }}>
+          2026
+        </span>
       </div>
     </div>
   );
