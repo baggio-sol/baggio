@@ -17,9 +17,17 @@ interface PredictionState {
   resetPredictions: () => void;
 }
 
+// R32: 16 matches (24 known group qualifiers + 8 TBD 3rd-placed slots)
+// Pairing: adjacent group pairs AB, CD, EF, GH, IJ, KL → 12 known matches + 4 TBD-only matches
 function emptyBracket(): KnockoutBracket {
   return {
-    r32: [],
+    r32: Array.from({ length: 16 }, (_, i) => ({
+      id: `r32-${i}`,
+      homeTeam: null,
+      awayTeam: null,
+      stage: 'r32',
+      position: i,
+    })),
     r16: Array.from({ length: 8 }, (_, i) => ({
       id: `r16-${i}`,
       homeTeam: null,
@@ -73,9 +81,21 @@ export const usePredictionStore = create<PredictionState>()(
             return matches;
           };
 
-          if (stage === 'r16') {
+          if (stage === 'r32') {
+            bracket.r32 = updateMatch([...bracket.r32], position);
+            // Propagate to R16
+            const r16Pos = Math.floor(position / 2);
+            const isHome = position % 2 === 0;
+            const r16Idx = bracket.r16.findIndex(m => m.position === r16Pos);
+            if (r16Idx !== -1) {
+              bracket.r16[r16Idx] = {
+                ...bracket.r16[r16Idx],
+                [isHome ? 'homeTeam' : 'awayTeam']: winner,
+                winner: undefined,
+              };
+            }
+          } else if (stage === 'r16') {
             bracket.r16 = updateMatch([...bracket.r16], position);
-            // Propagate to QF
             const qfPos = Math.floor(position / 2);
             const isHome = position % 2 === 0;
             const qfIdx = bracket.qf.findIndex(m => m.position === qfPos);
@@ -108,7 +128,6 @@ export const usePredictionStore = create<PredictionState>()(
                 winner: undefined,
               };
             }
-            // Third place losers
             const match = bracket.sf.find(m => m.position === position);
             const loser = match ? (match.homeTeam?.id === winner.id ? match.awayTeam : match.homeTeam) : null;
             if (bracket.third && loser) {
@@ -142,7 +161,7 @@ export const usePredictionStore = create<PredictionState>()(
         const { groupPredictions } = get();
         const bracket = emptyBracket();
 
-        // Calculate group winners/runners-up from predictions
+        // Calculate top-2 qualifiers per group from predictions
         const groupQualifiers: Record<string, { first: Team | null; second: Team | null }> = {};
 
         GROUPS_DATA.forEach(({ name, teamIds }) => {
@@ -150,13 +169,12 @@ export const usePredictionStore = create<PredictionState>()(
           const standings: Record<string, { team: Team; points: number; gd: number; gf: number }> = {};
           teams.forEach(t => { standings[t.id] = { team: t, points: 0, gd: 0, gf: 0 }; });
 
-          // Parse predictions for this group
           Object.entries(groupPredictions).forEach(([matchId, pred]) => {
             if (!matchId.startsWith(`group-${name}-`)) return;
             const parts = matchId.split('-');
-            if (parts.length < 5) return;
-            const homeId = parts[3];
-            const awayId = parts[4];
+            if (parts.length < 4) return;
+            const homeId = parts[2];
+            const awayId = parts[3];
             if (!standings[homeId] || !standings[awayId]) return;
             standings[homeId].gf += pred.homeScore;
             standings[homeId].gd += pred.homeScore - pred.awayScore;
@@ -172,37 +190,38 @@ export const usePredictionStore = create<PredictionState>()(
           );
 
           groupQualifiers[name] = {
-            first: sorted[0]?.team || null,
-            second: sorted[1]?.team || null,
+            first: sorted[0]?.team ?? null,
+            second: sorted[1]?.team ?? null,
           };
         });
 
-        // Populate R16 (groups A-H: A1vsB2, B1vsA2, C1vsD2, D1vsC2, E1vsF2, F1vsE2, G1vsH2, H1vsG2)
+        // R32 pairing: adjacent group pairs AB, CD, EF, GH, IJ, KL
+        // Each pair generates 2 matches: X1 vs Y2 and Y1 vs X2
+        // Positions 0-11 use known qualifiers; positions 12-15 are TBD (best 3rd-placed)
         const groupNames = GROUPS_DATA.map(g => g.name);
-        const r16Matchups = [
-          { home: `${groupNames[0]}1`, away: `${groupNames[1]}2` },
-          { home: `${groupNames[1]}1`, away: `${groupNames[0]}2` },
-          { home: `${groupNames[2]}1`, away: `${groupNames[3]}2` },
-          { home: `${groupNames[3]}1`, away: `${groupNames[2]}2` },
-          { home: `${groupNames[4]}1`, away: `${groupNames[5]}2` },
-          { home: `${groupNames[5]}1`, away: `${groupNames[4]}2` },
-          { home: `${groupNames[6]}1`, away: `${groupNames[7]}2` },
-          { home: `${groupNames[7]}1`, away: `${groupNames[6]}2` },
-        ];
+        const r32Matchups: { homeKey: string; awayKey: string }[] = [];
 
-        bracket.r16 = r16Matchups.map((m, i) => {
-          const homeGroupName = m.home.slice(0, -1);
-          const homePos = m.home.slice(-1);
-          const awayGroupName = m.away.slice(0, -1);
-          const awayPos = m.away.slice(-1);
+        for (let i = 0; i < groupNames.length; i += 2) {
+          const g1 = groupNames[i];
+          const g2 = groupNames[i + 1];
+          if (!g1 || !g2) break;
+          r32Matchups.push({ homeKey: `${g1}1`, awayKey: `${g2}2` });
+          r32Matchups.push({ homeKey: `${g2}1`, awayKey: `${g1}2` });
+        }
+
+        bracket.r32 = bracket.r32.map((slot, i) => {
+          const m = r32Matchups[i];
+          if (!m) return slot; // TBD 3rd-placed slots (positions 12-15)
+          const homeGroupName = m.homeKey.slice(0, -1);
+          const homePos = m.homeKey.slice(-1);
+          const awayGroupName = m.awayKey.slice(0, -1);
+          const awayPos = m.awayKey.slice(-1);
           const homeTeam = homePos === '1' ? groupQualifiers[homeGroupName]?.first : groupQualifiers[homeGroupName]?.second;
           const awayTeam = awayPos === '1' ? groupQualifiers[awayGroupName]?.first : groupQualifiers[awayGroupName]?.second;
           return {
-            id: `r16-${i}`,
-            homeTeam: homeTeam || null,
-            awayTeam: awayTeam || null,
-            stage: 'r16',
-            position: i,
+            ...slot,
+            homeTeam: homeTeam ?? null,
+            awayTeam: awayTeam ?? null,
           };
         });
 

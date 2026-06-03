@@ -77,7 +77,7 @@ export default function AdminPage() {
                 <div className="space-y-3">
                   {[
                     { text: '342 new users registered', time: '5 min ago', type: 'user' },
-                    { text: 'Match result updated: BRA 2-0 SRB', time: '1h ago', type: 'match' },
+                    { text: 'Match result updated: awaiting live data', time: '1h ago', type: 'match' },
                     { text: 'Leaderboard recalculated', time: '1h ago', type: 'system' },
                     { text: '14 new leagues created', time: '3h ago', type: 'league' },
                     { text: 'Notification sent to 50K users', time: '5h ago', type: 'notif' },
@@ -97,7 +97,8 @@ export default function AdminPage() {
                 <h3 className="font-bold text-white mb-4">Tournament Progress</h3>
                 <div className="space-y-4">
                   {[
-                    { label: 'Group Stage', done: 0, total: 48 },
+                    { label: 'Group Stage', done: 0, total: 72 },
+                    { label: 'Round of 32', done: 0, total: 16 },
                     { label: 'Round of 16', done: 0, total: 8 },
                     { label: 'Quarter Finals', done: 0, total: 4 },
                     { label: 'Semi Finals', done: 0, total: 2 },
@@ -125,13 +126,13 @@ export default function AdminPage() {
         {tab === 'teams' && (
           <div>
             <div className="flex justify-between items-center mb-5">
-              <h2 className="text-lg font-bold text-white">Teams ({TEAMS.length})</h2>
+              <h2 className="text-lg font-bold text-white">Teams ({TEAMS.length} · 12 groups)</h2>
               <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-semibold hover:bg-emerald-500/30 transition-all">
                 <Plus className="w-4 h-4" /> Add Team
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {TEAMS.slice(0, 32).map(team => (
+              {TEAMS.map(team => (
                 <Card key={team.id} className="p-4 flex items-center gap-3 hover:border-emerald-500/20 transition-all group">
                   <span className="text-3xl">{team.flag}</span>
                   <div className="flex-1 min-w-0">

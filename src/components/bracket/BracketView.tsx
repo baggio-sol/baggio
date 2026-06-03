@@ -141,6 +141,7 @@ export default function BracketView() {
   const { knockoutBracket, setKnockoutPrediction } = usePredictionStore();
 
   const rounds = [
+    { title: 'Round of 32', matches: knockoutBracket.r32, stage: 'r32' },
     { title: 'Round of 16', matches: knockoutBracket.r16, stage: 'r16' },
     { title: 'Quarter Finals', matches: knockoutBracket.qf, stage: 'qf' },
     { title: 'Semi Finals', matches: knockoutBracket.sf, stage: 'sf' },
@@ -148,7 +149,7 @@ export default function BracketView() {
 
   return (
     <div className="overflow-x-auto pb-6">
-      <div className="min-w-[900px] flex gap-8 items-start">
+      <div className="min-w-[1200px] flex gap-8 items-start">
         {rounds.map(round => (
           <BracketRound
             key={round.stage}

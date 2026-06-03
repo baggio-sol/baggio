@@ -13,7 +13,7 @@ const MOCK_LEADERBOARD = [
 ];
 
 const HOW_IT_WORKS = [
-  { step: '01', title: 'Predict Group Stage', desc: 'Pick scores for all 48 group matches and watch standings update in real-time.', icon: <Target className="w-6 h-6" /> },
+  { step: '01', title: 'Predict Group Stage', desc: 'Pick scores for all 72 group matches and watch standings update in real-time.', icon: <Target className="w-6 h-6" /> },
   { step: '02', title: 'Build Your Bracket', desc: 'Your group predictions automatically populate the knockout bracket. Click to advance teams.', icon: <Zap className="w-6 h-6" /> },
   { step: '03', title: 'Pick Award Winners', desc: 'Predict Golden Boot, Golden Ball, and other individual awards for bonus points.', icon: <Star className="w-6 h-6" /> },
   { step: '04', title: 'Compete & Win', desc: 'Earn points as matches play out. Top the leaderboard and claim prizes.', icon: <Trophy className="w-6 h-6" /> },
@@ -63,7 +63,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-            {[['100K+', 'Active Players'], ['48', 'Group Matches'], ['64', 'Total Fixtures'], ['7', 'Award Categories']].map(([num, label]) => (
+            {[['100K+', 'Active Players'], ['72', 'Group Matches'], ['104', 'Total Fixtures'], ['7', 'Award Categories']].map(([num, label]) => (
               <div key={label} className="text-center">
                 <div className="text-3xl font-black text-white">{num}</div>
                 <div className="text-sm text-gray-400 mt-0.5">{label}</div>

@@ -1,0 +1,955 @@
+{
+  "tournament": "2026 FIFA World Cup",
+  "hosts": [
+    "United States",
+    "Canada",
+    "Mexico"
+  ],
+  "format": {
+    "teams": 48,
+    "groups": 12,
+    "teams_per_group": 4,
+    "group_matches_per_team": 3,
+    "advance_rule": "Top 2 of each group + 8 best 3rd-placed teams = 32",
+    "knockout_rounds": [
+      "Round of 32",
+      "Round of 16",
+      "Quarter-finals",
+      "Semi-finals",
+      "Third place",
+      "Final"
+    ]
+  },
+  "key_dates": {
+    "opening_match": "2026-06-11",
+    "group_stage": "2026-06-11 to 2026-06-27",
+    "round_of_32_start": "2026-06-28",
+    "final": "2026-07-19"
+  },
+  "groups": [
+    {
+      "group": "A",
+      "teams": [
+        "Mexico",
+        "South Korea",
+        "South Africa",
+        "Czechia"
+      ],
+      "matches": [
+        {
+          "match_id": "GA-001",
+          "group": "A",
+          "home": "Mexico",
+          "away": "South Korea",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GA-002",
+          "group": "A",
+          "home": "South Africa",
+          "away": "Czechia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GA-003",
+          "group": "A",
+          "home": "Mexico",
+          "away": "South Africa",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GA-004",
+          "group": "A",
+          "home": "South Korea",
+          "away": "Czechia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GA-005",
+          "group": "A",
+          "home": "Mexico",
+          "away": "Czechia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GA-006",
+          "group": "A",
+          "home": "South Korea",
+          "away": "South Africa",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "B",
+      "teams": [
+        "Canada",
+        "Switzerland",
+        "Qatar",
+        "Bosnia and Herzegovina"
+      ],
+      "matches": [
+        {
+          "match_id": "GB-007",
+          "group": "B",
+          "home": "Canada",
+          "away": "Switzerland",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GB-008",
+          "group": "B",
+          "home": "Qatar",
+          "away": "Bosnia and Herzegovina",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GB-009",
+          "group": "B",
+          "home": "Canada",
+          "away": "Qatar",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GB-010",
+          "group": "B",
+          "home": "Switzerland",
+          "away": "Bosnia and Herzegovina",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GB-011",
+          "group": "B",
+          "home": "Canada",
+          "away": "Bosnia and Herzegovina",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GB-012",
+          "group": "B",
+          "home": "Switzerland",
+          "away": "Qatar",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "C",
+      "teams": [
+        "Brazil",
+        "Morocco",
+        "Scotland",
+        "Haiti"
+      ],
+      "matches": [
+        {
+          "match_id": "GC-013",
+          "group": "C",
+          "home": "Brazil",
+          "away": "Morocco",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GC-014",
+          "group": "C",
+          "home": "Scotland",
+          "away": "Haiti",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GC-015",
+          "group": "C",
+          "home": "Brazil",
+          "away": "Scotland",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GC-016",
+          "group": "C",
+          "home": "Morocco",
+          "away": "Haiti",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GC-017",
+          "group": "C",
+          "home": "Brazil",
+          "away": "Haiti",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GC-018",
+          "group": "C",
+          "home": "Morocco",
+          "away": "Scotland",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "D",
+      "teams": [
+        "USA",
+        "Australia",
+        "Paraguay",
+        "Türkiye"
+      ],
+      "matches": [
+        {
+          "match_id": "GD-019",
+          "group": "D",
+          "home": "USA",
+          "away": "Australia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GD-020",
+          "group": "D",
+          "home": "Paraguay",
+          "away": "Türkiye",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GD-021",
+          "group": "D",
+          "home": "USA",
+          "away": "Paraguay",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GD-022",
+          "group": "D",
+          "home": "Australia",
+          "away": "Türkiye",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GD-023",
+          "group": "D",
+          "home": "USA",
+          "away": "Türkiye",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GD-024",
+          "group": "D",
+          "home": "Australia",
+          "away": "Paraguay",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "E",
+      "teams": [
+        "Germany",
+        "Ecuador",
+        "Ivory Coast",
+        "Curaçao"
+      ],
+      "matches": [
+        {
+          "match_id": "GE-025",
+          "group": "E",
+          "home": "Germany",
+          "away": "Ecuador",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GE-026",
+          "group": "E",
+          "home": "Ivory Coast",
+          "away": "Curaçao",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GE-027",
+          "group": "E",
+          "home": "Germany",
+          "away": "Ivory Coast",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GE-028",
+          "group": "E",
+          "home": "Ecuador",
+          "away": "Curaçao",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GE-029",
+          "group": "E",
+          "home": "Germany",
+          "away": "Curaçao",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GE-030",
+          "group": "E",
+          "home": "Ecuador",
+          "away": "Ivory Coast",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "F",
+      "teams": [
+        "Netherlands",
+        "Japan",
+        "Tunisia",
+        "Sweden"
+      ],
+      "matches": [
+        {
+          "match_id": "GF-031",
+          "group": "F",
+          "home": "Netherlands",
+          "away": "Japan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GF-032",
+          "group": "F",
+          "home": "Tunisia",
+          "away": "Sweden",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GF-033",
+          "group": "F",
+          "home": "Netherlands",
+          "away": "Tunisia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GF-034",
+          "group": "F",
+          "home": "Japan",
+          "away": "Sweden",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GF-035",
+          "group": "F",
+          "home": "Netherlands",
+          "away": "Sweden",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GF-036",
+          "group": "F",
+          "home": "Japan",
+          "away": "Tunisia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "G",
+      "teams": [
+        "Belgium",
+        "Iran",
+        "Egypt",
+        "New Zealand"
+      ],
+      "matches": [
+        {
+          "match_id": "GG-037",
+          "group": "G",
+          "home": "Belgium",
+          "away": "Iran",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GG-038",
+          "group": "G",
+          "home": "Egypt",
+          "away": "New Zealand",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GG-039",
+          "group": "G",
+          "home": "Belgium",
+          "away": "Egypt",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GG-040",
+          "group": "G",
+          "home": "Iran",
+          "away": "New Zealand",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GG-041",
+          "group": "G",
+          "home": "Belgium",
+          "away": "New Zealand",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GG-042",
+          "group": "G",
+          "home": "Iran",
+          "away": "Egypt",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "H",
+      "teams": [
+        "Spain",
+        "Uruguay",
+        "Saudi Arabia",
+        "Cape Verde"
+      ],
+      "matches": [
+        {
+          "match_id": "GH-043",
+          "group": "H",
+          "home": "Spain",
+          "away": "Uruguay",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GH-044",
+          "group": "H",
+          "home": "Saudi Arabia",
+          "away": "Cape Verde",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GH-045",
+          "group": "H",
+          "home": "Spain",
+          "away": "Saudi Arabia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GH-046",
+          "group": "H",
+          "home": "Uruguay",
+          "away": "Cape Verde",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GH-047",
+          "group": "H",
+          "home": "Spain",
+          "away": "Cape Verde",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GH-048",
+          "group": "H",
+          "home": "Uruguay",
+          "away": "Saudi Arabia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "I",
+      "teams": [
+        "France",
+        "Senegal",
+        "Norway",
+        "Iraq"
+      ],
+      "matches": [
+        {
+          "match_id": "GI-049",
+          "group": "I",
+          "home": "France",
+          "away": "Senegal",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GI-050",
+          "group": "I",
+          "home": "Norway",
+          "away": "Iraq",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GI-051",
+          "group": "I",
+          "home": "France",
+          "away": "Norway",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GI-052",
+          "group": "I",
+          "home": "Senegal",
+          "away": "Iraq",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GI-053",
+          "group": "I",
+          "home": "France",
+          "away": "Iraq",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GI-054",
+          "group": "I",
+          "home": "Senegal",
+          "away": "Norway",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "J",
+      "teams": [
+        "Argentina",
+        "Austria",
+        "Algeria",
+        "Jordan"
+      ],
+      "matches": [
+        {
+          "match_id": "GJ-055",
+          "group": "J",
+          "home": "Argentina",
+          "away": "Austria",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GJ-056",
+          "group": "J",
+          "home": "Algeria",
+          "away": "Jordan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GJ-057",
+          "group": "J",
+          "home": "Argentina",
+          "away": "Algeria",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GJ-058",
+          "group": "J",
+          "home": "Austria",
+          "away": "Jordan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GJ-059",
+          "group": "J",
+          "home": "Argentina",
+          "away": "Jordan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GJ-060",
+          "group": "J",
+          "home": "Austria",
+          "away": "Algeria",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "K",
+      "teams": [
+        "Portugal",
+        "Colombia",
+        "Uzbekistan",
+        "DR Congo"
+      ],
+      "matches": [
+        {
+          "match_id": "GK-061",
+          "group": "K",
+          "home": "Portugal",
+          "away": "Colombia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GK-062",
+          "group": "K",
+          "home": "Uzbekistan",
+          "away": "DR Congo",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GK-063",
+          "group": "K",
+          "home": "Portugal",
+          "away": "Uzbekistan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GK-064",
+          "group": "K",
+          "home": "Colombia",
+          "away": "DR Congo",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GK-065",
+          "group": "K",
+          "home": "Portugal",
+          "away": "DR Congo",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GK-066",
+          "group": "K",
+          "home": "Colombia",
+          "away": "Uzbekistan",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    },
+    {
+      "group": "L",
+      "teams": [
+        "England",
+        "Croatia",
+        "Panama",
+        "Ghana"
+      ],
+      "matches": [
+        {
+          "match_id": "GL-067",
+          "group": "L",
+          "home": "England",
+          "away": "Croatia",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GL-068",
+          "group": "L",
+          "home": "Panama",
+          "away": "Ghana",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GL-069",
+          "group": "L",
+          "home": "England",
+          "away": "Panama",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GL-070",
+          "group": "L",
+          "home": "Croatia",
+          "away": "Ghana",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GL-071",
+          "group": "L",
+          "home": "England",
+          "away": "Ghana",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        },
+        {
+          "match_id": "GL-072",
+          "group": "L",
+          "home": "Croatia",
+          "away": "Panama",
+          "date": null,
+          "kickoff_local": null,
+          "venue": null,
+          "home_score": null,
+          "away_score": null
+        }
+      ]
+    }
+  ]
+}

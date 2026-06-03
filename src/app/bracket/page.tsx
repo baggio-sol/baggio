@@ -16,6 +16,7 @@ export default function BracketPage() {
 
   if (!mounted) return null;
 
+  const r32Done = knockoutBracket.r32.filter(m => m.winner).length;
   const r16Done = knockoutBracket.r16.filter(m => m.winner).length;
   const qfDone = knockoutBracket.qf.filter(m => m.winner).length;
   const sfDone = knockoutBracket.sf.filter(m => m.winner).length;
@@ -52,8 +53,9 @@ export default function BracketPage() {
         </div>
 
         {/* Progress */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 mb-8">
           {[
+            { label: 'R32', total: 16, done: r32Done },
             { label: 'R16', total: 8, done: r16Done },
             { label: 'QF', total: 4, done: qfDone },
             { label: 'SF', total: 2, done: sfDone },

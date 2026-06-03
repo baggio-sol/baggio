@@ -1,90 +1,98 @@
-import { Team, Player, Match, Group, Tournament } from './types';
+import { Team, Player, Match } from './types';
+import SOURCE from '@/data/worldcup2026.json';
 
-export const TEAMS: Team[] = [
-  { id: 'bra', name: 'Brazil', code: 'BRA', flag: '🇧🇷', group: 'A', color: '#009c3b' },
-  { id: 'ser', name: 'Serbia', code: 'SRB', flag: '🇷🇸', group: 'A', color: '#c6363c' },
-  { id: 'swi', name: 'Switzerland', code: 'SUI', flag: '🇨🇭', group: 'A', color: '#ff0000' },
-  { id: 'cam', name: 'Cameroon', code: 'CMR', flag: '🇨🇲', group: 'A', color: '#007a5e' },
-  { id: 'eng', name: 'England', code: 'ENG', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', group: 'B', color: '#012169' },
-  { id: 'usa', name: 'USA', code: 'USA', flag: '🇺🇸', group: 'B', color: '#002868' },
-  { id: 'ira', name: 'Iran', code: 'IRN', flag: '🇮🇷', group: 'B', color: '#239f40' },
-  { id: 'wal', name: 'Wales', code: 'WAL', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', group: 'B', color: '#c8102e' },
-  { id: 'arg', name: 'Argentina', code: 'ARG', flag: '🇦🇷', group: 'C', color: '#74acdf' },
-  { id: 'ksa', name: 'Saudi Arabia', code: 'KSA', flag: '🇸🇦', group: 'C', color: '#006c35' },
-  { id: 'mex', name: 'Mexico', code: 'MEX', flag: '🇲🇽', group: 'C', color: '#006847' },
-  { id: 'pol', name: 'Poland', code: 'POL', flag: '🇵🇱', group: 'C', color: '#dc143c' },
-  { id: 'fra', name: 'France', code: 'FRA', flag: '🇫🇷', group: 'D', color: '#002395' },
-  { id: 'aus', name: 'Australia', code: 'AUS', flag: '🇦🇺', group: 'D', color: '#00843d' },
-  { id: 'den', name: 'Denmark', code: 'DEN', flag: '🇩🇰', group: 'D', color: '#c60c30' },
-  { id: 'tun', name: 'Tunisia', code: 'TUN', flag: '🇹🇳', group: 'D', color: '#e70013' },
-  { id: 'spa', name: 'Spain', code: 'ESP', flag: '🇪🇸', group: 'E', color: '#c60b1e' },
-  { id: 'crc', name: 'Costa Rica', code: 'CRC', flag: '🇨🇷', group: 'E', color: '#002b7f' },
-  { id: 'ger', name: 'Germany', code: 'GER', flag: '🇩🇪', group: 'E', color: '#000000' },
-  { id: 'jap', name: 'Japan', code: 'JPN', flag: '🇯🇵', group: 'E', color: '#bc002d' },
-  { id: 'bel', name: 'Belgium', code: 'BEL', flag: '🇧🇪', group: 'F', color: '#000000' },
-  { id: 'can', name: 'Canada', code: 'CAN', flag: '🇨🇦', group: 'F', color: '#ff0000' },
-  { id: 'mor', name: 'Morocco', code: 'MAR', flag: '🇲🇦', group: 'F', color: '#c1272d' },
-  { id: 'cro', name: 'Croatia', code: 'CRO', flag: '🇭🇷', group: 'F', color: '#ff0000' },
-  { id: 'bra2', name: 'Brazil', code: 'BRA', flag: '🇧🇷', group: 'G', color: '#009c3b' },
-  { id: 'srb', name: 'Serbia', code: 'SRB', flag: '🇷🇸', group: 'G', color: '#c6363c' },
-  { id: 'swz', name: 'Switzerland', code: 'SUI', flag: '🇨🇭', group: 'G', color: '#ff0000' },
-  { id: 'cmr', name: 'Cameroon', code: 'CMR', flag: '🇨🇲', group: 'G', color: '#007a5e' },
-  { id: 'por', name: 'Portugal', code: 'POR', flag: '🇵🇹', group: 'H', color: '#006600' },
-  { id: 'gha', name: 'Ghana', code: 'GHA', flag: '🇬🇭', group: 'H', color: '#006b3f' },
-  { id: 'uru', name: 'Uruguay', code: 'URU', flag: '🇺🇾', group: 'H', color: '#5aaaa8' },
-  { id: 'kor', name: 'South Korea', code: 'KOR', flag: '🇰🇷', group: 'H', color: '#c60c30' },
-];
+// ─── Cosmetic lookup (stable country facts, NOT draw-dependent) ───────────────
+// These are the only values not present in the source JSON.
+// If a team is missing here its flag/code/color will degrade gracefully.
+const COUNTRY_META: Record<string, { code: string; flag: string; color: string }> = {
+  'Mexico':                  { code: 'MEX', flag: '🇲🇽', color: '#006847' },
+  'South Korea':             { code: 'KOR', flag: '🇰🇷', color: '#c60c30' },
+  'South Africa':            { code: 'RSA', flag: '🇿🇦', color: '#007a4d' },
+  'Czechia':                 { code: 'CZE', flag: '🇨🇿', color: '#d7141a' },
+  'Canada':                  { code: 'CAN', flag: '🇨🇦', color: '#ff0000' },
+  'Switzerland':             { code: 'SUI', flag: '🇨🇭', color: '#ff0000' },
+  'Qatar':                   { code: 'QAT', flag: '🇶🇦', color: '#8d1b3d' },
+  'Bosnia and Herzegovina':  { code: 'BIH', flag: '🇧🇦', color: '#002395' },
+  'Brazil':                  { code: 'BRA', flag: '🇧🇷', color: '#009c3b' },
+  'Morocco':                 { code: 'MAR', flag: '🇲🇦', color: '#c1272d' },
+  'Scotland':                { code: 'SCO', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', color: '#003087' },
+  'Haiti':                   { code: 'HAI', flag: '🇭🇹', color: '#00209f' },
+  'USA':                     { code: 'USA', flag: '🇺🇸', color: '#002868' },
+  'Australia':               { code: 'AUS', flag: '🇦🇺', color: '#00843d' },
+  'Paraguay':                { code: 'PAR', flag: '🇵🇾', color: '#d52b1e' },
+  'Türkiye':                 { code: 'TUR', flag: '🇹🇷', color: '#e30a17' },
+  'Germany':                 { code: 'GER', flag: '🇩🇪', color: '#000000' },
+  'Ecuador':                 { code: 'ECU', flag: '🇪🇨', color: '#ffd100' },
+  'Ivory Coast':             { code: 'CIV', flag: '🇨🇮', color: '#f77f00' },
+  'Curaçao':                 { code: 'CUW', flag: '🇨🇼', color: '#003087' },
+  'Netherlands':             { code: 'NED', flag: '🇳🇱', color: '#ff6600' },
+  'Japan':                   { code: 'JPN', flag: '🇯🇵', color: '#bc002d' },
+  'Tunisia':                 { code: 'TUN', flag: '🇹🇳', color: '#e70013' },
+  'Sweden':                  { code: 'SWE', flag: '🇸🇪', color: '#006aa7' },
+  'Belgium':                 { code: 'BEL', flag: '🇧🇪', color: '#000000' },
+  'Iran':                    { code: 'IRN', flag: '🇮🇷', color: '#239f40' },
+  'Egypt':                   { code: 'EGY', flag: '🇪🇬', color: '#ce1126' },
+  'New Zealand':             { code: 'NZL', flag: '🇳🇿', color: '#00247d' },
+  'Spain':                   { code: 'ESP', flag: '🇪🇸', color: '#c60b1e' },
+  'Uruguay':                 { code: 'URU', flag: '🇺🇾', color: '#5aaaa8' },
+  'Saudi Arabia':            { code: 'KSA', flag: '🇸🇦', color: '#006c35' },
+  'Cape Verde':              { code: 'CPV', flag: '🇨🇻', color: '#003893' },
+  'France':                  { code: 'FRA', flag: '🇫🇷', color: '#002395' },
+  'Senegal':                 { code: 'SEN', flag: '🇸🇳', color: '#00853f' },
+  'Norway':                  { code: 'NOR', flag: '🇳🇴', color: '#ef2b2d' },
+  'Iraq':                    { code: 'IRQ', flag: '🇮🇶', color: '#ce1126' },
+  'Argentina':               { code: 'ARG', flag: '🇦🇷', color: '#74acdf' },
+  'Austria':                 { code: 'AUT', flag: '🇦🇹', color: '#ed2939' },
+  'Algeria':                 { code: 'ALG', flag: '🇩🇿', color: '#006233' },
+  'Jordan':                  { code: 'JOR', flag: '🇯🇴', color: '#007a3d' },
+  'Portugal':                { code: 'POR', flag: '🇵🇹', color: '#006600' },
+  'Colombia':                { code: 'COL', flag: '🇨🇴', color: '#fcd116' },
+  'Uzbekistan':              { code: 'UZB', flag: '🇺🇿', color: '#1eb53a' },
+  'DR Congo':                { code: 'COD', flag: '🇨🇩', color: '#007fff' },
+  'England':                 { code: 'ENG', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: '#012169' },
+  'Croatia':                 { code: 'CRO', flag: '🇭🇷', color: '#ff0000' },
+  'Panama':                  { code: 'PAN', flag: '🇵🇦', color: '#da121a' },
+  'Ghana':                   { code: 'GHA', flag: '🇬🇭', color: '#006b3f' },
+};
 
-// Simplified 8-group tournament structure
-export const GROUPS_DATA: { name: string; teamIds: string[] }[] = [
-  { name: 'A', teamIds: ['bra', 'ser', 'swi', 'cam'] },
-  { name: 'B', teamIds: ['eng', 'usa', 'ira', 'wal'] },
-  { name: 'C', teamIds: ['arg', 'ksa', 'mex', 'pol'] },
-  { name: 'D', teamIds: ['fra', 'aus', 'den', 'tun'] },
-  { name: 'E', teamIds: ['spa', 'crc', 'ger', 'jap'] },
-  { name: 'F', teamIds: ['bel', 'can', 'mor', 'cro'] },
-  { name: 'G', teamIds: ['por', 'gha', 'uru', 'kor'] },
-  { name: 'H', teamIds: ['por', 'gha', 'uru', 'kor'] },
-];
+// ─── Derive Team ID from name (lowercase, alphanumeric) ───────────────────────
+function toId(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
 
-export const PLAYERS: Player[] = [
-  { id: 'neymar', name: 'Neymar Jr', teamId: 'bra', position: 'FW' },
-  { id: 'vini', name: 'Vinicius Jr', teamId: 'bra', position: 'FW' },
-  { id: 'mbappe', name: 'Kylian Mbappé', teamId: 'fra', position: 'FW' },
-  { id: 'benzema', name: 'Karim Benzema', teamId: 'fra', position: 'FW' },
-  { id: 'messi', name: 'Lionel Messi', teamId: 'arg', position: 'FW' },
-  { id: 'dimaria', name: 'Ángel Di María', teamId: 'arg', position: 'MF' },
-  { id: 'ronaldo', name: 'Cristiano Ronaldo', teamId: 'por', position: 'FW' },
-  { id: 'bernardo', name: 'Bernardo Silva', teamId: 'por', position: 'MF' },
-  { id: 'kane', name: 'Harry Kane', teamId: 'eng', position: 'FW' },
-  { id: 'saka', name: 'Bukayo Saka', teamId: 'eng', position: 'FW' },
-  { id: 'lewandowski', name: 'Robert Lewandowski', teamId: 'pol', position: 'FW' },
-  { id: 'modric', name: 'Luka Modrić', teamId: 'cro', position: 'MF' },
-  { id: 'muller', name: 'Thomas Müller', teamId: 'ger', position: 'MF' },
-  { id: 'gnabry', name: 'Serge Gnabry', teamId: 'ger', position: 'FW' },
-  { id: 'pedri', name: 'Pedri', teamId: 'spa', position: 'MF' },
-  { id: 'morata', name: 'Álvaro Morata', teamId: 'spa', position: 'FW' },
-  { id: 'hazard', name: 'Eden Hazard', teamId: 'bel', position: 'FW' },
-  { id: 'lukaku', name: 'Romelu Lukaku', teamId: 'bel', position: 'FW' },
-  { id: 'pulisic', name: 'Christian Pulisic', teamId: 'usa', position: 'FW' },
-  { id: 'ziyech', name: 'Hakim Ziyech', teamId: 'mor', position: 'MF' },
-  { id: 'suarez', name: 'Luis Suárez', teamId: 'uru', position: 'FW' },
-  { id: 'son', name: 'Son Heung-min', teamId: 'kor', position: 'FW' },
-  { id: 'salisu', name: 'Mohammed Salisu', teamId: 'gha', position: 'DF' },
-  { id: 'alisson', name: 'Alisson Becker', teamId: 'bra', position: 'GK' },
-  { id: 'courtois', name: 'Thibaut Courtois', teamId: 'bel', position: 'GK' },
-  { id: 'lloris', name: 'Hugo Lloris', teamId: 'fra', position: 'GK' },
-  { id: 'pickford', name: 'Jordan Pickford', teamId: 'eng', position: 'GK' },
-  { id: 'pedri2', name: 'Gavi', teamId: 'spa', position: 'MF' },
-  { id: 'bellingham', name: 'Jude Bellingham', teamId: 'eng', position: 'MF' },
-  { id: 'pedros', name: 'Pedri González', teamId: 'spa', position: 'MF' },
-];
+// ─── Build TEAMS from source ──────────────────────────────────────────────────
+export const TEAMS: Team[] = SOURCE.groups.flatMap(g =>
+  g.teams.map(name => {
+    const meta = COUNTRY_META[name] ?? null;
+    return {
+      id: toId(name),
+      name,
+      code: meta?.code ?? name.slice(0, 3).toUpperCase(),
+      flag: meta?.flag ?? '🏳',
+      group: g.group,
+      color: meta?.color ?? '#888888',
+    };
+  })
+);
 
+// ─── Build GROUPS_DATA from source ────────────────────────────────────────────
+export const GROUPS_DATA: { name: string; teamIds: string[] }[] = SOURCE.groups.map(g => ({
+  name: g.group,
+  teamIds: g.teams.map(toId),
+}));
+
+// ─── PLAYERS — pending a verified source file ─────────────────────────────────
+// ⚠ FLAG: No verified players data provided. Awards player lists are empty.
+// Replace this array when a players source file is supplied.
+export const PLAYERS: Player[] = [];
+
+// ─── POINTS SYSTEM ────────────────────────────────────────────────────────────
 export const POINTS_SYSTEM = {
   groupWinner: 3,
   groupDraw: 3,
   exactScore: 5,
   qualifiedTeam: 5,
+  r32Qualifier: 6,
   quarterFinalist: 8,
   semiFinalist: 10,
   finalist: 15,
@@ -112,7 +120,7 @@ export function buildGroupMatches(groupName: string, teams: Team[]): Match[] {
   for (let i = 0; i < teams.length; i++) {
     for (let j = i + 1; j < teams.length; j++) {
       matches.push({
-        id: `group-${groupName}-${matchNum}`,
+        id: `group-${groupName}-${teams[i].id}-${teams[j].id}`,
         homeTeam: teams[i],
         awayTeam: teams[j],
         date: '2026-06-15',
@@ -127,7 +135,10 @@ export function buildGroupMatches(groupName: string, teams: Team[]): Match[] {
   return matches;
 }
 
-export function calculateStandings(teams: Team[], predictions: Record<string, { homeScore: number; awayScore: number }>): Record<string, { team: Team; played: number; won: number; drawn: number; lost: number; gf: number; ga: number; gd: number; points: number }> {
+export function calculateStandings(
+  teams: Team[],
+  predictions: Record<string, { homeScore: number; awayScore: number }>
+): Record<string, { team: Team; played: number; won: number; drawn: number; lost: number; gf: number; ga: number; gd: number; points: number }> {
   const standings: Record<string, { team: Team; played: number; won: number; drawn: number; lost: number; gf: number; ga: number; gd: number; points: number }> = {};
 
   teams.forEach(team => {
@@ -136,51 +147,34 @@ export function calculateStandings(teams: Team[], predictions: Record<string, { 
 
   Object.entries(predictions).forEach(([matchId, pred]) => {
     const parts = matchId.split('-');
-    if (parts.length < 3) return;
+    if (parts.length < 4) return;
     const homeTeamId = parts[2];
     const awayTeamId = parts[3];
     if (!standings[homeTeamId] || !standings[awayTeamId]) return;
 
     const h = standings[homeTeamId];
     const a = standings[awayTeamId];
-    h.played++;
-    a.played++;
-    h.gf += pred.homeScore;
-    h.ga += pred.awayScore;
-    a.gf += pred.awayScore;
-    a.ga += pred.homeScore;
-    h.gd = h.gf - h.ga;
-    a.gd = a.gf - a.ga;
+    h.played++; a.played++;
+    h.gf += pred.homeScore; h.ga += pred.awayScore;
+    a.gf += pred.awayScore; a.ga += pred.homeScore;
+    h.gd = h.gf - h.ga; a.gd = a.gf - a.ga;
 
-    if (pred.homeScore > pred.awayScore) {
-      h.won++;
-      h.points += 3;
-      a.lost++;
-    } else if (pred.homeScore < pred.awayScore) {
-      a.won++;
-      a.points += 3;
-      h.lost++;
-    } else {
-      h.drawn++;
-      a.drawn++;
-      h.points++;
-      a.points++;
-    }
+    if (pred.homeScore > pred.awayScore) { h.won++; h.points += 3; a.lost++; }
+    else if (pred.homeScore < pred.awayScore) { a.won++; a.points += 3; h.lost++; }
+    else { h.drawn++; a.drawn++; h.points++; a.points++; }
   });
 
   return standings;
 }
 
-export const TOURNAMENT: Tournament = {
+export const TOURNAMENT = {
   id: 'wc2026',
-  name: 'FIFA World Cup 2026',
+  name: SOURCE.tournament,
   year: 2026,
-  startDate: '2026-06-11',
-  endDate: '2026-07-19',
-  host: 'USA, Canada & Mexico',
-  groups: [],
-  teams: TEAMS,
-  players: PLAYERS,
+  startDate: SOURCE.key_dates.opening_match,
+  endDate: SOURCE.key_dates.final,
+  host: SOURCE.hosts.join(', '),
+  format: SOURCE.format,
 };
 
 export const COUNTDOWN_DATE = new Date('2026-06-11T18:00:00Z');
