@@ -90,10 +90,10 @@ function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration
 }
 
 export default function FlagOrbit() {
-  const INNER_R = 130;
-  const OUTER_R = 240;
-  const INNER_SIZE = 44;
-  const OUTER_SIZE = 36;
+  const INNER_R = 150;
+  const OUTER_R = 285;
+  const INNER_SIZE = 42;
+  const OUTER_SIZE = 30;
   const INNER_DUR = 40; // seconds per revolution
   const OUTER_DUR = 60;
   const CONTAINER = (OUTER_R + OUTER_SIZE) * 2 + 20;
@@ -110,7 +110,7 @@ export default function FlagOrbit() {
         style={{
           width: INNER_R * 2,
           height: INNER_R * 2,
-          border: '1px solid rgba(139,92,246,0.22)',
+          border: '1px solid rgba(139,92,246,0.08)',
         }}
       />
       <div
@@ -118,7 +118,7 @@ export default function FlagOrbit() {
         style={{
           width: OUTER_R * 2,
           height: OUTER_R * 2,
-          border: '1px solid rgba(59,130,246,0.18)',
+          border: '1px solid rgba(59,130,246,0.07)',
         }}
       />
 

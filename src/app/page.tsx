@@ -112,7 +112,7 @@ export default function HomePage() {
 
         {/* Orbit side */}
         <div
-          className="flex-shrink-0 flex items-center justify-center"
+          className="flex-shrink-0 flex items-center justify-center mt-10 lg:mt-32"
           style={{ animation: 'float-up 7s ease-in-out infinite' }}
         >
           <FlagOrbitClient />
