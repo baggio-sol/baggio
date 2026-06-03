@@ -1,143 +1,218 @@
 import Link from 'next/link';
-import Card from '@/components/ui/Card';
-
-const FEATURES = [
-  {
-    icon: '🏆',
-    title: 'Full Depth Predictions',
-    desc: '12 groups → R32 → Final. Predict every stage of the expanded 48-team tournament.',
-  },
-  {
-    icon: '🌶️',
-    title: 'Spice Score',
-    desc: 'Get your 0–100 contrarian rating plus a persona that reveals exactly how bold your picks are.',
-  },
-  {
-    icon: '📣',
-    title: 'Viral Share Card',
-    desc: 'Your Spice Score ships as an X-unfurlable rich preview card. Drop it. Watch the timeline react.',
-  },
-];
+import CountdownTimer from '@/components/ui/CountdownTimer';
+import FlagOrbitClient from '@/components/landing/FlagOrbitClient';
 
 const PERSONAS = [
-  { label: 'Chalk Merchant', tier: 1, color: '#60a5fa' },
-  { label: 'The Realist', tier: 2, color: '#818cf8' },
-  { label: 'Calculated Gambler', tier: 3, color: '#a78bfa' },
-  { label: 'Chaos Agent', tier: 4, color: '#f472b6' },
-  { label: 'Certified Menace', tier: 5, color: '#fb7185' },
+  { emoji: '📊', name: 'Chalk Merchant', range: '0–20', color: '#60a5fa' },
+  { emoji: '🎯', name: 'The Realist', range: '21–40', color: '#818cf8' },
+  { emoji: '🎲', name: 'Calculated Gambler', range: '41–60', color: '#a78bfa' },
+  { emoji: '🔥', name: 'Chaos Agent', range: '61–80', color: '#f472b6' },
+  { emoji: '💀', name: 'Certified Menace', range: '81–100', color: '#fb7185' },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden py-24 md:py-40 text-center">
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1
-            className="font-display text-5xl md:text-7xl leading-none tracking-tight mb-6"
-            style={{ color: '#f5f3ff' }}
+    <div className="min-h-screen overflow-x-hidden">
+      {/* ── Hero ─────────────────────────────────────────────────────── */}
+      <section className="relative flex flex-col lg:flex-row items-center justify-center min-h-[100svh] px-4 pt-24 pb-16 gap-8 lg:gap-12 max-w-7xl mx-auto">
+        {/* Ambient glows */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(700px 500px at 30% 40%, rgba(139,92,246,0.22), transparent 65%), ' +
+              'radial-gradient(500px 400px at 80% 70%, rgba(59,130,246,0.16), transparent 60%)',
+          }}
+        />
+
+        {/* Text side */}
+        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl">
+          {/* Badge */}
+          <div
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-6 border"
+            style={{
+              background: 'rgba(139,92,246,0.12)',
+              borderColor: 'rgba(139,92,246,0.35)',
+              color: '#c4bdec',
+            }}
           >
-            Your Bracket.<br />
-            <span className="gradient-text">Your Identity.</span>
+            <span
+              className="w-1.5 h-1.5 rounded-full inline-block"
+              style={{ background: '#fb7185', animation: 'pulse 2s infinite' }}
+            />
+            FIFA World Cup 2026
+          </div>
+
+          {/* Headline */}
+          <h1
+            className="font-display font-extrabold leading-none mb-5"
+            style={{
+              fontSize: 'clamp(2.6rem, 5vw, 4.5rem)',
+              color: '#f5f3ff',
+              letterSpacing: '-0.02em',
+            }}
+          >
+            World Cup{' '}
+            <span
+              style={{
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #fb7185 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >
+              26&apos;
+            </span>{' '}
+            Predictions
           </h1>
 
+          {/* Sub-headline */}
           <p
-            className="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed"
+            className="text-base sm:text-lg mb-8 leading-relaxed"
             style={{ color: '#c4bdec' }}
           >
-            Predict the WC2026 bracket and get your{' '}
-            <span className="spice-glow font-bold" style={{ color: '#fb7185' }}>Spice Score</span>
-            {' '}— a contrarian rating + persona that tells the world exactly who you are as a football fan.
+            Create your free 2026 World Cup bracket, predict the group standings
+            and knockout rounds and compete with friends to see who knows ball.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {/* Countdown */}
+          <div className="mb-10 flex flex-col items-center lg:items-start gap-2">
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+              Tournament kicks off in
+            </p>
+            <CountdownTimer />
+          </div>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap justify-center lg:justify-start gap-3">
             <Link
               href="/predict"
-              className="inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-bold text-white transition-opacity hover:opacity-90 active:scale-95"
-              style={{ background: '#fb7185' }}
+              className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
+              style={{
+                background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+                color: '#fff',
+                boxShadow: '0 8px 32px -8px rgba(139,92,246,0.55)',
+              }}
             >
-              Build Your Bracket
+              Build My Bracket →
             </Link>
             <Link
               href="/bracket"
-              className="glass inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-bold transition-all hover:bg-white/10 active:scale-95"
-              style={{ color: '#f5f3ff' }}
+              className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
+              style={{
+                background: 'rgba(255,255,255,0.05)',
+                borderColor: 'rgba(255,255,255,0.12)',
+                color: '#c4bdec',
+              }}
             >
-              See an Example
+              See an example
             </Link>
           </div>
         </div>
+
+        {/* Orbit side */}
+        <div
+          className="flex-shrink-0 flex items-center justify-center"
+          style={{ animation: 'float-up 7s ease-in-out infinite' }}
+        >
+          <FlagOrbitClient />
+        </div>
       </section>
 
-      {/* Feature cards */}
-      <section className="py-16 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {FEATURES.map((f, i) => (
-            <Card
-              key={f.title}
-              glow={(['purple', 'blue', 'spice'] as const)[i]}
-              className="p-7 flex flex-col gap-4"
+      {/* ── Spice explainer ────────────────────────────────────────── */}
+      <section className="max-w-4xl mx-auto px-4 py-20">
+        <div className="text-center mb-12">
+          <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-3" style={{ color: '#f5f3ff' }}>
+            Your bracket has a{' '}
+            <span style={{ color: '#fb7185' }}>Spice Score</span>
+          </h2>
+          <p style={{ color: '#c4bdec' }}>
+            How bold are your picks? Every prediction is rated 0–100 based on how contrarian it is.
+          </p>
+        </div>
+
+        {/* Persona badges */}
+        <div className="flex flex-wrap justify-center gap-3 mb-14">
+          {PERSONAS.map((p) => (
+            <div
+              key={p.name}
+              className="flex items-center gap-2.5 rounded-2xl px-4 py-2.5 border"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                borderColor: 'rgba(255,255,255,0.10)',
+              }}
             >
-              <div className="text-4xl">{f.icon}</div>
-              <h3
-                className="font-display text-lg font-bold"
-                style={{ color: '#f5f3ff' }}
-              >
+              <span className="text-xl">{p.emoji}</span>
+              <div>
+                <p className="text-sm font-bold leading-tight" style={{ color: '#f5f3ff' }}>
+                  {p.name}
+                </p>
+                <p className="text-[10px] font-medium" style={{ color: p.color }}>
+                  {p.range} spice
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Feature grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            {
+              icon: '🏆',
+              title: 'Full bracket depth',
+              body: 'Rank all 12 groups, pick 8 third-place qualifiers, then predict every knockout match from the Round of 32 to the Final.',
+            },
+            {
+              icon: '🌶️',
+              title: 'Spice Score',
+              body: 'Your picks are scored 0–100 for boldness — champion tier, early exits, deep-run dark horses, group upsets — and wrapped into a shareable card.',
+            },
+            {
+              icon: '👥',
+              title: 'Compete with friends',
+              body: 'Create a private league, invite friends, and see who predicted the tournament best once the real results are in.',
+            },
+          ].map((f) => (
+            <div
+              key={f.title}
+              className="rounded-2xl p-5 border"
+              style={{
+                background: 'rgba(255,255,255,0.04)',
+                borderColor: 'rgba(255,255,255,0.08)',
+              }}
+            >
+              <div className="text-3xl mb-3">{f.icon}</div>
+              <h3 className="font-display font-extrabold text-base mb-1.5" style={{ color: '#f5f3ff' }}>
                 {f.title}
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>
-                {f.desc}
+                {f.body}
               </p>
-            </Card>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Persona showcase */}
-      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2
-          className="font-display text-2xl md:text-3xl font-bold mb-3"
-          style={{ color: '#f5f3ff' }}
-        >
-          Which persona will you get?
+      {/* ── Bottom CTA ─────────────────────────────────────────────── */}
+      <section className="text-center py-20 px-4">
+        <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-4" style={{ color: '#f5f3ff' }}>
+          Ready to make your picks?
         </h2>
-        <p className="text-sm mb-10" style={{ color: '#c4bdec' }}>
-          Five tiers. One truth.
+        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#c4bdec' }}>
+          Build your bracket in minutes. Your Spice Score updates live as you go.
         </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          {PERSONAS.map(p => (
-            <span
-              key={p.label}
-              className="rounded-full px-5 py-2 text-sm font-bold text-white"
-              style={{ background: `${p.color}33`, border: `1px solid ${p.color}66`, color: p.color }}
-            >
-              {p.label}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="py-24 text-center">
-        <div className="relative max-w-2xl mx-auto px-4">
-          <h2
-            className="font-display text-4xl md:text-5xl font-bold mb-6"
-            style={{ color: '#f5f3ff' }}
-          >
-            Get your{' '}
-            <span className="gradient-text">Spice Score</span>
-          </h2>
-          <p className="text-lg mb-10" style={{ color: '#c4bdec' }}>
-            Fill out your bracket. Find out who you really are.
-          </p>
-          <Link
-            href="/predict"
-            className="inline-flex items-center justify-center rounded-full px-10 py-5 text-xl font-bold text-white transition-opacity hover:opacity-90 active:scale-95"
-            style={{ background: '#fb7185' }}
-          >
-            Get your Spice Score
-          </Link>
-        </div>
+        <Link
+          href="/predict"
+          className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
+          style={{
+            background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+            color: '#fff',
+            boxShadow: '0 8px 40px -8px rgba(139,92,246,0.60)',
+          }}
+        >
+          Start for free →
+        </Link>
       </section>
     </div>
   );
