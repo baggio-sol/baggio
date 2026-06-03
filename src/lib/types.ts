@@ -7,6 +7,7 @@ export interface Team {
   flag: string;
   tier: Tier;
   group: GroupId;
+  rank?: number; // FIFA world ranking (approximate)
 }
 
 export interface Bracket {

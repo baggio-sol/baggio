@@ -1,95 +1,183 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GROUP_IDS, getTeamsByGroup } from '@/lib/tournament';
-import {
-  usePredictionStore,
-  completedGroupCount,
-  groupStageReady,
-} from '@/lib/store';
+import { usePredictionStore, completedGroupCount, groupStageReady, groupComplete } from '@/lib/store';
 import GroupCard from '@/components/predict/GroupCard';
 import ThirdPlaceSelector from '@/components/predict/ThirdPlaceSelector';
 import { GroupId } from '@/lib/types';
-import { ArrowRight, Lock } from 'lucide-react';
+import { Lock, ArrowRight, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+
+type Tab = 'groups' | 'thirds' | 'knockout';
 
 export default function PredictPage() {
   const { bracket, resetPredictions } = usePredictionStore();
   const [mounted, setMounted] = useState(false);
+  const [activeGroup, setActiveGroup] = useState<GroupId>('A');
+  const [tab, setTab] = useState<Tab>('groups');
+  const tabBarRef = useRef<HTMLDivElement>(null);
+
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
 
-  const totalGroups = GROUP_IDS.length;
   const done = completedGroupCount(bracket);
-  const groupProgress = Math.round((done / totalGroups) * 100);
   const thirds = bracket?.thirdPlaceQualifiers.length ?? 0;
+  const allGroupsDone = done === GROUP_IDS.length;
   const ready = groupStageReady(bracket);
+
+  // Scroll active group tab into view
+  useEffect(() => {
+    if (!tabBarRef.current) return;
+    const el = tabBarRef.current.querySelector('[data-active="true"]') as HTMLElement | null;
+    el?.scrollIntoView({ inline: 'center', behavior: 'smooth', block: 'nearest' });
+  }, [activeGroup]);
 
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-display font-extrabold" style={{ color: '#f5f3ff' }}>
-            Group Stage
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
+      {/* ── Header card ──────────────────────────────────────────────── */}
+      <div className="max-w-2xl w-full mx-auto px-4 pt-6 pb-3">
+        <div
+          className="rounded-2xl p-5"
+          style={{
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.10)',
+          }}
+        >
+          <div className="flex items-center justify-between mb-1">
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
+              Your Bracket
+            </p>
+            <button
+              onClick={resetPredictions}
+              className="flex items-center gap-1.5 text-xs font-semibold transition-colors hover:opacity-80"
+              style={{ color: '#fb7185' }}
+            >
+              <RotateCcw className="w-3 h-3" /> Reset
+            </button>
+          </div>
+          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f5f3ff' }}>
+            Groups {done}/{GROUP_IDS.length}
           </h1>
-          <p className="mt-2" style={{ color: '#c4bdec' }}>
-            Rank all 12 groups 1st→4th, then pick the 8 third-placed teams that advance.
-          </p>
-        </div>
-
-        {/* Progress */}
-        <div className="rounded-2xl border p-5 mb-8 glass" style={{ borderColor: 'rgba(255,255,255,0.10)' }}>
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <h3 className="font-semibold" style={{ color: '#f5f3ff' }}>Group Stage Progress</h3>
-              <p className="text-sm" style={{ color: '#c4bdec' }}>
-                {done} of {totalGroups} groups ranked · {thirds}/8 third-place picks
-              </p>
-            </div>
-            <span className="text-2xl font-black" style={{ color: '#8b5cf6' }}>{groupProgress}%</span>
-          </div>
-          <div className="h-3 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-            <div className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${groupProgress}%`, background: 'linear-gradient(90deg, #8b5cf6, #3b82f6)' }} />
+          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            <div
+              className="h-full rounded-full transition-all duration-500"
+              style={{
+                width: `${Math.round((done / GROUP_IDS.length) * 100)}%`,
+                background: 'linear-gradient(90deg, #8b5cf6, #3b82f6)',
+              }}
+            />
           </div>
         </div>
+      </div>
 
-        {/* Groups */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5 mb-10">
-          {GROUP_IDS.map((gid) => (
-            <GroupCard key={gid} groupId={gid as GroupId} teams={getTeamsByGroup(gid as GroupId)} />
-          ))}
+      {/* ── Group letter tabs ─────────────────────────────────────────── */}
+      {tab === 'groups' && (
+        <div className="max-w-2xl w-full mx-auto px-4 py-3">
+          <div
+            ref={tabBarRef}
+            className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide"
+            style={{ scrollbarWidth: 'none' }}
+          >
+            {GROUP_IDS.map((g) => {
+              const complete = groupComplete(bracket, g as GroupId);
+              const isActive = activeGroup === g;
+              return (
+                <button
+                  key={g}
+                  data-active={isActive}
+                  onClick={() => setActiveGroup(g as GroupId)}
+                  className="flex-shrink-0 w-11 h-11 rounded-full font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
+                  style={{
+                    background: isActive
+                      ? 'linear-gradient(135deg, #8b5cf6, #3b82f6)'
+                      : complete
+                      ? 'rgba(139,92,246,0.20)'
+                      : 'rgba(255,255,255,0.06)',
+                    color: isActive ? '#fff' : complete ? '#a78bfa' : '#c4bdec',
+                    border: isActive ? 'none' : '1px solid rgba(255,255,255,0.10)',
+                  }}
+                >
+                  {g}
+                </button>
+              );
+            })}
+          </div>
         </div>
+      )}
 
-        {/* Third-place selection */}
-        <div className="mb-10">
-          <ThirdPlaceSelector />
-        </div>
-
-        {/* Continue / reset */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t pt-6"
-          style={{ borderColor: 'rgba(255,255,255,0.10)' }}>
-          <button onClick={resetPredictions} className="text-sm font-medium transition-colors" style={{ color: '#fb7185' }}>
-            Reset all picks
-          </button>
-
-          {ready ? (
-            <Link href="/bracket"
-              className="flex items-center gap-2 text-white font-bold px-8 py-4 rounded-2xl transition-all active:scale-95"
-              style={{ background: '#fb7185' }}>
-              Build your knockout bracket <ArrowRight className="w-5 h-5" />
+      {/* ── Main content ──────────────────────────────────────────────── */}
+      <div className="flex-1 max-w-2xl w-full mx-auto px-4 pb-32">
+        {tab === 'groups' && (
+          <GroupCard
+            groupId={activeGroup}
+            teams={getTeamsByGroup(activeGroup)}
+            onComplete={() => {
+              const idx = GROUP_IDS.indexOf(activeGroup);
+              if (idx < GROUP_IDS.length - 1) setActiveGroup(GROUP_IDS[idx + 1] as GroupId);
+            }}
+          />
+        )}
+        {tab === 'thirds' && <ThirdPlaceSelector />}
+        {tab === 'knockout' && ready && (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <p className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+              Ready for the knockout stage!
+            </p>
+            <Link
+              href="/bracket"
+              className="flex items-center gap-2 font-display font-extrabold px-8 py-4 rounded-2xl text-white transition-all hover:scale-105"
+              style={{ background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)' }}
+            >
+              Go to bracket <ArrowRight className="w-5 h-5" />
             </Link>
-          ) : (
-            <div className="flex items-center gap-2 font-bold px-8 py-4 rounded-2xl"
-              style={{ background: 'rgba(255,255,255,0.05)', color: '#6f6796' }}>
-              <Lock className="w-5 h-5" />
-              {done < totalGroups
-                ? `Rank ${totalGroups - done} more group${totalGroups - done > 1 ? 's' : ''}`
-                : `Pick ${8 - thirds} more third-place team${8 - thirds > 1 ? 's' : ''}`}
-            </div>
-          )}
+          </div>
+        )}
+      </div>
+
+      {/* ── Bottom nav ───────────────────────────────────────────────── */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-40"
+        style={{
+          background: 'rgba(12,8,28,0.92)',
+          backdropFilter: 'blur(16px)',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+        }}
+      >
+        <div className="max-w-2xl mx-auto flex">
+          {(
+            [
+              { id: 'groups',   label: 'Groups',   locked: false,          count: `${done}/12` },
+              { id: 'thirds',   label: 'Best 3rd',  locked: !allGroupsDone, count: `${thirds}/8` },
+              { id: 'knockout', label: 'Knockout',  locked: !ready,         count: null },
+            ] as { id: Tab; label: string; locked: boolean; count: string | null }[]
+          ).map((t) => {
+            const isActive = tab === t.id;
+            return (
+              <button
+                key={t.id}
+                disabled={t.locked}
+                onClick={() => !t.locked && setTab(t.id)}
+                className="flex-1 flex flex-col items-center justify-center py-3.5 gap-0.5 transition-all"
+                style={{ color: t.locked ? '#3a3358' : isActive ? '#a78bfa' : '#6f6796' }}
+              >
+                {t.locked && <Lock className="w-3.5 h-3.5 mb-0.5" />}
+                <span className="text-xs font-bold">{t.label}</span>
+                {t.count && !t.locked && (
+                  <span className="text-[10px]" style={{ color: isActive ? '#8b5cf6' : '#6f6796' }}>
+                    {t.count}
+                  </span>
+                )}
+                {isActive && (
+                  <div
+                    className="absolute bottom-0 h-0.5 w-12 rounded-full"
+                    style={{ background: '#8b5cf6' }}
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
