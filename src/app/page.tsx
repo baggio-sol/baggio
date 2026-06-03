@@ -185,6 +185,44 @@ export default function HomePage() {
         </ol>
       </section>
 
+      {/* ── By the numbers ───────────────────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-5xl mx-auto px-4 py-24">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            The full bracket
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            One tournament, every call
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {[
+            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#60a5fa' },
+            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#a78bfa' },
+            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#fb7185' },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-3xl p-8 border text-center flex flex-col items-center"
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.10)' }}
+            >
+              <span
+                className="font-display font-extrabold leading-none mb-3"
+                style={{ fontSize: 'clamp(3rem, 7vw, 4.5rem)', color: s.color }}
+              >
+                {s.value}
+              </span>
+              <span className="font-display font-extrabold text-lg" style={{ color: '#f5f3ff' }}>
+                {s.label}
+              </span>
+              <span className="text-sm mt-1" style={{ color: '#c4bdec' }}>
+                {s.sub}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ── Earn points ──────────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
