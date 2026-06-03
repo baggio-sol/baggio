@@ -13,108 +13,114 @@ const PERSONAS = [
 export default function HomePage() {
   return (
     <div className="min-h-screen overflow-x-hidden">
-      {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="relative flex flex-col lg:flex-row items-center justify-center min-h-[100svh] px-4 pt-24 pb-16 gap-8 lg:gap-12 max-w-7xl mx-auto">
+      {/* ── Hero (text only, full viewport) ──────────────────────────── */}
+      <section className="relative flex flex-col items-center justify-center min-h-[100svh] px-4 pt-24 pb-16 text-center">
         {/* Ambient glows */}
         <div
           className="pointer-events-none absolute inset-0 -z-10"
           style={{
             background:
-              'radial-gradient(700px 500px at 30% 40%, rgba(139,92,246,0.22), transparent 65%), ' +
-              'radial-gradient(500px 400px at 80% 70%, rgba(59,130,246,0.16), transparent 60%)',
+              'radial-gradient(700px 500px at 50% 35%, rgba(139,92,246,0.22), transparent 65%), ' +
+              'radial-gradient(600px 500px at 20% 90%, rgba(59,130,246,0.16), transparent 60%)',
           }}
         />
 
-        {/* Text side */}
-        <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left max-w-xl">
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-6 border"
+        {/* Badge */}
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-6 border"
+          style={{
+            background: 'rgba(139,92,246,0.12)',
+            borderColor: 'rgba(139,92,246,0.35)',
+            color: '#c4bdec',
+          }}
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full inline-block"
+            style={{ background: '#fb7185', animation: 'pulse 2s infinite' }}
+          />
+          FIFA World Cup 2026
+        </div>
+
+        {/* Headline */}
+        <h1
+          className="font-display font-extrabold leading-none mb-5"
+          style={{
+            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+            color: '#f5f3ff',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          World Cup{' '}
+          <span
             style={{
-              background: 'rgba(139,92,246,0.12)',
-              borderColor: 'rgba(139,92,246,0.35)',
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #fb7185 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            26&apos;
+          </span>{' '}
+          Predictions
+        </h1>
+
+        {/* Sub-headline */}
+        <p
+          className="max-w-xl text-base sm:text-lg mb-8 leading-relaxed"
+          style={{ color: '#c4bdec' }}
+        >
+          Create your free 2026 World Cup bracket, predict the group standings
+          and knockout rounds and compete with friends to see who knows ball.
+        </p>
+
+        {/* Countdown */}
+        <div className="mb-10 flex flex-col items-center gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+            Tournament kicks off in
+          </p>
+          <CountdownTimer />
+        </div>
+
+        {/* CTAs */}
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link
+            href="/predict"
+            className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+              color: '#fff',
+              boxShadow: '0 8px 32px -8px rgba(139,92,246,0.55)',
+            }}
+          >
+            Build My Bracket →
+          </Link>
+          <Link
+            href="/bracket"
+            className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderColor: 'rgba(255,255,255,0.12)',
               color: '#c4bdec',
             }}
           >
-            <span
-              className="w-1.5 h-1.5 rounded-full inline-block"
-              style={{ background: '#fb7185', animation: 'pulse 2s infinite' }}
-            />
-            FIFA World Cup 2026
-          </div>
-
-          {/* Headline */}
-          <h1
-            className="font-display font-extrabold leading-none mb-5"
-            style={{
-              fontSize: 'clamp(2.6rem, 5vw, 4.5rem)',
-              color: '#f5f3ff',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            World Cup{' '}
-            <span
-              style={{
-                background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #fb7185 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              26&apos;
-            </span>{' '}
-            Predictions
-          </h1>
-
-          {/* Sub-headline */}
-          <p
-            className="text-base sm:text-lg mb-8 leading-relaxed"
-            style={{ color: '#c4bdec' }}
-          >
-            Create your free 2026 World Cup bracket, predict the group standings
-            and knockout rounds and compete with friends to see who knows ball.
-          </p>
-
-          {/* Countdown */}
-          <div className="mb-10 flex flex-col items-center lg:items-start gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
-              Tournament kicks off in
-            </p>
-            <CountdownTimer />
-          </div>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap justify-center lg:justify-start gap-3">
-            <Link
-              href="/predict"
-              className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
-              style={{
-                background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
-                color: '#fff',
-                boxShadow: '0 8px 32px -8px rgba(139,92,246,0.55)',
-              }}
-            >
-              Build My Bracket →
-            </Link>
-            <Link
-              href="/bracket"
-              className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
-              style={{
-                background: 'rgba(255,255,255,0.05)',
-                borderColor: 'rgba(255,255,255,0.12)',
-                color: '#c4bdec',
-              }}
-            >
-              See an example
-            </Link>
-          </div>
+            See an example
+          </Link>
         </div>
+      </section>
 
-        {/* Orbit side */}
+      {/* ── Orbit section (own full-width page) ──────────────────────── */}
+      <section
+        className="relative flex items-center justify-center py-24 overflow-hidden"
+        style={{ minHeight: '100svh' }}
+      >
         <div
-          className="flex-shrink-0 flex items-center justify-center mt-10 lg:mt-32"
-          style={{ animation: 'float-up 7s ease-in-out infinite' }}
-        >
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(800px 800px at 50% 50%, rgba(139,92,246,0.14), transparent 65%)',
+          }}
+        />
+        <div style={{ animation: 'float-up 8s ease-in-out infinite' }}>
           <FlagOrbitClient />
         </div>
       </section>
@@ -137,19 +143,12 @@ export default function HomePage() {
             <div
               key={p.name}
               className="flex items-center gap-2.5 rounded-2xl px-4 py-2.5 border"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                borderColor: 'rgba(255,255,255,0.10)',
-              }}
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.10)' }}
             >
               <span className="text-xl">{p.emoji}</span>
               <div>
-                <p className="text-sm font-bold leading-tight" style={{ color: '#f5f3ff' }}>
-                  {p.name}
-                </p>
-                <p className="text-[10px] font-medium" style={{ color: p.color }}>
-                  {p.range} spice
-                </p>
+                <p className="text-sm font-bold leading-tight" style={{ color: '#f5f3ff' }}>{p.name}</p>
+                <p className="text-[10px] font-medium" style={{ color: p.color }}>{p.range} spice</p>
               </div>
             </div>
           ))}
@@ -177,18 +176,11 @@ export default function HomePage() {
             <div
               key={f.title}
               className="rounded-2xl p-5 border"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                borderColor: 'rgba(255,255,255,0.08)',
-              }}
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
             >
               <div className="text-3xl mb-3">{f.icon}</div>
-              <h3 className="font-display font-extrabold text-base mb-1.5" style={{ color: '#f5f3ff' }}>
-                {f.title}
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>
-                {f.body}
-              </p>
+              <h3 className="font-display font-extrabold text-base mb-1.5" style={{ color: '#f5f3ff' }}>{f.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>{f.body}</p>
             </div>
           ))}
         </div>

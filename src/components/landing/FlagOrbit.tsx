@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import { TEAMS } from '@/lib/tournament';
 
-// Map our 3-letter FIFA codes → ISO 3166-1 alpha-2 for flagcdn.com
 const ISO2: Record<string, string> = {
   MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
   CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
@@ -23,37 +22,24 @@ function flagUrl(code: string) {
   return iso ? `https://flagcdn.com/w40/${iso}.png` : null;
 }
 
-// Inner ring: tier-1 teams · Outer ring: everyone else
-const tier1 = TEAMS.filter((t) => t.tier === 1);
-const rest = TEAMS.filter((t) => t.tier !== 1);
+// 3 rings: 8 / 14 / 26
+const inner  = TEAMS.filter((t) => t.tier === 1);                          // 8
+const middle = TEAMS.filter((t) => t.tier === 2 || t.tier === 3).slice(0, 14); // 14
+const outer  = TEAMS.filter((t) => !inner.includes(t) && !middle.includes(t));  // 26
 
 interface FlagPillProps {
-  code: string;
-  name: string;
-  flag: string;
-  size: number;
-  angle: number;
-  radius: number;
-  /** keyframe name used to counter-rotate so the flag stays upright */
-  counterAnim: string;
-  duration: number;
+  code: string; name: string; flag: string;
+  size: number; angle: number; radius: number;
+  counterAnim: string; duration: number;
 }
 
 function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration }: FlagPillProps) {
   const url = flagUrl(code);
-
   return (
-    // Outer wrapper: a full-size, centred box rotated to `angle`, with the pill
-    // pushed out to `radius`. The parent ring spins this whole thing around.
     <div
       className="absolute left-1/2 top-1/2"
-      style={{
-        width: 0,
-        height: 0,
-        transform: `rotate(${angle}deg) translateY(-${radius}px)`,
-      }}
+      style={{ width: 0, height: 0, transform: `rotate(${angle}deg) translateY(-${radius}px)` }}
     >
-      {/* Counter-rotate (animated, opposite the ring) so flags stay upright. */}
       <div
         style={{
           transform: 'translate(-50%, -50%)',
@@ -61,25 +47,18 @@ function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration
         }}
       >
         <div
-          className="rounded-full overflow-hidden border-2 flex items-center justify-center"
+          className="rounded-full overflow-hidden flex items-center justify-center"
           style={{
-            width: size,
-            height: size,
-            borderColor: 'rgba(255,255,255,0.20)',
+            width: size, height: size,
+            border: '1.5px solid rgba(255,255,255,0.18)',
             background: 'rgba(255,255,255,0.06)',
             backdropFilter: 'blur(4px)',
             boxShadow: '0 4px 14px -4px rgba(0,0,0,0.5)',
           }}
         >
           {url ? (
-            <Image
-              src={url}
-              alt={name}
-              width={40}
-              height={28}
-              className="object-cover w-full h-full"
-              unoptimized
-            />
+            <Image src={url} alt={name} width={40} height={28}
+              className="object-cover w-full h-full" unoptimized />
           ) : (
             <span className="text-lg leading-none">{flag}</span>
           )}
@@ -90,93 +69,62 @@ function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration
 }
 
 export default function FlagOrbit() {
-  const INNER_R = 150;
-  const OUTER_R = 285;
-  const INNER_SIZE = 42;
-  const OUTER_SIZE = 30;
-  const INNER_DUR = 40; // seconds per revolution
-  const OUTER_DUR = 60;
-  const CONTAINER = (OUTER_R + OUTER_SIZE) * 2 + 20;
+  const INNER_R  = 130;
+  const MID_R    = 230;
+  const OUTER_R  = 340;
+  const INNER_SIZE  = 44;
+  const MID_SIZE    = 38;
+  const OUTER_SIZE  = 32;
+  const INNER_DUR   = 38;
+  const MID_DUR     = 55;
+  const OUTER_DUR   = 70;
+  const CONTAINER   = (OUTER_R + OUTER_SIZE) * 2 + 24;
 
   return (
     <div
-      className="relative select-none pointer-events-none"
-      style={{ width: CONTAINER, height: CONTAINER, maxWidth: '100%' }}
+      className="relative select-none pointer-events-none mx-auto"
+      style={{ width: CONTAINER, height: CONTAINER, maxWidth: '100vw' }}
       aria-hidden
     >
-      {/* Glow rings (static guide circles) */}
-      <div
-        className="absolute rounded-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: INNER_R * 2,
-          height: INNER_R * 2,
-          border: '1px solid rgba(139,92,246,0.08)',
-        }}
-      />
-      <div
-        className="absolute rounded-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: OUTER_R * 2,
-          height: OUTER_R * 2,
-          border: '1px solid rgba(59,130,246,0.07)',
-        }}
-      />
-
       {/* Inner ring — clockwise */}
-      <div
-        className="absolute inset-0"
-        style={{ animation: `spin-cw ${INNER_DUR}s linear infinite` }}
-      >
-        {tier1.map((t, i) => (
-          <FlagPill
-            key={t.code}
-            code={t.code}
-            name={t.name}
-            flag={t.flag}
-            size={INNER_SIZE}
-            angle={(360 / tier1.length) * i}
-            radius={INNER_R}
-            counterAnim="spin-ccw"
-            duration={INNER_DUR}
-          />
+      <div className="absolute inset-0" style={{ animation: `spin-cw ${INNER_DUR}s linear infinite` }}>
+        {inner.map((t, i) => (
+          <FlagPill key={t.code} code={t.code} name={t.name} flag={t.flag}
+            size={INNER_SIZE} angle={(360 / inner.length) * i}
+            radius={INNER_R} counterAnim="spin-ccw" duration={INNER_DUR} />
         ))}
       </div>
 
-      {/* Outer ring — anti-clockwise */}
-      <div
-        className="absolute inset-0"
-        style={{ animation: `spin-ccw ${OUTER_DUR}s linear infinite` }}
-      >
-        {rest.map((t, i) => (
-          <FlagPill
-            key={t.code}
-            code={t.code}
-            name={t.name}
-            flag={t.flag}
-            size={OUTER_SIZE}
-            angle={(360 / rest.length) * i}
-            radius={OUTER_R}
-            counterAnim="spin-cw"
-            duration={OUTER_DUR}
-          />
+      {/* Middle ring — anti-clockwise */}
+      <div className="absolute inset-0" style={{ animation: `spin-ccw ${MID_DUR}s linear infinite` }}>
+        {middle.map((t, i) => (
+          <FlagPill key={t.code} code={t.code} name={t.name} flag={t.flag}
+            size={MID_SIZE} angle={(360 / middle.length) * i}
+            radius={MID_R} counterAnim="spin-cw" duration={MID_DUR} />
+        ))}
+      </div>
+
+      {/* Outer ring — clockwise */}
+      <div className="absolute inset-0" style={{ animation: `spin-cw ${OUTER_DUR}s linear infinite` }}>
+        {outer.map((t, i) => (
+          <FlagPill key={t.code} code={t.code} name={t.name} flag={t.flag}
+            size={OUTER_SIZE} angle={(360 / outer.length) * i}
+            radius={OUTER_R} counterAnim="spin-ccw" duration={OUTER_DUR} />
         ))}
       </div>
 
       {/* Centre badge */}
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-full border"
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center rounded-full"
         style={{
-          width: 80,
-          height: 80,
-          background: 'radial-gradient(circle, rgba(139,92,246,0.30), rgba(8,15,40,0.80))',
-          borderColor: 'rgba(139,92,246,0.40)',
-          boxShadow: '0 0 30px rgba(139,92,246,0.30)',
+          width: 84, height: 84,
+          background: 'radial-gradient(circle, rgba(139,92,246,0.35), rgba(8,15,40,0.85))',
+          border: '1px solid rgba(139,92,246,0.35)',
+          boxShadow: '0 0 36px rgba(139,92,246,0.28)',
         }}
       >
         <span className="text-2xl">⚽</span>
-        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#c4bdec' }}>
-          2026
-        </span>
+        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#c4bdec' }}>2026</span>
       </div>
     </div>
   );
