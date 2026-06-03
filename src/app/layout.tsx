@@ -3,6 +3,7 @@ import { Syne, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import OnboardingModal from "@/components/onboarding/OnboardingModal";
 
 const syne = Syne({
   weight: ["700", "800"],
@@ -32,6 +33,7 @@ export default function RootLayout({
     <html lang="en" className={`h-full antialiased ${syne.variable} ${montserrat.variable}`}>
       <body className="min-h-full flex flex-col font-[family-name:var(--font-montserrat)]">
         <Navbar />
+        <OnboardingModal />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />
       </body>
