@@ -30,67 +30,72 @@ export const GROUP_IDS: GroupId[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'
 
 // Official Final Draw. Order within each group is the seeding (pos-1 = seeded
 // head: the 3 hosts + the 9 Pot-1 teams). Tiers are editorial.
+// FIFA/Coca-Cola Men's World Ranking — April 2026 update (last before the WC).
+// Compiled from the official top-12 plus per-confederation rankings (full-table
+// sources were unreachable from this environment, so a few mid-table values are
+// best-available from confederation lists). Update here if the June 11 ranking
+// changes anything.
 export const TEAMS: Team[] = [
   // Group A
   { name: 'Mexico',          code: 'MEX', flag: '🇲🇽', tier: 3, group: 'A', rank: 15  },
-  { name: 'South Africa',    code: 'RSA', flag: '🇿🇦', tier: 5, group: 'A', rank: 58  },
+  { name: 'South Africa',    code: 'RSA', flag: '🇿🇦', tier: 5, group: 'A', rank: 60  },
   { name: 'South Korea',     code: 'KOR', flag: '🇰🇷', tier: 3, group: 'A', rank: 22  },
-  { name: 'Czechia',         code: 'CZE', flag: '🇨🇿', tier: 4, group: 'A', rank: 35  },
+  { name: 'Czechia',         code: 'CZE', flag: '🇨🇿', tier: 4, group: 'A', rank: 41  },
   // Group B
   { name: 'Canada',          code: 'CAN', flag: '🇨🇦', tier: 4, group: 'B', rank: 30  },
-  { name: 'Bosnia & Herz.',  code: 'BIH', flag: '🇧🇦', tier: 5, group: 'B', rank: 65  },
-  { name: 'Qatar',           code: 'QAT', flag: '🇶🇦', tier: 5, group: 'B', rank: 55  },
-  { name: 'Switzerland',     code: 'SUI', flag: '🇨🇭', tier: 3, group: 'B', rank: 19  },
+  { name: 'Bosnia & Herz.',  code: 'BIH', flag: '🇧🇦', tier: 5, group: 'B', rank: 67  },
+  { name: 'Qatar',           code: 'QAT', flag: '🇶🇦', tier: 5, group: 'B', rank: 56  },
+  { name: 'Switzerland',     code: 'SUI', flag: '🇨🇭', tier: 3, group: 'B', rank: 21  },
   // Group C
-  { name: 'Brazil',          code: 'BRA', flag: '🇧🇷', tier: 1, group: 'C', rank: 5   },
-  { name: 'Morocco',         code: 'MAR', flag: '🇲🇦', tier: 2, group: 'C', rank: 14  },
-  { name: 'Haiti',           code: 'HAI', flag: '🇭🇹', tier: 5, group: 'C', rank: 120 },
-  { name: 'Scotland',        code: 'SCO', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', tier: 4, group: 'C', rank: 39  },
+  { name: 'Brazil',          code: 'BRA', flag: '🇧🇷', tier: 1, group: 'C', rank: 6   },
+  { name: 'Morocco',         code: 'MAR', flag: '🇲🇦', tier: 2, group: 'C', rank: 8   },
+  { name: 'Haiti',           code: 'HAI', flag: '🇭🇹', tier: 5, group: 'C', rank: 82  },
+  { name: 'Scotland',        code: 'SCO', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿', tier: 4, group: 'C', rank: 43  },
   // Group D
   { name: 'United States',   code: 'USA', flag: '🇺🇸', tier: 3, group: 'D', rank: 16  },
-  { name: 'Paraguay',        code: 'PAR', flag: '🇵🇾', tier: 4, group: 'D', rank: 72  },
-  { name: 'Australia',       code: 'AUS', flag: '🇦🇺', tier: 4, group: 'D', rank: 23  },
-  { name: 'Türkiye',         code: 'TUR', flag: '🇹🇷', tier: 3, group: 'D', rank: 28  },
+  { name: 'Paraguay',        code: 'PAR', flag: '🇵🇾', tier: 4, group: 'D', rank: 40  },
+  { name: 'Australia',       code: 'AUS', flag: '🇦🇺', tier: 4, group: 'D', rank: 27  },
+  { name: 'Türkiye',         code: 'TUR', flag: '🇹🇷', tier: 3, group: 'D', rank: 26  },
   // Group E
-  { name: 'Germany',         code: 'GER', flag: '🇩🇪', tier: 1, group: 'E', rank: 13  },
-  { name: 'Curaçao',         code: 'CUW', flag: '🇨🇼', tier: 5, group: 'E', rank: 85  },
-  { name: 'Ivory Coast',     code: 'CIV', flag: '🇨🇮', tier: 3, group: 'E', rank: 52  },
-  { name: 'Ecuador',         code: 'ECU', flag: '🇪🇨', tier: 3, group: 'E', rank: 36  },
+  { name: 'Germany',         code: 'GER', flag: '🇩🇪', tier: 1, group: 'E', rank: 10  },
+  { name: 'Curaçao',         code: 'CUW', flag: '🇨🇼', tier: 5, group: 'E', rank: 84  },
+  { name: 'Ivory Coast',     code: 'CIV', flag: '🇨🇮', tier: 3, group: 'E', rank: 34  },
+  { name: 'Ecuador',         code: 'ECU', flag: '🇪🇨', tier: 3, group: 'E', rank: 23  },
   // Group F
   { name: 'Netherlands',     code: 'NED', flag: '🇳🇱', tier: 1, group: 'F', rank: 7   },
-  { name: 'Japan',           code: 'JPN', flag: '🇯🇵', tier: 2, group: 'F', rank: 15  },
-  { name: 'Sweden',          code: 'SWE', flag: '🇸🇪', tier: 4, group: 'F', rank: 25  },
-  { name: 'Tunisia',         code: 'TUN', flag: '🇹🇳', tier: 4, group: 'F', rank: 40  },
+  { name: 'Japan',           code: 'JPN', flag: '🇯🇵', tier: 2, group: 'F', rank: 19  },
+  { name: 'Sweden',          code: 'SWE', flag: '🇸🇪', tier: 4, group: 'F', rank: 38  },
+  { name: 'Tunisia',         code: 'TUN', flag: '🇹🇳', tier: 4, group: 'F', rank: 44  },
   // Group G
-  { name: 'Belgium',         code: 'BEL', flag: '🇧🇪', tier: 2, group: 'G', rank: 8   },
-  { name: 'Egypt',           code: 'EGY', flag: '🇪🇬', tier: 3, group: 'G', rank: 34  },
-  { name: 'Iran',            code: 'IRN', flag: '🇮🇷', tier: 3, group: 'G', rank: 28  },
-  { name: 'New Zealand',     code: 'NZL', flag: '🇳🇿', tier: 5, group: 'G', rank: 105 },
+  { name: 'Belgium',         code: 'BEL', flag: '🇧🇪', tier: 2, group: 'G', rank: 9   },
+  { name: 'Egypt',           code: 'EGY', flag: '🇪🇬', tier: 3, group: 'G', rank: 29  },
+  { name: 'Iran',            code: 'IRN', flag: '🇮🇷', tier: 3, group: 'G', rank: 20  },
+  { name: 'New Zealand',     code: 'NZL', flag: '🇳🇿', tier: 5, group: 'G', rank: 85  },
   // Group H
-  { name: 'Spain',           code: 'ESP', flag: '🇪🇸', tier: 1, group: 'H', rank: 3   },
-  { name: 'Cape Verde',      code: 'CPV', flag: '🇨🇻', tier: 5, group: 'H', rank: 78  },
-  { name: 'Saudi Arabia',    code: 'KSA', flag: '🇸🇦', tier: 5, group: 'H', rank: 58  },
+  { name: 'Spain',           code: 'ESP', flag: '🇪🇸', tier: 1, group: 'H', rank: 2   },
+  { name: 'Cape Verde',      code: 'CPV', flag: '🇨🇻', tier: 5, group: 'H', rank: 69  },
+  { name: 'Saudi Arabia',    code: 'KSA', flag: '🇸🇦', tier: 5, group: 'H', rank: 61  },
   { name: 'Uruguay',         code: 'URU', flag: '🇺🇾', tier: 2, group: 'H', rank: 17  },
   // Group I
-  { name: 'France',          code: 'FRA', flag: '🇫🇷', tier: 1, group: 'I', rank: 2   },
-  { name: 'Senegal',         code: 'SEN', flag: '🇸🇳', tier: 2, group: 'I', rank: 19  },
-  { name: 'Iraq',            code: 'IRQ', flag: '🇮🇶', tier: 5, group: 'I', rank: 61  },
-  { name: 'Norway',          code: 'NOR', flag: '🇳🇴', tier: 3, group: 'I', rank: 36  },
+  { name: 'France',          code: 'FRA', flag: '🇫🇷', tier: 1, group: 'I', rank: 1   },
+  { name: 'Senegal',         code: 'SEN', flag: '🇸🇳', tier: 2, group: 'I', rank: 14  },
+  { name: 'Iraq',            code: 'IRQ', flag: '🇮🇶', tier: 5, group: 'I', rank: 58  },
+  { name: 'Norway',          code: 'NOR', flag: '🇳🇴', tier: 3, group: 'I', rank: 31  },
   // Group J
-  { name: 'Argentina',       code: 'ARG', flag: '🇦🇷', tier: 1, group: 'J', rank: 1   },
-  { name: 'Algeria',         code: 'ALG', flag: '🇩🇿', tier: 4, group: 'J', rank: 42  },
+  { name: 'Argentina',       code: 'ARG', flag: '🇦🇷', tier: 1, group: 'J', rank: 3   },
+  { name: 'Algeria',         code: 'ALG', flag: '🇩🇿', tier: 4, group: 'J', rank: 28  },
   { name: 'Austria',         code: 'AUT', flag: '🇦🇹', tier: 3, group: 'J', rank: 24  },
-  { name: 'Jordan',          code: 'JOR', flag: '🇯🇴', tier: 5, group: 'J', rank: 95  },
+  { name: 'Jordan',          code: 'JOR', flag: '🇯🇴', tier: 5, group: 'J', rank: 64  },
   // Group K
-  { name: 'Portugal',        code: 'POR', flag: '🇵🇹', tier: 1, group: 'K', rank: 6   },
-  { name: 'DR Congo',        code: 'COD', flag: '🇨🇩', tier: 4, group: 'K', rank: 56  },
-  { name: 'Uzbekistan',      code: 'UZB', flag: '🇺🇿', tier: 5, group: 'K', rank: 88  },
-  { name: 'Colombia',        code: 'COL', flag: '🇨🇴', tier: 2, group: 'K', rank: 9   },
+  { name: 'Portugal',        code: 'POR', flag: '🇵🇹', tier: 1, group: 'K', rank: 5   },
+  { name: 'DR Congo',        code: 'COD', flag: '🇨🇩', tier: 4, group: 'K', rank: 46  },
+  { name: 'Uzbekistan',      code: 'UZB', flag: '🇺🇿', tier: 5, group: 'K', rank: 52  },
+  { name: 'Colombia',        code: 'COL', flag: '🇨🇴', tier: 2, group: 'K', rank: 13  },
   // Group L
   { name: 'England',         code: 'ENG', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', tier: 1, group: 'L', rank: 4   },
-  { name: 'Croatia',         code: 'CRO', flag: '🇭🇷', tier: 2, group: 'L', rank: 12  },
-  { name: 'Ghana',           code: 'GHA', flag: '🇬🇭', tier: 4, group: 'L', rank: 60  },
-  { name: 'Panama',          code: 'PAN', flag: '🇵🇦', tier: 5, group: 'L', rank: 80  },
+  { name: 'Croatia',         code: 'CRO', flag: '🇭🇷', tier: 2, group: 'L', rank: 11  },
+  { name: 'Ghana',           code: 'GHA', flag: '🇬🇭', tier: 4, group: 'L', rank: 74  },
+  { name: 'Panama',          code: 'PAN', flag: '🇵🇦', tier: 5, group: 'L', rank: 33  },
 ];
 
 // ── Lookups ──────────────────────────────────────────────────────────────────
