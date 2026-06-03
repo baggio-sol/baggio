@@ -282,11 +282,9 @@ export default function HomePage() {
             </div>
             <ul className="flex flex-col">
               {[
-                { label: 'Group winner correct', pts: '20' },
-                { label: 'Runner-up correct', pts: '10' },
-                { label: 'Third place correct', pts: '10' },
-                { label: 'Perfect group bonus', pts: '+20' },
-                { label: 'Best third-place pick', pts: '10' },
+                { label: 'Each team in its exact position', pts: '+3' },
+                { label: 'Perfect group (all 4 correct)', pts: '12' },
+                { label: 'Each correct 3rd-place qualifier', pts: '+4' },
               ].map((r, i, arr) => (
                 <li
                   key={r.label}
@@ -318,11 +316,12 @@ export default function HomePage() {
             </div>
             <ul className="flex flex-col">
               {[
-                { label: 'Round of 32 winner', pts: '40' },
-                { label: 'Round of 16 winner', pts: '60' },
-                { label: 'Quarter-final winner', pts: '80' },
-                { label: 'Semi-final winner', pts: '100' },
-                { label: 'Champion correct', pts: '500', big: true },
+                { label: 'Round of 32 winner', pts: '+5' },
+                { label: 'Round of 16 winner', pts: '+8' },
+                { label: 'Quarter-final winner', pts: '+12' },
+                { label: 'Semi-final winner', pts: '+18' },
+                { label: 'Final winner', pts: '+30' },
+                { label: 'Champion correct (bonus)', pts: '+15', big: true },
               ].map((r, i, arr) => (
                 <li
                   key={r.label}
