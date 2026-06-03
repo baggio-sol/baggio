@@ -22,11 +22,21 @@ export interface Bracket {
   };
 }
 
+export interface SpiceCategory {
+  key: 'champion' | 'finalist' | 'deepRuns' | 'earlyExits' | 'groupUpsets';
+  label: string;
+  value: number; // clamped contribution
+  cap: number;
+}
+
 export interface SpiceResult {
-  score: number;
+  score: number; // 0–100
   persona: string;
   personaEmoji: string;
+  personaBlurb: string;
   boldestCall: string;
+  categories: SpiceCategory[];
+  // Derived hero picks (team codes; '' when not yet determinable).
   champion: string;
   runnerUp: string;
   darkHorse: string;

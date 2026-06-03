@@ -1,9 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import BracketView from '@/components/bracket/BracketView';
-import { usePredictionStore, deriveTree } from '@/lib/store';
-import { TEAM_BY_CODE } from '@/lib/tournament';
-import { Trophy, ArrowLeft, Share2 } from 'lucide-react';
+import ShareCard from '@/components/spice/ShareCard';
+import { usePredictionStore, groupStageReady } from '@/lib/store';
+import { computeSpice } from '@/lib/spice';
+import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Card from '@/components/ui/Card';
 
@@ -16,59 +17,52 @@ export default function BracketPage() {
 
   if (!mounted) return null;
 
-  const championCode = deriveTree(bracket)?.winners['M104'];
-  const champion = championCode ? TEAM_BY_CODE[championCode] : undefined;
+  const ready = groupStageReady(bracket);
+  const spice = computeSpice(bracket);
 
   return (
     <div className="min-h-screen py-8">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/predict"
-              className="p-2 rounded-xl border transition-all"
-              style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.10)', color: '#c4bdec' }}
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <div>
-              <h1 className="text-3xl font-black" style={{ color: '#f5f3ff' }}>Knockout Bracket</h1>
-              <p style={{ color: '#c4bdec' }}>Your WC2026 bracket predictions</p>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <button
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-medium transition-all"
-              style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.10)', color: '#c4bdec' }}
-            >
-              <Share2 className="w-4 h-4" /> Share
-            </button>
+        <div className="flex items-center gap-4 mb-8">
+          <Link
+            href="/predict"
+            className="p-2 rounded-xl border transition-all"
+            style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.10)', color: '#c4bdec' }}
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div>
+            <h1 className="text-3xl font-display font-extrabold" style={{ color: '#f5f3ff' }}>
+              Knockout Bracket
+            </h1>
+            <p style={{ color: '#c4bdec' }}>Pick every winner — your Spice Score updates live.</p>
           </div>
         </div>
 
-        {/* Champion Banner */}
-        {champion && (
-          <div
-            className="mb-8 rounded-2xl border p-6 flex items-center gap-5"
-            style={{ background: 'rgba(251,191,36,0.10)', borderColor: 'rgba(251,191,36,0.30)' }}
-          >
-            <Trophy className="w-12 h-12 flex-shrink-0" style={{ color: '#fbbf24' }} />
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wider mb-1" style={{ color: '#fbbf24' }}>
-                Your Predicted World Champion
-              </p>
-              <h2 className="text-2xl font-black" style={{ color: '#f5f3ff' }}>
-                {champion.flag} {champion.name}
-              </h2>
-            </div>
-          </div>
-        )}
+        <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-6 items-start">
+          {/* Bracket */}
+          <Card className="p-5 order-2 xl:order-1 overflow-hidden">
+            <BracketView />
+          </Card>
 
-        {/* Bracket */}
-        <Card className="p-6">
-          <BracketView />
-        </Card>
+          {/* Live spice preview */}
+          <div className="order-1 xl:order-2 xl:sticky xl:top-20">
+            {ready ? (
+              <ShareCard spice={spice} />
+            ) : (
+              <div className="rounded-3xl border p-6 text-center glass" style={{ borderColor: 'rgba(255,255,255,0.10)' }}>
+                <div className="text-4xl mb-3">🌶️</div>
+                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f5f3ff' }}>
+                  Your Spice Score is waiting
+                </h3>
+                <p className="text-sm" style={{ color: '#c4bdec' }}>
+                  Finish the group stage and pick your bracket to reveal your persona and share card.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
