@@ -1,35 +1,57 @@
-'use client';
 import { cn } from '@/lib/utils';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
+import Link from 'next/link';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline';
+  variant?: 'primary' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
+  href?: string;
 }
 
+const sizeClasses = {
+  sm: 'px-4 py-1.5 text-sm',
+  md: 'px-5 py-2.5 text-sm',
+  lg: 'px-8 py-4 text-base',
+};
+
+const variantClasses = {
+  primary: 'text-white font-bold transition-opacity hover:opacity-90 active:scale-95',
+  ghost: 'glass text-[#f5f3ff] font-bold hover:bg-white/10 transition-all active:scale-95',
+  outline: 'border border-[rgba(255,255,255,0.20)] text-[#f5f3ff] font-bold hover:bg-white/10 transition-all active:scale-95',
+};
+
+const variantStyles: Record<string, React.CSSProperties> = {
+  primary: { background: 'linear-gradient(135deg, #fb7185, #f43f5e)' },
+  ghost: {},
+  outline: {},
+};
+
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', href, children, ...props }, ref) => {
+    const classes = cn(
+      'inline-flex items-center justify-center rounded-full font-semibold focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed',
+      sizeClasses[size],
+      variantClasses[variant],
+      className
+    );
+
+    if (href) {
+      return (
+        <Link href={href} className={classes} style={variantStyles[variant]}>
+          {children}
+        </Link>
+      );
+    }
+
     return (
       <button
         ref={ref}
-        className={cn(
-          'inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-95',
-          {
-            'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white hover:from-emerald-600 hover:to-cyan-600 focus:ring-emerald-500 shadow-lg shadow-emerald-500/25': variant === 'primary',
-            'bg-white/10 text-white hover:bg-white/20 focus:ring-white/50 backdrop-blur-sm border border-white/20': variant === 'secondary',
-            'text-gray-300 hover:text-white hover:bg-white/10 focus:ring-white/20': variant === 'ghost',
-            'bg-red-500/20 text-red-400 hover:bg-red-500/30 focus:ring-red-500 border border-red-500/30': variant === 'danger',
-            'border border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/10 focus:ring-emerald-500': variant === 'outline',
-          },
-          {
-            'px-3 py-1.5 text-sm': size === 'sm',
-            'px-5 py-2.5 text-sm': size === 'md',
-            'px-7 py-3.5 text-base': size === 'lg',
-          },
-          className
-        )}
+        className={classes}
+        style={variantStyles[variant]}
         {...props}
-      />
+      >
+        {children}
+      </button>
     );
   }
 );
