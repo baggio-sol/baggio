@@ -58,13 +58,21 @@ export default function PredictPage() {
             </button>
           </div>
           <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f5f3ff' }}>
-            Groups {done}/{GROUP_IDS.length}
+            {tab === 'thirds'
+              ? `Best 3rd ${thirds}/8`
+              : tab === 'knockout'
+              ? 'Knockout'
+              : `Groups ${done}/${GROUP_IDS.length}`}
           </h1>
           <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
-                width: `${Math.round((done / GROUP_IDS.length) * 100)}%`,
+                width: `${
+                  tab === 'thirds'
+                    ? Math.round((thirds / 8) * 100)
+                    : Math.round((done / GROUP_IDS.length) * 100)
+                }%`,
                 background: 'linear-gradient(90deg, #8b5cf6, #3b82f6)',
               }}
             />
