@@ -254,6 +254,104 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Earn points ──────────────────────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            Scoring
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            Earn points while you predict
+          </h2>
+          <p className="mt-4" style={{ color: '#c4bdec' }}>
+            Every correct call adds up. The deeper the round, the more it’s worth.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Group phase */}
+          <div
+            className="rounded-3xl p-6 border"
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(96,165,250,0.25)' }}
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <span className="text-2xl">📋</span>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+                Group phase
+              </h3>
+            </div>
+            <ul className="flex flex-col">
+              {[
+                { label: 'Group winner correct', pts: '20' },
+                { label: 'Runner-up correct', pts: '10' },
+                { label: 'Third place correct', pts: '10' },
+                { label: 'Perfect group bonus', pts: '+20' },
+                { label: 'Best third-place pick', pts: '10' },
+              ].map((r, i, arr) => (
+                <li
+                  key={r.label}
+                  className="flex items-center justify-between py-3"
+                  style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                >
+                  <span className="text-sm" style={{ color: '#c4bdec' }}>{r.label}</span>
+                  <span
+                    className="font-display font-extrabold text-base tabular-nums px-3 py-1 rounded-lg"
+                    style={{ color: '#60a5fa', background: 'rgba(96,165,250,0.12)' }}
+                  >
+                    {r.pts} pts
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Knockout phase */}
+          <div
+            className="rounded-3xl p-6 border"
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(251,113,133,0.25)' }}
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <span className="text-2xl">🏆</span>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+                Knockout phase
+              </h3>
+            </div>
+            <ul className="flex flex-col">
+              {[
+                { label: 'Round of 32 winner', pts: '40' },
+                { label: 'Round of 16 winner', pts: '60' },
+                { label: 'Quarter-final winner', pts: '80' },
+                { label: 'Semi-final winner', pts: '100' },
+                { label: 'Champion correct', pts: '500', big: true },
+              ].map((r, i, arr) => (
+                <li
+                  key={r.label}
+                  className="flex items-center justify-between py-3"
+                  style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                >
+                  <span
+                    className="text-sm"
+                    style={{ color: r.big ? '#f5f3ff' : '#c4bdec', fontWeight: r.big ? 700 : 400 }}
+                  >
+                    {r.label}
+                  </span>
+                  <span
+                    className="font-display font-extrabold tabular-nums px-3 py-1 rounded-lg"
+                    style={{
+                      color: '#fb7185',
+                      background: r.big ? 'rgba(251,113,133,0.20)' : 'rgba(251,113,133,0.12)',
+                      fontSize: r.big ? '1.05rem' : '1rem',
+                    }}
+                  >
+                    {r.pts} pts
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       {/* ── Bottom CTA ─────────────────────────────────────────────── */}
       <section className="text-center py-20 px-4">
         <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-4" style={{ color: '#f5f3ff' }}>
