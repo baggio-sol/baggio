@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, X } from 'lucide-react';
 
-const STORAGE_KEY = 'baggio_onboarded';
+export const OPEN_ONBOARDING_EVENT = 'baggio:open-onboarding';
 
 const STEPS = [
   { id: 1 },
@@ -18,13 +18,15 @@ export default function OnboardingModal() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && !localStorage.getItem(STORAGE_KEY)) {
+    function open() {
+      setStep(1);
       setVisible(true);
     }
+    window.addEventListener(OPEN_ONBOARDING_EVENT, open);
+    return () => window.removeEventListener(OPEN_ONBOARDING_EVENT, open);
   }, []);
 
   function dismiss() {
-    localStorage.setItem(STORAGE_KEY, '1');
     setVisible(false);
   }
 

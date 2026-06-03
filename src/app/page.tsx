@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import FlagOrbitClient from '@/components/landing/FlagOrbitClient';
+import OnboardingTrigger from '@/components/onboarding/OnboardingTrigger';
 
 export default function HomePage() {
   return (
@@ -75,8 +76,7 @@ export default function HomePage() {
 
         {/* CTAs */}
         <div className="flex flex-wrap justify-center gap-3">
-          <Link
-            href="/predict"
+          <OnboardingTrigger
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
             style={{
               background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
@@ -85,7 +85,7 @@ export default function HomePage() {
             }}
           >
             Build My Bracket →
-          </Link>
+          </OnboardingTrigger>
           <Link
             href="/bracket"
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
@@ -329,8 +329,7 @@ export default function HomePage() {
         <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#c4bdec' }}>
           Build your bracket in minutes. Your Spice Score updates live as you go.
         </p>
-        <Link
-          href="/predict"
+        <OnboardingTrigger
           className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
@@ -339,7 +338,7 @@ export default function HomePage() {
           }}
         >
           Start for free →
-        </Link>
+        </OnboardingTrigger>
       </section>
     </div>
   );
