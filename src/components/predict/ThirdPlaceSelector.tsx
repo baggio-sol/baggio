@@ -42,7 +42,7 @@ function FlagImg({ code, name }: { code: string; name: string }) {
  * exactly the team each group is currently predicting in 3rd — so this
  * section is fully driven by the user's group-stage standings.
  */
-export default function ThirdPlaceSelector() {
+export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => void }) {
   const { bracket, toggleThird } = usePredictionStore();
   const [showHelp, setShowHelp] = useState(true);
 
@@ -50,6 +50,12 @@ export default function ThirdPlaceSelector() {
   const eligibleCount = bracket ? thirdPlacedCodes(bracket).length : 0;
   const selected = bracket?.thirdPlaceQualifiers ?? [];
   const atCap = selected.length >= 8;
+
+  const handleToggle = (code: string) => {
+    const wasSelected = selected.includes(code);
+    toggleThird(code);
+    if (!wasSelected && selected.length === 7) onComplete?.();
+  };
 
   return (
     <div>
@@ -108,7 +114,7 @@ export default function ThirdPlaceSelector() {
             <button
               key={group}
               disabled={!team || disabled}
-              onClick={() => team && toggleThird(code)}
+              onClick={() => team && handleToggle(code)}
               className={cn(
                 'relative flex flex-col items-center gap-2 rounded-2xl px-3 py-4 transition-all active:scale-[0.98]',
                 (!team || disabled) && 'opacity-50 cursor-not-allowed',

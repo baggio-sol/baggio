@@ -123,11 +123,15 @@ export default function PredictPage() {
             teams={getTeamsByGroup(activeGroup)}
             onComplete={() => {
               const idx = GROUP_IDS.indexOf(activeGroup);
-              if (idx < GROUP_IDS.length - 1) setActiveGroup(GROUP_IDS[idx + 1] as GroupId);
+              if (idx < GROUP_IDS.length - 1) {
+                setActiveGroup(GROUP_IDS[idx + 1] as GroupId);
+              } else {
+                setTab('thirds');
+              }
             }}
           />
         )}
-        {tab === 'thirds' && <ThirdPlaceSelector />}
+        {tab === 'thirds' && <ThirdPlaceSelector onComplete={() => setTab('knockout')} />}
         {tab === 'knockout' && ready && (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <p className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
