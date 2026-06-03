@@ -4,9 +4,9 @@ import { GROUP_IDS, getTeamsByGroup } from '@/lib/tournament';
 import { usePredictionStore, completedGroupCount, groupStageReady, groupComplete } from '@/lib/store';
 import GroupCard from '@/components/predict/GroupCard';
 import ThirdPlaceSelector from '@/components/predict/ThirdPlaceSelector';
+import KnockoutBracket from '@/components/predict/KnockoutBracket';
 import { GroupId } from '@/lib/types';
-import { Lock, ArrowRight, RotateCcw } from 'lucide-react';
-import Link from 'next/link';
+import { Lock, RotateCcw } from 'lucide-react';
 
 type Tab = 'groups' | 'thirds' | 'knockout';
 
@@ -24,6 +24,10 @@ export default function PredictPage() {
   const thirds = bracket?.thirdPlaceQualifiers.length ?? 0;
   const allGroupsDone = done === GROUP_IDS.length;
   const ready = groupStageReady(bracket);
+  const k = bracket?.knockout;
+  const koPicked = k
+    ? Object.keys(k.r32).length + Object.keys(k.r16).length + Object.keys(k.qf).length + Object.keys(k.sf).length + (k.final ? 1 : 0)
+    : 0;
 
   // Scroll active group tab into view
   useEffect(() => {
@@ -61,7 +65,7 @@ export default function PredictPage() {
             {tab === 'thirds'
               ? `Best 3rd ${thirds}/8`
               : tab === 'knockout'
-              ? 'Knockout'
+              ? `Knockout ${koPicked}/31`
               : `Groups ${done}/${GROUP_IDS.length}`}
           </h1>
           <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
@@ -71,6 +75,8 @@ export default function PredictPage() {
                 width: `${
                   tab === 'thirds'
                     ? Math.round((thirds / 8) * 100)
+                    : tab === 'knockout'
+                    ? Math.round((koPicked / 31) * 100)
                     : Math.round((done / GROUP_IDS.length) * 100)
                 }%`,
                 background: 'linear-gradient(90deg, #8b5cf6, #3b82f6)',
@@ -132,20 +138,7 @@ export default function PredictPage() {
           />
         )}
         {tab === 'thirds' && <ThirdPlaceSelector onComplete={() => setTab('knockout')} />}
-        {tab === 'knockout' && ready && (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <p className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
-              Ready for the knockout stage!
-            </p>
-            <Link
-              href="/bracket"
-              className="flex items-center gap-2 font-display font-extrabold px-8 py-4 rounded-2xl text-white transition-all hover:scale-105"
-              style={{ background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)' }}
-            >
-              Go to bracket <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        )}
+        {tab === 'knockout' && ready && <KnockoutBracket />}
       </div>
 
       {/* ── Bottom nav ───────────────────────────────────────────────── */}
