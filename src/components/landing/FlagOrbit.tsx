@@ -70,7 +70,7 @@ function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration
 
 export default function FlagOrbit() {
   const INNER_R  = 120;
-  const MID_R    = 240;
+  const MID_R    = 255;
   const OUTER_R  = 360;
   const INNER_SIZE  = 54;
   const MID_SIZE    = 48;
