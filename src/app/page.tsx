@@ -2,14 +2,6 @@ import Link from 'next/link';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import FlagOrbitClient from '@/components/landing/FlagOrbitClient';
 
-const PERSONAS = [
-  { emoji: '📊', name: 'Chalk Merchant', range: '0–20', color: '#60a5fa' },
-  { emoji: '🎯', name: 'The Realist', range: '21–40', color: '#818cf8' },
-  { emoji: '🎲', name: 'Calculated Gambler', range: '41–60', color: '#a78bfa' },
-  { emoji: '🔥', name: 'Chaos Agent', range: '61–80', color: '#f472b6' },
-  { emoji: '💀', name: 'Certified Menace', range: '81–100', color: '#fb7185' },
-];
-
 export default function HomePage() {
   return (
     <div className="min-h-screen overflow-x-hidden">
@@ -193,66 +185,6 @@ export default function HomePage() {
         </ol>
       </section>
 
-      {/* ── Spice explainer ────────────────────────────────────────── */}
-      <section className="max-w-4xl mx-auto px-4 py-20">
-        <div className="text-center mb-12">
-          <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-3" style={{ color: '#f5f3ff' }}>
-            Your bracket has a{' '}
-            <span style={{ color: '#fb7185' }}>Spice Score</span>
-          </h2>
-          <p style={{ color: '#c4bdec' }}>
-            How bold are your picks? Every prediction is rated 0–100 based on how contrarian it is.
-          </p>
-        </div>
-
-        {/* Persona badges */}
-        <div className="flex flex-wrap justify-center gap-3 mb-14">
-          {PERSONAS.map((p) => (
-            <div
-              key={p.name}
-              className="flex items-center gap-2.5 rounded-2xl px-4 py-2.5 border"
-              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.10)' }}
-            >
-              <span className="text-xl">{p.emoji}</span>
-              <div>
-                <p className="text-sm font-bold leading-tight" style={{ color: '#f5f3ff' }}>{p.name}</p>
-                <p className="text-[10px] font-medium" style={{ color: p.color }}>{p.range} spice</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Feature grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {[
-            {
-              icon: '🏆',
-              title: 'Full bracket depth',
-              body: 'Rank all 12 groups, pick 8 third-place qualifiers, then predict every knockout match from the Round of 32 to the Final.',
-            },
-            {
-              icon: '🌶️',
-              title: 'Spice Score',
-              body: 'Your picks are scored 0–100 for boldness — champion tier, early exits, deep-run dark horses, group upsets — and wrapped into a shareable card.',
-            },
-            {
-              icon: '👥',
-              title: 'Compete with friends',
-              body: 'Create a private league, invite friends, and see who predicted the tournament best once the real results are in.',
-            },
-          ].map((f) => (
-            <div
-              key={f.title}
-              className="rounded-2xl p-5 border"
-              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
-            >
-              <div className="text-3xl mb-3">{f.icon}</div>
-              <h3 className="font-display font-extrabold text-base mb-1.5" style={{ color: '#f5f3ff' }}>{f.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>{f.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── Earn points ──────────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
