@@ -125,6 +125,74 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── How it works (step by step) ──────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-3xl mx-auto px-4 py-24">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            How it works
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            Five steps, start to finish
+          </h2>
+        </div>
+
+        <ol className="flex flex-col gap-5">
+          {[
+            {
+              n: '01',
+              title: 'Sort each group',
+              body: 'There are 12 groups of 4 teams. For every group, put the teams in the order you think they’ll finish — 1st down to 4th.',
+            },
+            {
+              n: '02',
+              title: 'Choose which 3rd-place teams advance',
+              body: 'The top two from each group go through automatically. On top of that, the 8 best 3rd-place teams also advance. You pick which 8.',
+            },
+            {
+              n: '03',
+              title: 'Call every knockout match',
+              body: 'Once the 32 teams are set, you pick the winner of each match — Round of 32, then 16, quarters, semis, and the final. Pick your champion.',
+            },
+            {
+              n: '04',
+              title: 'Get your Spice Score',
+              body: 'We rate your bracket from 0 to 100 based on how bold your picks are. Backing favourites scores low; calling upsets scores high. You get a persona and a card you can share.',
+            },
+            {
+              n: '05',
+              title: 'See how you did',
+              body: 'As the real tournament plays out, your picks earn points. Compare with friends in a league to see who actually knows ball.',
+            },
+          ].map((s) => (
+            <li
+              key={s.n}
+              className="flex gap-5 rounded-2xl p-5 border"
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
+            >
+              <span
+                className="font-display font-extrabold text-3xl sm:text-4xl flex-shrink-0 leading-none"
+                style={{
+                  background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                {s.n}
+              </span>
+              <div>
+                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f5f3ff' }}>
+                  {s.title}
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>
+                  {s.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       {/* ── Spice explainer ────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
