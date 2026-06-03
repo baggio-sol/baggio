@@ -69,12 +69,12 @@ function FlagPill({ code, name, flag, size, angle, radius, counterAnim, duration
 }
 
 export default function FlagOrbit() {
-  const INNER_R  = 130;
-  const MID_R    = 230;
-  const OUTER_R  = 340;
-  const INNER_SIZE  = 44;
-  const MID_SIZE    = 38;
-  const OUTER_SIZE  = 32;
+  const INNER_R  = 120;
+  const MID_R    = 240;
+  const OUTER_R  = 360;
+  const INNER_SIZE  = 54;
+  const MID_SIZE    = 48;
+  const OUTER_SIZE  = 42;
   const INNER_DUR   = 38;
   const MID_DUR     = 55;
   const OUTER_DUR   = 70;
