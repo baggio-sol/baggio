@@ -64,6 +64,8 @@ function matchIdsForRound(tree: KnockoutTree, key: RoundKey): string[] {
   return tree[key];
 }
 
+const ROUND_ORDER: RoundKey[] = ['r32', 'r16', 'qf', 'sf', 'final'];
+
 export default function KnockoutBracket() {
   const { bracket, setKnockoutWinner } = usePredictionStore();
   const [round, setRound] = useState<RoundKey>('r32');
@@ -182,7 +184,16 @@ export default function KnockoutBracket() {
                   <button
                     key={slot}
                     disabled={!bothKnown || !code}
-                    onClick={() => code && setKnockoutWinner(id, code)}
+                    onClick={() => {
+                      if (!code) return;
+                      // Check if this is the last unpicked match in the round
+                      const remainingInRound = matchIds.filter((mid) => !winners[mid] && mid !== id).length;
+                      setKnockoutWinner(id, code);
+                      if (remainingInRound === 0) {
+                        const nextIdx = ROUND_ORDER.indexOf(round) + 1;
+                        if (nextIdx < ROUND_ORDER.length) setRound(ROUND_ORDER[nextIdx]);
+                      }
+                    }}
                     className={cn(
                       'w-full flex items-center gap-3 px-4 py-3.5 text-left transition-all',
                       idx === 0 && 'border-b',
