@@ -105,17 +105,26 @@ export default function LeaguesPage() {
   useEffect(() => { fetchLeagues(); }, [fetchLeagues]);
 
   const handleCreate = async () => {
-    if (!newName.trim() || !userId) return;
+    if (!newName.trim()) return;
     setCreating(true);
     setCreateError('');
+
+    // Always get fresh user to ensure session is valid
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setCreateError('You must be signed in to create a league.');
+      setCreating(false);
+      return;
+    }
+
     const { data, error } = await (supabase as any)
       .from('leagues')
-      .insert({ name: newName.trim(), owner_id: userId })
+      .insert({ name: newName.trim(), owner_id: user.id })
       .select('id, name, invite_code')
       .single();
 
     if (error || !data) {
-      setCreateError('Could not create league. Try again.');
+      setCreateError(error?.message ?? 'Could not create league. Try again.');
       setCreating(false);
       return;
     }
@@ -123,7 +132,7 @@ export default function LeaguesPage() {
     // Auto-join as member
     await (supabase as any)
       .from('league_members')
-      .insert({ league_id: data.id, user_id: userId });
+      .insert({ league_id: data.id, user_id: user.id });
 
     setCreatedLeague({ name: data.name, code: data.invite_code });
     setNewName('');
@@ -132,9 +141,16 @@ export default function LeaguesPage() {
   };
 
   const handleJoin = async () => {
-    if (!joinCode.trim() || !userId) return;
+    if (!joinCode.trim()) return;
     setJoining(true);
     setJoinError('');
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setJoinError('You must be signed in to join a league.');
+      setJoining(false);
+      return;
+    }
 
     const { data: league } = await (supabase as any)
       .from('leagues')
@@ -150,7 +166,7 @@ export default function LeaguesPage() {
 
     const { error } = await (supabase as any)
       .from('league_members')
-      .insert({ league_id: league.id, user_id: userId });
+      .insert({ league_id: league.id, user_id: user.id });
 
     if (error?.code === '23505') {
       setJoinError('You are already in this league.');
@@ -158,7 +174,7 @@ export default function LeaguesPage() {
       return;
     }
     if (error) {
-      setJoinError('Could not join league. Try again.');
+      setJoinError(error.message ?? 'Could not join league. Try again.');
       setJoining(false);
       return;
     }
