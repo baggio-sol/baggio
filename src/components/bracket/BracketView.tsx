@@ -1,9 +1,40 @@
 'use client';
+import Image from 'next/image';
 import { usePredictionStore, deriveTree } from '@/lib/store';
 import { TEAM_BY_CODE, type KnockoutMatch, type KnockoutTree } from '@/lib/tournament';
 import { tierColor, cn } from '@/lib/utils';
 import { Lock } from 'lucide-react';
 import Link from 'next/link';
+
+const ISO2: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', KSA: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
+function FlagImg({ code, name }: { code: string; name: string }) {
+  const iso = ISO2[code];
+  if (!iso) return null;
+  return (
+    <Image
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      alt={name}
+      width={24}
+      height={17}
+      className="object-cover rounded-sm"
+      unoptimized
+    />
+  );
+}
 
 const ROUNDS: { key: 'r32' | 'r16' | 'qf' | 'sf'; label: string }[] = [
   { key: 'r32', label: 'Round of 32' },
@@ -40,7 +71,9 @@ function TeamSlot({
         opacity: picked && !isWinner ? 0.45 : 1,
       }}
     >
-      <span className="text-base leading-none w-5">{team?.flag ?? ''}</span>
+      <span className="w-6 h-[17px] flex-shrink-0 flex items-center">
+        {team ? <FlagImg code={team.code} name={team.name} /> : null}
+      </span>
       <span
         className="flex-1 text-xs font-semibold truncate"
         style={{ color: team ? (isWinner ? '#111827' : '#6b7280') : '#6b7280' }}
@@ -141,9 +174,12 @@ export default function BracketView() {
               Champion
             </p>
             {champion ? (
-              <p className="text-sm font-black" style={{ color: '#f5f3ff' }}>
-                {TEAM_BY_CODE[champion]?.flag} {TEAM_BY_CODE[champion]?.name}
-              </p>
+              <div className="flex items-center justify-center gap-1.5">
+                {TEAM_BY_CODE[champion] && <FlagImg code={champion} name={TEAM_BY_CODE[champion]!.name} />}
+                <p className="text-sm font-black" style={{ color: '#f5f3ff' }}>
+                  {TEAM_BY_CODE[champion]?.name}
+                </p>
+              </div>
             ) : (
               <p className="text-xs" style={{ color: '#c4bdec' }}>Pick the final</p>
             )}

@@ -1,7 +1,38 @@
 'use client';
+import Image from 'next/image';
 import type { SpiceResult } from '@/lib/types';
 import { TEAM_BY_CODE } from '@/lib/tournament';
 import { tierColor } from '@/lib/utils';
+
+const ISO2: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', KSA: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
+function FlagImg({ code, name }: { code: string; name: string }) {
+  const iso = ISO2[code];
+  if (!iso) return null;
+  return (
+    <Image
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      alt={name}
+      width={28}
+      height={20}
+      className="object-cover rounded-sm flex-shrink-0"
+      unoptimized
+    />
+  );
+}
 
 /**
  * The live share card. The numbers here come from computeSpice() — the SAME
@@ -81,7 +112,7 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
                   {h.icon} {h.label}
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg leading-none">{team?.flag ?? '—'}</span>
+                  {team && <FlagImg code={team.code} name={team.name} />}
                   <span className="text-sm font-bold truncate" style={{ color: team ? '#f5f3ff' : '#c4bdec' }}>
                     {team?.name ?? 'TBD'}
                   </span>

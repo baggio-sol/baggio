@@ -170,9 +170,9 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
               </span>
 
               {/* Flag image */}
-              <div className="w-8 h-6 rounded-sm overflow-hidden flex items-center justify-center flex-shrink-0"
+              <div className="w-10 h-7 rounded overflow-hidden flex items-center justify-center flex-shrink-0"
                 style={{ background: 'rgba(0,0,0,0.06)' }}>
-                <FlagImg code={t.code} name={t.name} size={32} />
+                <FlagImg code={t.code} name={t.name} size={40} />
               </div>
 
               {/* Name */}
