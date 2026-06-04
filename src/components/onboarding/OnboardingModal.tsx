@@ -22,7 +22,7 @@ export default function OnboardingModal() {
     return () => window.removeEventListener(OPEN_ONBOARDING_EVENT, open);
   }, []);
 
-  function dismiss() { setVisible(false); }
+  function dismiss() { setVisible(false); router.push('/predict'); }
 
   function next() {
     // Step 1: name is required
@@ -54,7 +54,7 @@ export default function OnboardingModal() {
       <div
         className="relative w-full max-w-lg rounded-3xl overflow-hidden"
         style={{
-          background: '#ffffff',
+          background: '#fdf8f0',
           border: '1px solid rgba(0,0,0,0.10)',
           boxShadow: '0 32px 80px -20px rgba(0,0,0,0.25)',
         }}
