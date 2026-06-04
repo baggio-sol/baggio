@@ -65,7 +65,7 @@ function AuthForm() {
     const { error } = await supabase.auth.verifyOtp({
       email: email.trim(),
       token: otp,
-      type: 'email',
+      type: 'magiclink',
     });
     setVerifying(false);
     if (error) {
