@@ -68,7 +68,7 @@ export default function HomePage() {
         {/* CTAs */}
         <div className="flex flex-wrap justify-center gap-3">
           <Link
-            href="/auth"
+            href="/predict"
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
             style={{
               background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
@@ -315,7 +315,7 @@ export default function HomePage() {
           Build your bracket in minutes. Your Spice Score updates live as you go.
         </p>
         <Link
-          href="/auth"
+          href="/predict"
           className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
