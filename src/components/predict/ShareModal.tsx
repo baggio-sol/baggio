@@ -55,7 +55,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
   };
 
   const buildShareUrl = () => {
-    const base = typeof window !== 'undefined' ? window.location.origin : 'https://wc26.baggio.app';
+    const base = typeof window !== 'undefined' ? window.location.origin : 'https://wcpredictor.fun';
     const p = new URLSearchParams({
       score:     String(spice.score),
       persona:   spice.persona,

@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
     ? `${champion ? `Picking ${champName} to win the 2026 World Cup.` : ''} Spice Score: ${score}/100.`
     : `A World Cup 2026 bracket prediction. Spice Score: ${score}/100.`;
 
-  const ogImageUrl = new URL('/api/og', 'https://wc26.baggio.app');
+  const ogImageUrl = new URL('/api/og', 'https://wcpredictor.fun');
   for (const [k, v] of Object.entries(params)) {
     ogImageUrl.searchParams.set(k, v);
   }
