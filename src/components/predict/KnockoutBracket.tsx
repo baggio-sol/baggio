@@ -6,7 +6,8 @@ import { TEAM_BY_CODE } from '@/lib/tournament';
 import type { KnockoutTree, KnockoutRound } from '@/lib/tournament';
 import type { Bracket, GroupId } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Check, Info, Trophy } from 'lucide-react';
+import { Check, Info, Trophy, Share2 } from 'lucide-react';
+import ShareModal from './ShareModal';
 
 // ISO-2 map for flagcdn.com (shared shape with GroupCard / ThirdPlaceSelector)
 const ISO2: Record<string, string> = {
@@ -69,6 +70,7 @@ const ROUND_ORDER: RoundKey[] = ['r32', 'r16', 'qf', 'sf', 'final'];
 export default function KnockoutBracket() {
   const { bracket, setKnockoutWinner } = usePredictionStore();
   const [round, setRound] = useState<RoundKey>('r32');
+  const [shareOpen, setShareOpen] = useState(false);
 
   const derived = useMemo(() => deriveTree(bracket), [bracket]);
 
@@ -89,6 +91,7 @@ export default function KnockoutBracket() {
   const active = ROUNDS.find((r) => r.key === round)!;
   const matchIds = matchIdsForRound(tree, round);
   const pickedHere = pickedInRound(round);
+  const champion = winners[tree.final] ?? null;
 
   return (
     <div>
@@ -278,6 +281,20 @@ export default function KnockoutBracket() {
           );
         })}
       </div>
+
+      {/* ── Confirm & share (appears once a champion is crowned) ───────── */}
+      {champion && (
+        <button
+          onClick={() => setShareOpen(true)}
+          className="w-full mt-5 flex items-center justify-center gap-2 rounded-2xl py-4 font-display font-extrabold text-white transition-all hover:scale-[1.02] active:scale-95"
+          style={{ background: 'linear-gradient(135deg,#fb7185,#8b5cf6)' }}
+        >
+          <Share2 className="w-5 h-5" />
+          Confirm bracket &amp; share
+        </button>
+      )}
+
+      {shareOpen && <ShareModal onClose={() => setShareOpen(false)} />}
     </div>
   );
 }
