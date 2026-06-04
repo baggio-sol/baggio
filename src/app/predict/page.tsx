@@ -7,10 +7,32 @@ import ThirdPlaceSelector from '@/components/predict/ThirdPlaceSelector';
 import KnockoutBracket from '@/components/predict/KnockoutBracket';
 import { GroupId } from '@/lib/types';
 import { Lock, RotateCcw } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { OPEN_ONBOARDING_EVENT } from '@/components/onboarding/OnboardingModal';
+
+function useOnboardingForNewUsers() {
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: profile } = await (supabase as any)
+        .from('profiles')
+        .select('display_name')
+        .eq('id', user.id)
+        .single();
+      if (!profile?.display_name) {
+        const name = user.user_metadata?.full_name || user.user_metadata?.name || '';
+        window.dispatchEvent(new CustomEvent(OPEN_ONBOARDING_EVENT, { detail: { name } }));
+      }
+    });
+  }, []);
+}
 
 type Tab = 'groups' | 'thirds' | 'knockout';
 
 export default function PredictPage() {
+  useOnboardingForNewUsers();
   const { bracket, resetPredictions } = usePredictionStore();
   const [mounted, setMounted] = useState(false);
   const [activeGroup, setActiveGroup] = useState<GroupId>('A');

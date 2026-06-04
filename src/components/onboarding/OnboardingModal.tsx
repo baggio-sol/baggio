@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, X, User } from 'lucide-react';
 import { useProfileStore } from '@/lib/store';
+import { createClient } from '@/lib/supabase/client';
 
 export const OPEN_ONBOARDING_EVENT = 'baggio:open-onboarding';
 
@@ -17,22 +18,36 @@ export default function OnboardingModal() {
   const { setUserName } = useProfileStore();
 
   useEffect(() => {
-    function open() { setStep(1); setVisible(true); }
+    function open(e: Event) {
+      const detail = (e as CustomEvent).detail as { name?: string } | undefined;
+      if (detail?.name) setLocalName(detail.name);
+      setStep(1);
+      setVisible(true);
+    }
     window.addEventListener(OPEN_ONBOARDING_EVENT, open);
     return () => window.removeEventListener(OPEN_ONBOARDING_EVENT, open);
   }, []);
 
   function dismiss() { setVisible(false); router.push('/predict'); }
 
+  async function saveNameToProfile(name: string) {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).from('profiles').update({ display_name: name }).eq('id', user.id);
+  }
+
   function next() {
-    // Step 1: name is required
     if (step === 1) {
       if (!localName.trim()) {
         setShook(true);
         setTimeout(() => setShook(false), 600);
         return;
       }
-      setUserName(localName.trim());
+      const name = localName.trim();
+      setUserName(name);
+      saveNameToProfile(name);
     }
     if (step < 4) {
       setStep((s) => s + 1);
@@ -94,7 +109,6 @@ export default function OnboardingModal() {
 
         {/* Footer */}
         <div className="px-8 pb-7 flex items-center justify-between">
-          {/* Skip — only visible after step 1 */}
           {step > 1 ? (
             <button
               onClick={dismiss}
@@ -152,7 +166,6 @@ function Step1({ localName, setLocalName, shook }: {
         48 teams. 104 matches. Build your bracket and get a personalised share card — starting with your name.
       </p>
 
-      {/* Name input — required */}
       <div className="w-full mb-5">
         <label className="flex items-center gap-1 text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#374151' }}>
           Your name
@@ -160,9 +173,7 @@ function Step1({ localName, setLocalName, shook }: {
         </label>
         <div
           className="relative"
-          style={{
-            animation: shook ? 'shake 0.5s ease' : undefined,
-          }}
+          style={{ animation: shook ? 'shake 0.5s ease' : undefined }}
         >
           <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#9ca3af' }} />
           <input
