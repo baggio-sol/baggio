@@ -33,7 +33,6 @@ const C = {
   muted:     '#7a6e50',
   slotBg:    'rgba(255,255,255,0.55)',
   slotWin:   'rgba(184,150,46,0.22)',
-  slotLose:  'rgba(0,0,0,0.06)',
   line:      '#b8962e',
   dash:      'rgba(26,61,43,0.25)',
 };
@@ -165,9 +164,7 @@ function drawTeamRow(
   const h = TEAM_H;
   const { shortName } = teamInfo(code);
 
-  ctx.fillStyle =
-    state === 'winner' ? C.slotWin :
-    state === 'loser'  ? C.slotLose : C.slotBg;
+  ctx.fillStyle = state === 'winner' ? C.slotWin : C.slotBg;
   rrect(ctx, x, y, w, h, 3);
   ctx.fill();
 
@@ -176,9 +173,9 @@ function drawTeamRow(
     ctx.fillRect(x, y, 2.5, h);
   }
 
-  // Real flag image
+  // Real flag image (full opacity for losers too)
   const fw = 16, fh = 11;
-  drawFlag(ctx, flags, code, x + 5, y + (h - fh) / 2, fw, fh, state === 'loser');
+  drawFlag(ctx, flags, code, x + 5, y + (h - fh) / 2, fw, fh, false);
 
   // Team code
   ctx.textAlign = 'left';
@@ -186,7 +183,6 @@ function drawTeamRow(
   ctx.font = `${state === 'winner' ? 'bold ' : ''}8.5px "Courier New", monospace`;
   ctx.fillStyle =
     state === 'winner' ? C.header :
-    state === 'loser'  ? '#bbb' :
     state === 'tbd'    ? C.muted : C.text;
   ctx.fillText(shortName || '—', x + 26, y + h / 2);
 }
