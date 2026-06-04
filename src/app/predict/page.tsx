@@ -45,30 +45,30 @@ export default function PredictPage() {
         <div
           className="rounded-2xl p-5"
           style={{
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.10)',
+            background: '#ffffff',
+            border: '1px solid rgba(0,0,0,0.10)',
           }}
         >
           <div className="flex items-center justify-between mb-1">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6b7280' }}>
               Your Bracket
             </p>
             <button
               onClick={resetPredictions}
               className="flex items-center gap-1.5 text-xs font-semibold transition-colors hover:opacity-80"
-              style={{ color: '#fb7185' }}
+              style={{ color: '#b91c1c' }}
             >
               <RotateCcw className="w-3 h-3" /> Reset
             </button>
           </div>
-          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f5f3ff' }}>
+          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#111827' }}>
             {tab === 'thirds'
               ? `Best 3rd ${thirds}/8`
               : tab === 'knockout'
               ? `Knockout ${koPicked}/31`
               : `Groups ${done}/${GROUP_IDS.length}`}
           </h1>
-          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.08)' }}>
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{

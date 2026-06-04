@@ -43,7 +43,7 @@ function TeamSlot({
       <span className="text-base leading-none w-5">{team?.flag ?? ''}</span>
       <span
         className="flex-1 text-xs font-semibold truncate"
-        style={{ color: team ? (isWinner ? '#f5f3ff' : '#c4bdec') : '#6f6796' }}
+        style={{ color: team ? (isWinner ? '#111827' : '#6b7280') : '#9ca3af' }}
       >
         {team?.name ?? placeholder}
       </span>
@@ -65,7 +65,7 @@ function MatchCard({
   return (
     <div
       className="rounded-lg border overflow-hidden w-[180px] divide-y"
-      style={{ borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)' }}
+      style={{ borderColor: 'rgba(0,0,0,0.10)', background: '#ffffff' }}
     >
       <TeamSlot
         code={match.home}
@@ -103,7 +103,7 @@ export default function BracketView() {
           qualifiers to unlock the knockout bracket.
         </p>
         <Link href="/predict"
-          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#fb7185' }}>
+          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#b91c1c' }}>
           Go to group stage
         </Link>
       </div>

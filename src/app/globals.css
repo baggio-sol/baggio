@@ -3,7 +3,7 @@
 @theme inline {
   --color-purple: #8b5cf6;
   --color-blue: #3b82f6;
-  --color-spice: #fb7185;
+  --color-spice: #b91c1c;
   --color-text: #f5f3ff;
   --color-muted: #c4bdec;
   --color-faint: #6f6796;
@@ -11,18 +11,18 @@
   --color-tier-2: #818cf8;
   --color-tier-3: #a78bfa;
   --color-tier-4: #f472b6;
-  --color-tier-5: #fb7185;
+  --color-tier-5: #b91c1c;
 }
 
 :root {
   --purple: #8b5cf6;
   --blue: #3b82f6;
-  --spice: #fb7185;
+  --spice: #b91c1c;
   --text: #f5f3ff;
   --muted: #c4bdec;
   --faint: #6f6796;
-  --surface: rgba(255, 255, 255, 0.04);
-  --border: rgba(255, 255, 255, 0.10);
+  --surface: #ffffff;
+  --border: rgba(0, 0, 0, 0.10);
 }
 
 html, body {
@@ -89,13 +89,13 @@ body::after {
 }
 
 .glass {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.10);
   backdrop-filter: blur(12px);
 }
 
 .spice-glow {
-  text-shadow: 0 0 20px rgba(251, 113, 133, 0.6), 0 0 40px rgba(251, 113, 133, 0.3);
+  text-shadow: 0 0 20px rgba(185, 28, 28, 0.6), 0 0 40px rgba(185, 28, 28, 0.3);
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }

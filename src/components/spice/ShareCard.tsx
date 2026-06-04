@@ -38,7 +38,7 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
             </h2>
           </div>
           <div className="text-right flex-shrink-0">
-            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#fb7185' }}>
+            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#b91c1c' }}>
               {spice.score}
             </div>
             <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
@@ -53,9 +53,9 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
         {/* Boldest call */}
         <div
           className="rounded-2xl px-4 py-3 my-5 border"
-          style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.25)' }}
+          style={{ background: 'rgba(185,28,28,0.10)', borderColor: 'rgba(185,28,28,0.25)' }}
         >
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#fb7185' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#b91c1c' }}>
             Boldest call
           </p>
           <p className="text-sm font-semibold" style={{ color: '#f5f3ff' }}>
@@ -133,7 +133,7 @@ function SpiceBar({ spice }: { spice: SpiceResult }) {
 }
 
 const SEGMENT_COLORS: Record<string, string> = {
-  champion: '#fb7185',
+  champion: '#b91c1c',
   finalist: '#f472b6',
   deepRuns: '#a78bfa',
   earlyExits: '#818cf8',

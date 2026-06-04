@@ -21,7 +21,7 @@ const variantClasses = {
 };
 
 const variantStyles: Record<string, React.CSSProperties> = {
-  primary: { background: 'linear-gradient(135deg, #fb7185, #f43f5e)' },
+  primary: { background: 'linear-gradient(135deg, #b91c1c, #991b1b)' },
   ghost: {},
   outline: {},
 };

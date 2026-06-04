@@ -44,7 +44,7 @@ export const TIER_COLORS: Record<number, string> = {
   2: '#818cf8',
   3: '#a78bfa',
   4: '#f472b6',
-  5: '#fb7185',
+  5: '#b91c1c',
 };
 
 export function tierColor(tier: number): string {

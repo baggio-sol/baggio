@@ -125,7 +125,7 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">⚽</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
         Welcome
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
@@ -166,9 +166,9 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 
       <div
         className="w-full rounded-2xl px-5 py-4 border text-center"
-        style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.28)' }}
+        style={{ background: 'rgba(185,28,28,0.10)', borderColor: 'rgba(185,28,28,0.28)' }}
       >
-        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#fb7185' }}>
+        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#b91c1c' }}>
           449 points
         </span>
         <p className="text-sm mt-1 font-medium" style={{ color: '#f5f3ff' }}>
@@ -182,7 +182,7 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 function Step2() {
   return (
     <div className="flex flex-col">
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
         Build your bracket
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-2" style={{ fontSize: 'clamp(1.6rem,4vw,2rem)', color: '#f5f3ff' }}>
@@ -228,7 +228,7 @@ function Step3() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">👥</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
         Compete
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
@@ -261,7 +261,7 @@ function Step4() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">🌶️</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
         You&apos;re ready
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
