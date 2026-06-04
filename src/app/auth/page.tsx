@@ -77,15 +77,6 @@ function AuthForm() {
     router.push('/predict');
   };
 
-  const handleX = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'twitter',
-      options: { redirectTo: `${location.origin}/auth/callback` },
-    });
-    if (error) { setError(error.message); setLoading(false); }
-  };
-
   const handleGoogle = async () => {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOAuth({
@@ -188,7 +179,7 @@ function AuthForm() {
       <button
         onClick={handleGoogle}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 rounded-2xl py-3.5 mb-3 font-bold text-sm transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+        className="w-full flex items-center justify-center gap-3 rounded-2xl py-3.5 mb-4 font-bold text-sm transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
         style={{ background: '#ffffff', color: '#111827' }}
       >
         <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none">
@@ -200,18 +191,6 @@ function AuthForm() {
         Continue with Google
       </button>
 
-      {/* X / Twitter */}
-      <button
-        onClick={handleX}
-        disabled={loading}
-        className="w-full flex items-center justify-center gap-3 rounded-2xl py-3.5 mb-4 font-bold text-sm transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-        style={{ background: '#000000', color: '#ffffff' }}
-      >
-        <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        Continue with X
-      </button>
 
       <div className="relative mb-4">
         <div className="absolute inset-0 flex items-center">
