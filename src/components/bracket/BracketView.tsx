@@ -28,8 +28,8 @@ function FlagImg({ code, name }: { code: string; name: string }) {
     <Image
       src={`https://flagcdn.com/w40/${iso}.png`}
       alt={name}
-      width={24}
-      height={17}
+      width={57}
+      height={40}
       className="object-cover rounded-sm"
       unoptimized
     />
@@ -71,7 +71,7 @@ function TeamSlot({
         opacity: picked && !isWinner ? 0.45 : 1,
       }}
     >
-      <span className="w-6 h-[17px] flex-shrink-0 flex items-center">
+      <span className="flex-shrink-0 flex items-center" style={{ width: 57, height: 40 }}>
         {team ? <FlagImg code={team.code} name={team.name} /> : null}
       </span>
       <span

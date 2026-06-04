@@ -219,10 +219,10 @@ export default function KnockoutBracket() {
 
                     {/* Flag */}
                     <div
-                      className="w-10 h-7 rounded overflow-hidden flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'rgba(0,0,0,0.06)' }}
+                      className="rounded overflow-hidden flex items-center justify-center flex-shrink-0"
+                      style={{ width: 57, height: 40, background: 'rgba(0,0,0,0.06)' }}
                     >
-                      {team ? <FlagImg code={code!} name={team.name} size={40} /> : null}
+                      {team ? <FlagImg code={code!} name={team.name} size={57} /> : null}
                     </div>
 
                     {/* Name */}

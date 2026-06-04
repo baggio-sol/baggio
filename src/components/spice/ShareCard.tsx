@@ -26,8 +26,8 @@ function FlagImg({ code, name }: { code: string; name: string }) {
     <Image
       src={`https://flagcdn.com/w40/${iso}.png`}
       alt={name}
-      width={28}
-      height={20}
+      width={57}
+      height={40}
       className="object-cover rounded-sm flex-shrink-0"
       unoptimized
     />
