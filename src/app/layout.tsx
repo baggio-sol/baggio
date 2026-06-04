@@ -1,17 +1,27 @@
 import type { Metadata } from "next";
+import { Syne, Montserrat } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import OnboardingModal from "@/components/onboarding/OnboardingModal";
+
+const syne = Syne({
+  weight: ["700", "800"],
+  subsets: ["latin"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Baggio26 – FIFA World Cup 2026 Prediction Game",
-  description: "Predict every match, build your bracket and compete with friends in the ultimate World Cup 2026 prediction game.",
-  keywords: ["World Cup 2026", "football predictions", "bracket challenge", "FIFA 2026"],
-  openGraph: {
-    title: "Baggio26 – World Cup 2026 Predictions",
-    description: "Predict the World Cup 2026 and compete with friends worldwide",
-    type: "website",
-  },
+  title: "WC2026 Spice Bracket",
+  description: "Predict the World Cup 2026 bracket and get your Spice Score — a 0–100 contrarian rating plus a persona that reveals how bold your picks really are.",
 };
 
 export default function RootLayout({
@@ -20,9 +30,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col bg-[#0a0f1a] text-white">
+    <html lang="en" className={`h-full antialiased ${syne.variable} ${montserrat.variable}`}>
+      <body className="min-h-full flex flex-col font-[family-name:var(--font-montserrat)]">
         <Navbar />
+        <OnboardingModal />
         <main className="flex-1 pt-16">{children}</main>
         <Footer />
       </body>

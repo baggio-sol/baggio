@@ -1,201 +1,198 @@
 'use client';
-import { useState } from 'react';
-import { Team, Match } from '@/lib/types';
-import { usePredictionStore } from '@/lib/store';
+import Image from 'next/image';
+import { Team, GroupId } from '@/lib/types';
+import { usePredictionStore, groupComplete } from '@/lib/store';
 import { cn } from '@/lib/utils';
-import TeamFlag from '@/components/ui/TeamFlag';
-import Card from '@/components/ui/Card';
+import { CheckCircle2 } from 'lucide-react';
 
-interface GroupCardProps {
-  groupName: string;
-  teams: Team[];
-  matches: Match[];
+// Same ISO-2 map used in FlagOrbit
+const ISO2: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', KSA: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
+function FlagImg({ code, name, size = 32 }: { code: string; name: string; size?: number }) {
+  const iso = ISO2[code];
+  if (!iso) return null;
+  return (
+    <Image
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      alt={name}
+      width={size}
+      height={Math.round(size * 0.7)}
+      className="object-cover rounded-sm"
+      unoptimized
+    />
+  );
 }
 
-export default function GroupCard({ groupName, teams, matches }: GroupCardProps) {
-  const { groupPredictions, setGroupPrediction } = usePredictionStore();
-  const [expandedMatch, setExpandedMatch] = useState<string | null>(null);
+// Position chip styling
+const POS = [
+  { label: '1st', bg: 'rgba(52,211,153,0.18)', color: '#34d399', border: 'rgba(52,211,153,0.35)' },
+  { label: '2nd', bg: 'rgba(52,211,153,0.12)', color: '#6ee7b7', border: 'rgba(52,211,153,0.25)' },
+  { label: '3rd', bg: 'rgba(251,146,60,0.15)', color: '#fb923c', border: 'rgba(251,146,60,0.35)' },
+  { label: '4th', bg: 'rgba(255,255,255,0.05)', color: '#6f6796', border: 'rgba(255,255,255,0.10)' },
+];
 
-  const handleScore = (matchId: string, homeTeam: Team, awayTeam: Team, homeScore: number, awayScore: number) => {
-    const winner = homeScore > awayScore ? homeTeam.id : awayScore > homeScore ? awayTeam.id : 'draw';
-    setGroupPrediction(matchId, { matchId, homeScore, awayScore, winner });
+interface GroupCardProps {
+  groupId: GroupId;
+  teams: Team[];
+  onComplete?: () => void;
+}
+
+export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps) {
+  const { bracket, setRanking, clearGroup } = usePredictionStore();
+  const picks = bracket?.groupPredictions[groupId] ?? ['', '', '', ''];
+  const order = picks.filter(Boolean);
+  const complete = groupComplete(bracket, groupId);
+
+  const rankOf = (code: string) => order.indexOf(code);
+
+  const handleTap = (code: string) => {
+    let next: string[];
+    if (order.includes(code)) {
+      next = order.filter((c) => c !== code);
+    } else if (order.length < 4) {
+      next = [...order, code];
+    } else {
+      return;
+    }
+    const padded = [...next, '', '', '', ''].slice(0, 4) as [string, string, string, string];
+    setRanking(groupId, padded);
+    if (next.length === 4) onComplete?.();
   };
 
-  // Calculate simple standings from predictions
-  const standings = teams.map(team => {
-    let pts = 0, gf = 0, ga = 0, w = 0, d = 0, l = 0;
-    matches.forEach(m => {
-      const pred = groupPredictions[m.id];
-      if (!pred) return;
-      if (m.homeTeam.id === team.id) {
-        gf += pred.homeScore; ga += pred.awayScore;
-        if (pred.homeScore > pred.awayScore) { pts += 3; w++; }
-        else if (pred.homeScore === pred.awayScore) { pts++; d++; }
-        else l++;
-      } else if (m.awayTeam.id === team.id) {
-        gf += pred.awayScore; ga += pred.homeScore;
-        if (pred.awayScore > pred.homeScore) { pts += 3; w++; }
-        else if (pred.homeScore === pred.awayScore) { pts++; d++; }
-        else l++;
-      }
-    });
-    return { team, pts, gf, ga, gd: gf - ga, w, d, l };
-  }).sort((a, b) => b.pts - a.pts || b.gd - a.gd || b.gf - a.gf);
-
-  const completedMatches = matches.filter(m => groupPredictions[m.id]).length;
-  const progress = Math.round((completedMatches / matches.length) * 100);
-
   return (
-    <Card className="overflow-hidden">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-emerald-600/30 to-cyan-600/20 px-5 py-4 border-b border-white/10">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center font-black text-white text-lg shadow-lg">
-              {groupName}
-            </div>
-            <div>
-              <h3 className="font-bold text-white">Group {groupName}</h3>
-              <p className="text-xs text-gray-400">{completedMatches}/{matches.length} predicted</p>
-            </div>
+    <div
+      className="rounded-2xl overflow-hidden"
+      style={{
+        background: 'rgba(255,255,255,0.06)',
+        border: `1px solid ${complete ? 'rgba(139,92,246,0.45)' : 'rgba(255,255,255,0.10)'}`,
+      }}
+    >
+      {/* Card header */}
+      <div
+        className="px-5 py-4 flex items-center justify-between"
+        style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+      >
+        <div className="flex items-center gap-3">
+          <div
+            className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-base"
+            style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)', color: '#fff' }}
+          >
+            {groupId}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-24 h-2 bg-gray-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full transition-all duration-500"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <span className="text-xs text-gray-400">{progress}%</span>
+          <div>
+            <h2 className="font-display font-extrabold text-base leading-tight" style={{ color: '#f5f3ff' }}>
+              Group {groupId}
+            </h2>
+            <p className="text-[11px]" style={{ color: '#6f6796' }}>
+              {complete ? 'Complete' : `Tap to rank · ${order.length}/4`}
+            </p>
           </div>
+        </div>
+        <div className="flex items-center gap-2">
+          {complete && <CheckCircle2 className="w-5 h-5" style={{ color: '#a78bfa' }} />}
+          {order.length > 0 && (
+            <button
+              onClick={() => clearGroup(groupId)}
+              className="text-[11px] font-semibold px-3 py-1 rounded-full border transition-all hover:opacity-80"
+              style={{ color: '#6f6796', borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.04)' }}
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="p-5 space-y-5">
-        {/* Fixtures */}
-        <div className="space-y-3">
-          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Fixtures</h4>
-          {matches.map(match => {
-            const pred = groupPredictions[match.id];
-            const isExpanded = expandedMatch === match.id;
-
+      {/* Position chips */}
+      {order.length > 0 && (
+        <div className="px-5 pt-3 pb-1 flex items-center gap-2">
+          {order.map((code, i) => {
+            const team = teams.find((t) => t.code === code);
             return (
               <div
-                key={match.id}
-                className={cn(
-                  'rounded-xl border transition-all duration-200',
-                  pred ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-white/5 border-white/10'
-                )}
+                key={code}
+                className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold border"
+                style={{ background: POS[i].bg, color: POS[i].color, borderColor: POS[i].border }}
               >
-                <button
-                  className="w-full px-4 py-3 flex items-center gap-3"
-                  onClick={() => setExpandedMatch(isExpanded ? null : match.id)}
-                >
-                  <div className="flex items-center gap-2 flex-1">
-                    <span className="text-lg">{match.homeTeam.flag}</span>
-                    <span className="text-sm font-medium text-white">{match.homeTeam.code}</span>
-                  </div>
-
-                  {pred ? (
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-black text-white">{pred.homeScore}</span>
-                      <span className="text-gray-500 text-sm">–</span>
-                      <span className="text-lg font-black text-white">{pred.awayScore}</span>
-                    </div>
-                  ) : (
-                    <span className="text-gray-500 text-sm font-medium">vs</span>
-                  )}
-
-                  <div className="flex items-center gap-2 flex-1 justify-end">
-                    <span className="text-sm font-medium text-white">{match.awayTeam.code}</span>
-                    <span className="text-lg">{match.awayTeam.flag}</span>
-                  </div>
-                </button>
-
-                {isExpanded && (
-                  <div className="px-4 pb-4 border-t border-white/10 pt-3">
-                    <p className="text-xs text-gray-400 mb-3 text-center">Enter score prediction</p>
-                    <div className="flex items-center gap-3 justify-center">
-                      <div className="flex flex-col items-center gap-1.5">
-                        <span className="text-xs text-gray-400">{match.homeTeam.name}</span>
-                        <div className="flex items-center gap-1">
-                          {[0, 1, 2, 3, 4, 5].map(n => (
-                            <button
-                              key={n}
-                              onClick={() => handleScore(match.id, match.homeTeam, match.awayTeam, n, pred?.awayScore ?? 0)}
-                              className={cn(
-                                'w-9 h-9 rounded-lg text-sm font-bold transition-all',
-                                pred?.homeScore === n
-                                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
-                                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                              )}
-                            >
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-gray-500 text-lg font-bold">–</span>
-                      <div className="flex flex-col items-center gap-1.5">
-                        <span className="text-xs text-gray-400">{match.awayTeam.name}</span>
-                        <div className="flex items-center gap-1">
-                          {[0, 1, 2, 3, 4, 5].map(n => (
-                            <button
-                              key={n}
-                              onClick={() => handleScore(match.id, match.homeTeam, match.awayTeam, pred?.homeScore ?? 0, n)}
-                              className={cn(
-                                'w-9 h-9 rounded-lg text-sm font-bold transition-all',
-                                pred?.awayScore === n
-                                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
-                                  : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                              )}
-                            >
-                              {n}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                <FlagImg code={code} name={team?.name ?? ''} size={14} />
+                {POS[i].label}
               </div>
             );
           })}
+          {order.length === 2 && (
+            <span className="text-[11px] font-medium" style={{ color: '#6f6796' }}>· Advance</span>
+          )}
         </div>
+      )}
 
-        {/* Standings */}
-        <div>
-          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Predicted Standings</h4>
-          <div className="space-y-1.5">
-            {standings.map((s, idx) => (
-              <div
-                key={s.team.id}
-                className={cn(
-                  'flex items-center gap-3 px-3 py-2 rounded-lg text-sm',
-                  idx < 2 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-white/5'
-                )}
+      {/* Team rows */}
+      <div className="p-3 flex flex-col gap-2">
+        {teams.map((t) => {
+          const rank = rankOf(t.code);
+          const ranked = rank >= 0;
+          const pos = POS[rank] ?? POS[3];
+
+          return (
+            <button
+              key={t.code}
+              onClick={() => handleTap(t.code)}
+              className={cn(
+                'w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all active:scale-[0.99]',
+              )}
+              style={{
+                background: ranked ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${ranked ? pos.border : 'rgba(255,255,255,0.07)'}`,
+                boxShadow: ranked ? `inset 3px 0 0 ${pos.color}` : 'none',
+              }}
+            >
+              {/* Position badge */}
+              <span
+                className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 border"
+                style={{
+                  background: ranked ? pos.bg : 'rgba(255,255,255,0.04)',
+                  color: ranked ? pos.color : '#3a3358',
+                  borderColor: ranked ? pos.border : 'rgba(255,255,255,0.06)',
+                }}
               >
-                <span className={cn('w-5 font-bold', idx < 2 ? 'text-emerald-400' : 'text-gray-500')}>
-                  {idx + 1}
-                </span>
-                <span className="text-base">{s.team.flag}</span>
-                <span className="font-medium text-white flex-1">{s.team.code}</span>
-                <div className="flex gap-3 text-xs text-gray-400">
-                  <span>{s.w}W</span>
-                  <span>{s.d}D</span>
-                  <span>{s.l}L</span>
-                  <span className="text-gray-500">{s.gd > 0 ? '+' : ''}{s.gd}</span>
-                </div>
-                <span className="font-black text-white w-6 text-right">{s.pts}</span>
-                {idx < 2 && (
-                  <span className="text-xs text-emerald-400 font-medium">Q</span>
-                )}
+                {ranked ? rank + 1 : '·'}
+              </span>
+
+              {/* Flag image */}
+              <div className="w-8 h-6 rounded-sm overflow-hidden flex items-center justify-center flex-shrink-0"
+                style={{ background: 'rgba(255,255,255,0.06)' }}>
+                <FlagImg code={t.code} name={t.name} size={32} />
               </div>
-            ))}
-          </div>
-          <p className="text-xs text-gray-500 mt-2 text-center">Q = Qualifies to knockout stage</p>
-        </div>
+
+              {/* Name */}
+              <span
+                className="flex-1 min-w-0 text-sm font-semibold truncate"
+                style={{ color: ranked ? '#f5f3ff' : '#c4bdec' }}
+              >
+                {t.name}
+              </span>
+
+              {/* FIFA ranking */}
+              {t.rank && (
+                <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#6f6796' }}>
+                  #{t.rank}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </div>
-    </Card>
+    </div>
   );
 }

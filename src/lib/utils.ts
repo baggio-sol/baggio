@@ -37,3 +37,28 @@ export function getTimeUntil(targetDate: Date): { days: number; hours: number; m
 export function generateInviteCode(): string {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
 }
+
+// Tier accent colors (1 = elite favorite … 5 = longshot). Mirrors CLAUDE.md.
+export const TIER_COLORS: Record<number, string> = {
+  1: '#60a5fa',
+  2: '#818cf8',
+  3: '#a78bfa',
+  4: '#f472b6',
+  5: '#fb7185',
+};
+
+export function tierColor(tier: number): string {
+  return TIER_COLORS[tier] ?? '#6f6796';
+}
+
+const TIER_LABELS: Record<number, string> = {
+  1: 'Elite favorite',
+  2: 'Contender',
+  3: 'Solid side',
+  4: 'Outsider',
+  5: 'Longshot',
+};
+
+export function tierLabel(tier: number): string {
+  return TIER_LABELS[tier] ?? '';
+}

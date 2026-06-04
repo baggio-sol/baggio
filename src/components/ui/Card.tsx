@@ -1,22 +1,26 @@
 import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'react';
 
+const glowStyles: Record<string, string> = {
+  purple: '0 0 30px rgba(139,92,246,0.20)',
+  blue: '0 0 30px rgba(59,130,246,0.20)',
+  spice: '0 0 30px rgba(251,113,133,0.20)',
+};
+
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  glow?: 'purple' | 'blue' | 'spice';
+  /** Alias for glass className — kept for legacy compat */
   glass?: boolean;
-  glow?: boolean;
 }
 
-export default function Card({ className, glass, glow, ...props }: CardProps) {
+export default function Card({ className, glow, glass: _glass, style, ...props }: CardProps) {
   return (
     <div
-      className={cn(
-        'rounded-2xl border',
-        glass
-          ? 'bg-white/5 backdrop-blur-md border-white/10'
-          : 'bg-gray-800/60 border-gray-700/50',
-        glow && 'shadow-lg shadow-emerald-500/10',
-        className
-      )}
+      className={cn('rounded-2xl glass', className)}
+      style={{
+        ...(glow ? { boxShadow: glowStyles[glow] } : {}),
+        ...style,
+      }}
       {...props}
     />
   );

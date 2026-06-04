@@ -1,210 +1,344 @@
-'use client';
 import Link from 'next/link';
-import { Trophy, ArrowRight, Globe, ChevronRight, Target, Zap, Star } from 'lucide-react';
 import CountdownTimer from '@/components/ui/CountdownTimer';
-import Card from '@/components/ui/Card';
-
-const MOCK_LEADERBOARD = [
-  { rank: 1, name: 'Chukwuemeka A.', country: '🇳🇬', points: 2840, avatar: 'C' },
-  { rank: 2, name: 'Carlos M.', country: '🇦🇷', points: 2715, avatar: 'C' },
-  { rank: 3, name: 'Pierre D.', country: '🇫🇷', points: 2690, avatar: 'P' },
-  { rank: 4, name: 'James W.', country: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', points: 2655, avatar: 'J' },
-  { rank: 5, name: 'Ana S.', country: '🇧🇷', points: 2580, avatar: 'A' },
-];
-
-const HOW_IT_WORKS = [
-  { step: '01', title: 'Predict Group Stage', desc: 'Pick scores for all 48 group matches and watch standings update in real-time.', icon: <Target className="w-6 h-6" /> },
-  { step: '02', title: 'Build Your Bracket', desc: 'Your group predictions automatically populate the knockout bracket. Click to advance teams.', icon: <Zap className="w-6 h-6" /> },
-  { step: '03', title: 'Pick Award Winners', desc: 'Predict Golden Boot, Golden Ball, and other individual awards for bonus points.', icon: <Star className="w-6 h-6" /> },
-  { step: '04', title: 'Compete & Win', desc: 'Earn points as matches play out. Top the leaderboard and claim prizes.', icon: <Trophy className="w-6 h-6" /> },
-];
-
-const FEATURES = [
-  { icon: '🏆', title: 'Full Tournament Bracket', desc: 'Predict every match from group stage to final' },
-  { icon: '🌍', title: 'Global Leaderboards', desc: 'Compete with fans worldwide and by country' },
-  { icon: '👥', title: 'Private Leagues', desc: 'Create leagues for friends, office or community' },
-  { icon: '⚡', title: 'Live Score Updates', desc: 'Points update in real-time as matches finish' },
-  { icon: '🎯', title: 'Award Predictions', desc: 'Predict Golden Boot, Ball, Glove and more' },
-  { icon: '📱', title: 'Share Your Bracket', desc: 'Share predictions as image cards to social media' },
-];
+import FlagOrbitClient from '@/components/landing/FlagOrbitClient';
+import OnboardingTrigger from '@/components/onboarding/OnboardingTrigger';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="relative overflow-hidden py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-b from-emerald-900/20 via-transparent to-transparent" />
-        <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="absolute top-40 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+    <div className="min-h-screen overflow-x-hidden">
+      {/* ── Hero (text only, full viewport) ──────────────────────────── */}
+      <section className="relative flex flex-col items-center justify-center min-h-[100svh] px-4 pt-24 pb-16 text-center">
+        {/* Ambient glows */}
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(700px 500px at 50% 35%, rgba(139,92,246,0.22), transparent 65%), ' +
+              'radial-gradient(600px 500px at 20% 90%, rgba(59,130,246,0.16), transparent 60%)',
+          }}
+        />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-4 py-2 mb-8">
-            <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-emerald-400 text-sm font-medium">FIFA World Cup 2026 · USA · Canada · Mexico</span>
-          </div>
+        {/* Badge */}
+        <div
+          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-6 border"
+          style={{
+            background: 'rgba(139,92,246,0.12)',
+            borderColor: 'rgba(139,92,246,0.35)',
+            color: '#c4bdec',
+          }}
+        >
+          <span
+            className="w-1.5 h-1.5 rounded-full inline-block"
+            style={{ background: '#fb7185', animation: 'pulse 2s infinite' }}
+          />
+          FIFA World Cup 2026
+        </div>
 
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-none tracking-tight mb-6">
-            Predict the<br />
-            <span className="gradient-text">World Cup</span><br />
-            2026
-          </h1>
+        {/* Headline */}
+        <h1
+          className="font-display font-extrabold leading-none mb-5"
+          style={{
+            fontSize: 'clamp(2.8rem, 6vw, 5rem)',
+            color: '#f5f3ff',
+            letterSpacing: '-0.02em',
+          }}
+        >
+          World Cup{' '}
+          <span
+            style={{
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #fb7185 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            26&apos;
+          </span>{' '}
+          Predictions
+        </h1>
 
-          <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-            Pick every score, build your bracket, and compete against millions of fans worldwide. The ultimate football prediction challenge.
+        {/* Sub-headline */}
+        <p
+          className="max-w-xl text-base sm:text-lg mb-8 leading-relaxed"
+          style={{ color: '#c4bdec' }}
+        >
+          Create your free 2026 World Cup bracket, predict the group standings
+          and knockout rounds and compete with friends to see who knows ball.
+        </p>
+
+        {/* Countdown */}
+        <div className="mb-10 flex flex-col items-center gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+            Tournament kicks off in
           </p>
+          <CountdownTimer />
+        </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Link href="/predict" className="flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold px-8 py-4 rounded-2xl hover:from-emerald-600 hover:to-cyan-600 transition-all shadow-2xl shadow-emerald-500/30 text-lg active:scale-95">
-              Start Predicting <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link href="/leaderboard" className="flex items-center justify-center gap-2 bg-white/10 border border-white/20 text-white font-bold px-8 py-4 rounded-2xl hover:bg-white/15 transition-all text-lg backdrop-blur-sm">
-              View Leaderboard
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-            {[['100K+', 'Active Players'], ['48', 'Group Matches'], ['64', 'Total Fixtures'], ['7', 'Award Categories']].map(([num, label]) => (
-              <div key={label} className="text-center">
-                <div className="text-3xl font-black text-white">{num}</div>
-                <div className="text-sm text-gray-400 mt-0.5">{label}</div>
-              </div>
-            ))}
-          </div>
+        {/* CTAs */}
+        <div className="flex flex-wrap justify-center gap-3">
+          <OnboardingTrigger
+            className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+              color: '#fff',
+              boxShadow: '0 8px 32px -8px rgba(139,92,246,0.55)',
+            }}
+          >
+            Build My Bracket →
+          </OnboardingTrigger>
+          <Link
+            href="/bracket"
+            className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              borderColor: 'rgba(255,255,255,0.12)',
+              color: '#c4bdec',
+            }}
+          >
+            See an example
+          </Link>
         </div>
       </section>
 
-      {/* Countdown */}
-      <section className="py-16 border-y border-white/10 bg-white/5 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-400 text-sm font-medium uppercase tracking-widest mb-6">Tournament Kicks Off In</p>
-          <div className="flex justify-center mb-4"><CountdownTimer /></div>
-          <p className="text-gray-500 text-sm">June 11, 2026 · Opening Match</p>
+      {/* ── Orbit section (own full-width page) ──────────────────────── */}
+      <section
+        className="relative flex items-center justify-center py-24 overflow-hidden"
+        style={{ minHeight: '100svh' }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0 -z-10"
+          style={{
+            background:
+              'radial-gradient(800px 800px at 50% 50%, rgba(139,92,246,0.14), transparent 65%)',
+          }}
+        />
+        <div style={{ animation: 'float-up 8s ease-in-out infinite' }}>
+          <FlagOrbitClient />
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ── How it works (step by step) ──────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-3xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-4">How It Works</h2>
-          <p className="text-gray-400 text-lg max-w-xl mx-auto">Get started in minutes. No football expertise required.</p>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            How it works
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            Five steps, start to finish
+          </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {HOW_IT_WORKS.map(item => (
-            <Card key={item.step} glass className="p-6 relative overflow-hidden group hover:border-emerald-500/30 transition-all">
-              <div className="absolute top-4 right-4 text-6xl font-black text-white/5 group-hover:text-white/10 transition-all">{item.step}</div>
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">{item.icon}</div>
-              <h3 className="font-bold text-white mb-2">{item.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
-            </Card>
+
+        <ol className="flex flex-col gap-5">
+          {[
+            {
+              n: '01',
+              title: 'Sort each group',
+              body: 'There are 12 groups of 4 teams. For every group, put the teams in the order you think they’ll finish — 1st down to 4th.',
+            },
+            {
+              n: '02',
+              title: 'Choose which 3rd-place teams advance',
+              body: 'The top two from each group go through automatically. On top of that, the 8 best 3rd-place teams also advance. You pick which 8.',
+            },
+            {
+              n: '03',
+              title: 'Call every knockout match',
+              body: 'Once the 32 teams are set, you pick the winner of each match — Round of 32, then 16, quarters, semis, and the final. Pick your champion.',
+            },
+            {
+              n: '04',
+              title: 'Get your Spice Score',
+              body: 'We rate your bracket from 0 to 100 based on how bold your picks are. Backing favourites scores low; calling upsets scores high. You get a persona and a card you can share.',
+            },
+            {
+              n: '05',
+              title: 'See how you did',
+              body: 'As the real tournament plays out, your picks earn points. Compare with friends in a league to see who actually knows ball.',
+            },
+          ].map((s) => (
+            <li
+              key={s.n}
+              className="flex gap-5 rounded-2xl p-5 border"
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
+            >
+              <span
+                className="font-display font-extrabold text-3xl sm:text-4xl flex-shrink-0 leading-none"
+                style={{
+                  background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                {s.n}
+              </span>
+              <div>
+                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f5f3ff' }}>
+                  {s.title}
+                </h3>
+                <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>
+                  {s.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* ── By the numbers ───────────────────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-5xl mx-auto px-4 py-24">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            The full bracket
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            One tournament, every call
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {[
+            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#60a5fa' },
+            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#a78bfa' },
+            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#fb7185' },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-3xl p-8 border text-center flex flex-col items-center"
+              style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.10)' }}
+            >
+              <span
+                className="font-display font-extrabold leading-none mb-3"
+                style={{ fontSize: 'clamp(3rem, 7vw, 4.5rem)', color: s.color }}
+              >
+                {s.value}
+              </span>
+              <span className="font-display font-extrabold text-lg" style={{ color: '#f5f3ff' }}>
+                {s.label}
+              </span>
+              <span className="text-sm mt-1" style={{ color: '#c4bdec' }}>
+                {s.sub}
+              </span>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* Features */}
-      <section className="py-20 bg-white/5 backdrop-blur-sm border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Everything You Need</h2>
-            <p className="text-gray-400 text-lg">The most complete World Cup prediction experience</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map(f => (
-              <Card key={f.title} className="p-5 flex gap-4 items-start hover:border-emerald-500/30 transition-all">
-                <div className="text-3xl">{f.icon}</div>
-                <div>
-                  <h3 className="font-semibold text-white mb-1">{f.title}</h3>
-                  <p className="text-gray-400 text-sm">{f.desc}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Leaderboard preview */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1.5 mb-6">
-              <Globe className="w-4 h-4 text-emerald-400" />
-              <span className="text-emerald-400 text-sm font-medium">Global Leaderboard</span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Compete Globally</h2>
-            <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-              Rank against fans from every corner of the world. Filter by country, create private leagues for your friends, and track your rise to the top.
-            </p>
-            <Link href="/leaderboard" className="inline-flex items-center gap-2 text-emerald-400 font-semibold hover:text-emerald-300 transition-colors">
-              View Full Leaderboard <ChevronRight className="w-5 h-5" />
-            </Link>
-          </div>
-
-          <Card glass className="overflow-hidden">
-            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
-              <h3 className="font-bold text-white flex items-center gap-2"><Trophy className="w-5 h-5 text-yellow-400" /> Top Predictors</h3>
-              <span className="text-xs text-gray-400">Live Rankings</span>
-            </div>
-            <div className="divide-y divide-white/5">
-              {MOCK_LEADERBOARD.map(user => (
-                <div key={user.rank} className="flex items-center gap-4 px-5 py-3.5">
-                  <span className={`w-7 font-black text-sm ${user.rank === 1 ? 'text-yellow-400' : user.rank === 2 ? 'text-gray-300' : user.rank === 3 ? 'text-amber-600' : 'text-gray-500'}`}>#{user.rank}</span>
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">{user.avatar}</div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-white">{user.name}</p>
-                    <p className="text-xs text-gray-400">{user.country}</p>
-                  </div>
-                  <span className="font-black text-white">{user.points.toLocaleString()}</span>
-                </div>
-              ))}
-            </div>
-            <div className="p-4 border-t border-white/10 text-center">
-              <Link href="/leaderboard" className="text-sm text-emerald-400 hover:text-emerald-300 font-medium">See all rankings →</Link>
-            </div>
-          </Card>
-        </div>
-      </section>
-
-      {/* Points System */}
-      <section className="py-20 bg-white/5 border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-4">Points System</h2>
-            <p className="text-gray-400 text-lg">Every correct prediction earns you points</p>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {[
-              { label: 'Correct Result', points: 3, icon: '✅' },
-              { label: 'Exact Score', points: 5, icon: '🎯' },
-              { label: 'Team Qualifies', points: 5, icon: '🎟️' },
-              { label: 'Quarter Finalist', points: 8, icon: '⚡' },
-              { label: 'Semi Finalist', points: 10, icon: '🔥' },
-              { label: 'Finalist', points: 15, icon: '🌟' },
-              { label: 'Champion', points: 25, icon: '🏆' },
-              { label: 'Golden Boot', points: 15, icon: '👟' },
-            ].map(item => (
-              <Card key={item.label} className="p-4 text-center hover:border-emerald-500/30 transition-all">
-                <div className="text-2xl mb-2">{item.icon}</div>
-                <div className="text-2xl font-black text-emerald-400 mb-1">+{item.points}</div>
-                <div className="text-xs text-gray-400">{item.label}</div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-24 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-900/20 to-cyan-900/20" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-emerald-500/10 rounded-full blur-3xl" />
-        <div className="relative max-w-3xl mx-auto px-4">
-          <div className="text-6xl mb-6 animate-float">🏆</div>
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-6">
-            Ready to Become a<br /><span className="gradient-text">Prediction Champion?</span>
+      {/* ── Earn points ──────────────────────────────────────────────── */}
+      <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+            Scoring
+          </p>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+            Earn points while you predict
           </h2>
-          <p className="text-gray-400 text-lg mb-10">Join thousands of fans. Submit your predictions before the tournament starts.</p>
-          <Link href="/predict" className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-black px-10 py-5 rounded-2xl hover:from-emerald-600 hover:to-cyan-600 transition-all shadow-2xl shadow-emerald-500/30 text-xl active:scale-95">
-            Start Predicting Now <ArrowRight className="w-6 h-6" />
-          </Link>
+          <p className="mt-4" style={{ color: '#c4bdec' }}>
+            Every correct call adds up. The deeper the round, the more it’s worth.
+          </p>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Group phase */}
+          <div
+            className="rounded-3xl p-6 border"
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(96,165,250,0.25)' }}
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <span className="text-2xl">📋</span>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+                Group phase
+              </h3>
+            </div>
+            <ul className="flex flex-col">
+              {[
+                { label: 'Each team in its exact position', pts: '+3' },
+                { label: 'Perfect group (all 4 correct)', pts: '12' },
+                { label: 'Each correct 3rd-place qualifier', pts: '+4' },
+              ].map((r, i, arr) => (
+                <li
+                  key={r.label}
+                  className="flex items-center justify-between py-3"
+                  style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                >
+                  <span className="text-sm" style={{ color: '#c4bdec' }}>{r.label}</span>
+                  <span
+                    className="font-display font-extrabold text-base tabular-nums px-3 py-1 rounded-lg"
+                    style={{ color: '#60a5fa', background: 'rgba(96,165,250,0.12)' }}
+                  >
+                    {r.pts} pts
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Knockout phase */}
+          <div
+            className="rounded-3xl p-6 border"
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(251,113,133,0.25)' }}
+          >
+            <div className="flex items-center gap-2 mb-5">
+              <span className="text-2xl">🏆</span>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+                Knockout phase
+              </h3>
+            </div>
+            <ul className="flex flex-col">
+              {[
+                { label: 'Round of 32 winner', pts: '+5' },
+                { label: 'Round of 16 winner', pts: '+8' },
+                { label: 'Quarter-final winner', pts: '+12' },
+                { label: 'Semi-final winner', pts: '+18' },
+                { label: 'Final winner', pts: '+30' },
+                { label: 'Champion correct (bonus)', pts: '+15', big: true },
+              ].map((r, i, arr) => (
+                <li
+                  key={r.label}
+                  className="flex items-center justify-between py-3"
+                  style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
+                >
+                  <span
+                    className="text-sm"
+                    style={{ color: r.big ? '#f5f3ff' : '#c4bdec', fontWeight: r.big ? 700 : 400 }}
+                  >
+                    {r.label}
+                  </span>
+                  <span
+                    className="font-display font-extrabold tabular-nums px-3 py-1 rounded-lg"
+                    style={{
+                      color: '#fb7185',
+                      background: r.big ? 'rgba(251,113,133,0.20)' : 'rgba(251,113,133,0.12)',
+                      fontSize: r.big ? '1.05rem' : '1rem',
+                    }}
+                  >
+                    {r.pts} pts
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Bottom CTA ─────────────────────────────────────────────── */}
+      <section className="text-center py-20 px-4">
+        <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-4" style={{ color: '#f5f3ff' }}>
+          Ready to make your picks?
+        </h2>
+        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#c4bdec' }}>
+          Build your bracket in minutes. Your Spice Score updates live as you go.
+        </p>
+        <OnboardingTrigger
+          className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
+          style={{
+            background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+            color: '#fff',
+            boxShadow: '0 8px 40px -8px rgba(139,92,246,0.60)',
+          }}
+        >
+          Start for free →
+        </OnboardingTrigger>
       </section>
     </div>
   );

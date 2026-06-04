@@ -1,217 +1,193 @@
 'use client';
-import { useState } from 'react';
-import { usePredictionStore } from '@/lib/store';
-import { Team, BracketMatch } from '@/lib/types';
-import TeamFlag from '@/components/ui/TeamFlag';
-import { cn } from '@/lib/utils';
-import { Trophy, ChevronRight } from 'lucide-react';
+import { usePredictionStore, deriveTree } from '@/lib/store';
+import { TEAM_BY_CODE, type KnockoutMatch, type KnockoutTree } from '@/lib/tournament';
+import { tierColor, cn } from '@/lib/utils';
+import { Lock } from 'lucide-react';
+import Link from 'next/link';
 
-interface BracketMatchCardProps {
-  match: BracketMatch;
-  stage: string;
-  onSelectWinner: (stage: string, position: number, winner: Team, homeScore: number, awayScore: number) => void;
-}
+const ROUNDS: { key: 'r32' | 'r16' | 'qf' | 'sf'; label: string }[] = [
+  { key: 'r32', label: 'Round of 32' },
+  { key: 'r16', label: 'Round of 16' },
+  { key: 'qf', label: 'Quarter-finals' },
+  { key: 'sf', label: 'Semi-finals' },
+];
 
-function BracketMatchCard({ match, stage, onSelectWinner }: BracketMatchCardProps) {
-  const [showScorePicker, setShowScorePicker] = useState(false);
-  const [homeScore, setHomeScore] = useState(match.homeScore ?? 1);
-  const [awayScore, setAwayScore] = useState(match.awayScore ?? 0);
-
-  const handleTeamClick = (team: Team) => {
-    if (!match.homeTeam || !match.awayTeam) return;
-    setShowScorePicker(true);
-  };
-
-  const confirmPrediction = (winner: Team) => {
-    onSelectWinner(stage, match.position, winner, homeScore, awayScore);
-    setShowScorePicker(false);
-  };
-
+function TeamSlot({
+  code,
+  isWinner,
+  picked,
+  onPick,
+  placeholder,
+}: {
+  code: string | null;
+  isWinner: boolean;
+  picked: boolean;
+  onPick: () => void;
+  placeholder: string;
+}) {
+  const team = code ? TEAM_BY_CODE[code] : undefined;
   return (
-    <div className={cn(
-      'w-48 rounded-xl border overflow-hidden transition-all',
-      match.winner ? 'border-emerald-500/40 bg-emerald-500/5' : 'border-white/10 bg-gray-800/60'
-    )}>
-      {[match.homeTeam, match.awayTeam].map((team, idx) => {
-        const isWinner = match.winner?.id === team?.id;
-        return (
-          <button
-            key={idx}
-            onClick={() => team && match.awayTeam && match.homeTeam && handleTeamClick(team)}
-            disabled={!team || !match.homeTeam || !match.awayTeam}
-            className={cn(
-              'w-full flex items-center gap-2 px-3 py-2.5 text-left transition-all',
-              idx === 0 ? 'border-b border-white/10' : '',
-              isWinner ? 'bg-emerald-500/20' : 'hover:bg-white/10',
-              !team ? 'opacity-40 cursor-default' : '',
-            )}
-          >
-            {team ? (
-              <>
-                <span className="text-lg">{team.flag}</span>
-                <span className={cn('text-xs font-semibold flex-1', isWinner ? 'text-emerald-300' : 'text-gray-300')}>
-                  {team.code}
-                </span>
-                {match.winner && (
-                  <span className="text-xs font-bold text-white">
-                    {idx === 0 ? match.homeScore : match.awayScore}
-                  </span>
-                )}
-                {isWinner && <ChevronRight className="w-3 h-3 text-emerald-400" />}
-              </>
-            ) : (
-              <span className="text-xs text-gray-600">TBD</span>
-            )}
-          </button>
-        );
-      })}
-
-      {showScorePicker && match.homeTeam && match.awayTeam && (
-        <div className="absolute z-50 mt-1 bg-gray-800 border border-gray-600 rounded-xl p-4 shadow-2xl w-64">
-          <p className="text-xs text-gray-400 mb-3 text-center font-medium">Predict score & winner</p>
-          <div className="flex items-center gap-2 mb-4">
-            <div className="flex flex-col items-center flex-1 gap-1">
-              <span className="text-xs text-gray-400">{match.homeTeam.code}</span>
-              <div className="flex gap-1">
-                {[0, 1, 2, 3, 4].map(n => (
-                  <button key={n} onClick={() => setHomeScore(n)}
-                    className={cn('w-8 h-8 rounded-lg text-sm font-bold', homeScore === n ? 'bg-emerald-500 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20')}>
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <span className="text-gray-500">–</span>
-            <div className="flex flex-col items-center flex-1 gap-1">
-              <span className="text-xs text-gray-400">{match.awayTeam.code}</span>
-              <div className="flex gap-1">
-                {[0, 1, 2, 3, 4].map(n => (
-                  <button key={n} onClick={() => setAwayScore(n)}
-                    className={cn('w-8 h-8 rounded-lg text-sm font-bold', awayScore === n ? 'bg-emerald-500 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/20')}>
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <button onClick={() => confirmPrediction(match.homeTeam!)}
-              className="flex-1 py-2 rounded-lg bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/30 flex items-center justify-center gap-1">
-              <span>{match.homeTeam.flag}</span> {match.homeTeam.code} wins
-            </button>
-            <button onClick={() => confirmPrediction(match.awayTeam!)}
-              className="flex-1 py-2 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 text-xs font-semibold hover:bg-cyan-500/30 flex items-center justify-center gap-1">
-              <span>{match.awayTeam.flag}</span> {match.awayTeam.code} wins
-            </button>
-          </div>
-          <button onClick={() => setShowScorePicker(false)} className="w-full mt-2 text-xs text-gray-500 hover:text-gray-300">Cancel</button>
-        </div>
+    <button
+      disabled={!team}
+      onClick={onPick}
+      className={cn(
+        'w-full flex items-center gap-2 px-2.5 py-1.5 text-left transition-all',
+        team ? 'hover:bg-white/[0.04] cursor-pointer' : 'cursor-default',
       )}
-    </div>
+      style={{
+        background: isWinner ? 'rgba(139,92,246,0.18)' : 'transparent',
+        boxShadow: team ? `inset 3px 0 0 ${tierColor(team.tier)}` : 'inset 3px 0 0 rgba(255,255,255,0.06)',
+        opacity: picked && !isWinner ? 0.45 : 1,
+      }}
+    >
+      <span className="text-base leading-none w-5">{team?.flag ?? ''}</span>
+      <span
+        className="flex-1 text-xs font-semibold truncate"
+        style={{ color: team ? (isWinner ? '#f5f3ff' : '#c4bdec') : '#6f6796' }}
+      >
+        {team?.name ?? placeholder}
+      </span>
+      {isWinner && <span className="text-[10px]">✓</span>}
+    </button>
   );
 }
 
-interface RoundProps {
-  title: string;
-  matches: BracketMatch[];
-  stage: string;
-  onSelectWinner: (stage: string, position: number, winner: Team, homeScore: number, awayScore: number) => void;
-}
-
-function BracketRound({ title, matches, stage, onSelectWinner }: RoundProps) {
+function MatchCard({
+  match,
+  winner,
+  onPick,
+}: {
+  match: KnockoutMatch;
+  winner: string | undefined;
+  onPick: (code: string) => void;
+}) {
+  const picked = Boolean(winner);
   return (
-    <div className="flex flex-col">
-      <div className="text-center mb-4">
-        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider bg-white/5 px-3 py-1.5 rounded-full">
-          {title}
-        </span>
-      </div>
-      <div className="flex flex-col gap-4 justify-around flex-1">
-        {matches.map(match => (
-          <div key={match.id} className="relative">
-            <BracketMatchCard match={match} stage={stage} onSelectWinner={onSelectWinner} />
-          </div>
-        ))}
+    <div
+      className="rounded-lg border overflow-hidden w-[180px] divide-y"
+      style={{ borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)' }}
+    >
+      <TeamSlot
+        code={match.home}
+        isWinner={picked && winner === match.home}
+        picked={picked}
+        onPick={() => match.home && onPick(match.home)}
+        placeholder="—"
+      />
+      <div style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+        <TeamSlot
+          code={match.away}
+          isWinner={picked && winner === match.away}
+          picked={picked}
+          onPick={() => match.away && onPick(match.away)}
+          placeholder="—"
+        />
       </div>
     </div>
   );
 }
 
 export default function BracketView() {
-  const { knockoutBracket, setKnockoutPrediction } = usePredictionStore();
+  const { bracket, setKnockoutWinner } = usePredictionStore();
+  const derived = deriveTree(bracket);
 
-  const rounds = [
-    { title: 'Round of 16', matches: knockoutBracket.r16, stage: 'r16' },
-    { title: 'Quarter Finals', matches: knockoutBracket.qf, stage: 'qf' },
-    { title: 'Semi Finals', matches: knockoutBracket.sf, stage: 'sf' },
-  ];
+  if (!derived) {
+    return (
+      <div className="flex flex-col items-center gap-4 py-16 text-center">
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
+          style={{ background: 'rgba(255,255,255,0.05)' }}>
+          <Lock className="w-6 h-6" style={{ color: '#6f6796' }} />
+        </div>
+        <p className="text-sm max-w-sm" style={{ color: '#c4bdec' }}>
+          Finish the group stage first — rank all 12 groups and pick your 8 third-place
+          qualifiers to unlock the knockout bracket.
+        </p>
+        <Link href="/predict"
+          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#fb7185' }}>
+          Go to group stage
+        </Link>
+      </div>
+    );
+  }
+
+  const { tree, winners } = derived;
+  const champion = winners['M104'];
+  const finalMatch = tree.matches[tree.final];
 
   return (
-    <div className="overflow-x-auto pb-6">
-      <div className="min-w-[900px] flex gap-8 items-start">
-        {rounds.map(round => (
-          <BracketRound
-            key={round.stage}
-            title={round.title}
-            matches={round.matches}
-            stage={round.stage}
-            onSelectWinner={(stage, pos, winner, hs, as) => setKnockoutPrediction(stage, pos, winner, hs, as)}
+    <div className="overflow-x-auto pb-4">
+      <div className="flex gap-6 min-w-max">
+        {ROUNDS.map(({ key, label }) => (
+          <RoundColumn
+            key={key}
+            label={label}
+            ids={tree[key]}
+            tree={tree}
+            winners={winners}
+            onPick={setKnockoutWinner}
           />
         ))}
 
-        {/* Final column */}
-        <div className="flex flex-col">
-          <div className="text-center mb-4">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider bg-white/5 px-3 py-1.5 rounded-full">
-              Final
-            </span>
-          </div>
-          <div className="flex flex-col gap-4">
-            {/* Third place */}
-            {knockoutBracket.third && (
-              <div>
-                <p className="text-xs text-gray-500 mb-1.5 text-center">3rd Place</p>
-                <BracketMatchCard
-                  match={knockoutBracket.third}
-                  stage="3rd"
-                  onSelectWinner={(stage, pos, winner, hs, as) => setKnockoutPrediction(stage, pos, winner, hs, as)}
-                />
-              </div>
-            )}
-            {/* Final */}
-            {knockoutBracket.final && (
-              <div>
-                <p className="text-xs text-emerald-400 mb-1.5 text-center font-semibold">🏆 Grand Final</p>
-                <BracketMatchCard
-                  match={knockoutBracket.final}
-                  stage="final"
-                  onSelectWinner={(stage, pos, winner, hs, as) => setKnockoutPrediction(stage, pos, winner, hs, as)}
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Champion */}
-        <div className="flex flex-col items-center justify-center">
-          <div className="text-center mb-4">
-            <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider bg-emerald-500/10 px-3 py-1.5 rounded-full">
+        {/* Final + champion */}
+        <div className="flex flex-col gap-3 justify-center">
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-center" style={{ color: '#6f6796' }}>
+            Final
+          </h4>
+          <MatchCard match={finalMatch} winner={champion} onPick={(c) => setKnockoutWinner('M104', c)} />
+          <div className="rounded-xl border p-4 text-center mt-2 w-[180px]"
+            style={{ background: 'rgba(251,191,36,0.10)', borderColor: 'rgba(251,191,36,0.30)' }}>
+            <div className="text-2xl mb-1">🏆</div>
+            <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: '#fbbf24' }}>
               Champion
-            </span>
-          </div>
-          <div className="flex flex-col items-center gap-3 p-5 rounded-2xl border border-yellow-500/30 bg-yellow-500/5 min-w-[120px]">
-            <Trophy className="w-10 h-10 text-yellow-400" />
-            {knockoutBracket.winner ? (
-              <>
-                <span className="text-4xl">{knockoutBracket.winner.flag}</span>
-                <span className="text-white font-bold text-center text-sm">{knockoutBracket.winner.name}</span>
-                <span className="text-xs text-yellow-400 font-semibold">World Champions</span>
-              </>
+            </p>
+            {champion ? (
+              <p className="text-sm font-black" style={{ color: '#f5f3ff' }}>
+                {TEAM_BY_CODE[champion]?.flag} {TEAM_BY_CODE[champion]?.name}
+              </p>
             ) : (
-              <span className="text-gray-500 text-sm text-center">Complete bracket to reveal champion</span>
+              <p className="text-xs" style={{ color: '#6f6796' }}>Pick the final</p>
             )}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function RoundColumn({
+  label,
+  ids,
+  tree,
+  winners,
+  onPick,
+}: {
+  label: string;
+  ids: string[];
+  tree: KnockoutTree;
+  winners: Record<string, string>;
+  onPick: (matchId: string, code: string) => void;
+}) {
+  const total = ids.length;
+  const done = ids.filter((id) => winners[id]).length;
+  return (
+    <div className="flex flex-col gap-3 justify-around">
+      <div className="text-center">
+        <h4 className="text-[11px] font-bold uppercase tracking-wider" style={{ color: '#6f6796' }}>
+          {label}
+        </h4>
+        <span className="text-[10px]" style={{ color: done === total ? '#8b5cf6' : '#6f6796' }}>
+          {done}/{total}
+        </span>
+      </div>
+      <div className="flex flex-col gap-2 justify-around flex-1">
+        {ids.map((id) => (
+          <MatchCard
+            key={id}
+            match={tree.matches[id]}
+            winner={winners[id]}
+            onPick={(code) => onPick(id, code)}
+          />
+        ))}
       </div>
     </div>
   );

@@ -7,29 +7,52 @@ export default function CountdownTimer() {
   const [time, setTime] = useState(getTimeUntil(COUNTDOWN_DATE));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(getTimeUntil(COUNTDOWN_DATE));
-    }, 1000);
+    const interval = setInterval(() => setTime(getTimeUntil(COUNTDOWN_DATE)), 1000);
     return () => clearInterval(interval);
   }, []);
 
   const units = [
     { label: 'Days', value: time.days },
     { label: 'Hours', value: time.hours },
-    { label: 'Minutes', value: time.minutes },
-    { label: 'Seconds', value: time.seconds },
+    { label: 'Mins', value: time.minutes },
+    { label: 'Secs', value: time.seconds },
   ];
 
   return (
-    <div className="flex gap-3 md:gap-5">
-      {units.map(({ label, value }) => (
-        <div key={label} className="flex flex-col items-center">
-          <div className="bg-gradient-to-b from-gray-700 to-gray-800 border border-gray-600/50 rounded-xl px-3 md:px-5 py-2 md:py-3 min-w-[60px] md:min-w-[80px] text-center shadow-lg">
-            <span className="text-2xl md:text-4xl font-black text-white tabular-nums">
-              {String(value).padStart(2, '0')}
+    <div className="flex items-center gap-2 sm:gap-3">
+      {units.map(({ label, value }, i) => (
+        <div key={label} className="flex items-center gap-2 sm:gap-3">
+          <div className="flex flex-col items-center">
+            <div
+              className="rounded-xl flex items-center justify-center min-w-[52px] sm:min-w-[64px] h-14 sm:h-16 px-2"
+              style={{
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.12)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <span
+                className="text-2xl sm:text-3xl font-display font-extrabold tabular-nums"
+                style={{ color: '#f5f3ff' }}
+              >
+                {String(value).padStart(2, '0')}
+              </span>
+            </div>
+            <span
+              className="text-[10px] font-bold uppercase tracking-widest mt-1.5"
+              style={{ color: '#6f6796' }}
+            >
+              {label}
             </span>
           </div>
-          <span className="text-xs text-gray-400 mt-1.5 font-medium">{label}</span>
+          {i < units.length - 1 && (
+            <span
+              className="text-xl font-bold mb-4"
+              style={{ color: 'rgba(139,92,246,0.60)' }}
+            >
+              :
+            </span>
+          )}
         </div>
       ))}
     </div>

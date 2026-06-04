@@ -1,41 +1,118 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0a0f1a;
-  --foreground: #ffffff;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-purple: #8b5cf6;
+  --color-blue: #3b82f6;
+  --color-spice: #fb7185;
+  --color-text: #f5f3ff;
+  --color-muted: #c4bdec;
+  --color-faint: #6f6796;
+  --color-tier-1: #60a5fa;
+  --color-tier-2: #818cf8;
+  --color-tier-3: #a78bfa;
+  --color-tier-4: #f472b6;
+  --color-tier-5: #fb7185;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+:root {
+  --purple: #8b5cf6;
+  --blue: #3b82f6;
+  --spice: #fb7185;
+  --text: #f5f3ff;
+  --muted: #c4bdec;
+  --faint: #6f6796;
+  --surface: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.10);
+}
+
+html, body {
+  /* Layered "floodlit stadium at night" base.
+     Reads as a single light source up top spilling brand colour down into a
+     deep indigo pitch, with a hot spice ember low-left. Multiple tight stops
+     (not one lazy gradient) give it depth. Grain + grid layers sit on top. */
+  background:
+    /* main floodlight — cool white-violet beam from above the centre */
+    radial-gradient(1100px 720px at 50% -18%, rgba(168,139,250,0.22), transparent 62%),
+    /* secondary stadium light, upper right, cooler blue */
+    radial-gradient(820px 620px at 92% 4%, rgba(59,130,246,0.16), transparent 58%),
+    /* spice ember, lower left */
+    radial-gradient(760px 640px at 4% 102%, rgba(251,113,133,0.12), transparent 55%),
+    /* pitch glow rising from the very bottom (faint emerald = grass under lights) */
+    radial-gradient(1200px 460px at 50% 116%, rgba(52,160,120,0.10), transparent 62%),
+    /* deep vertical base */
+    linear-gradient(178deg, #170c31 0%, #130a2a 38%, #0d0822 68%, #080611 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-montserrat, 'Montserrat'), sans-serif;
   min-height: 100vh;
 }
 
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); }
+/* ── Perspective pitch grid (sports identity, fades upward) ──────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(150,180,255,0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(150,180,255,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  /* stronger toward the bottom (the "pitch"), gone near the top */
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.30) 42%, transparent 78%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.30) 42%, transparent 78%);
+}
+
+/* ── Film grain (kills banding, adds a premium print texture) ───────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.font-display {
+  font-family: var(--font-syne, 'Syne'), sans-serif;
+  font-weight: 700;
+}
 
 .gradient-text {
-  background: linear-gradient(135deg, #10b981, #06b6d4);
+  background: linear-gradient(135deg, var(--purple), var(--blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
 }
-.animate-float { animation: float 3s ease-in-out infinite; }
 
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
+.spice-glow {
+  text-shadow: 0 0 20px rgba(251, 113, 133, 0.6), 0 0 40px rgba(251, 113, 133, 0.3);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(139,92,246,0.6); }
+
+@keyframes spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes float-up {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-12px); }
 }
