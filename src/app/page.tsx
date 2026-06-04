@@ -182,9 +182,9 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
-            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#60a5fa' },
-            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#a78bfa' },
-            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#a78bfa' },
+            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#f5f3ff' },
+            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#f5f3ff' },
+            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#f5f3ff' },
           ].map((s) => (
             <div
               key={s.label}
@@ -248,7 +248,7 @@ export default function HomePage() {
                   <span className="text-sm" style={{ color: '#c4bdec' }}>{r.label}</span>
                   <span
                     className="font-display font-extrabold text-base tabular-nums px-3 py-1 rounded-lg"
-                    style={{ color: '#60a5fa', background: 'rgba(96,165,250,0.12)' }}
+                    style={{ color: '#f5f3ff', background: 'rgba(255,255,255,0.10)' }}
                   >
                     {r.pts} pts
                   </span>
