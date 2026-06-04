@@ -61,7 +61,6 @@ export default function LeaderboardPage() {
 
   useEffect(() => { fetchLeaderboard(); }, [fetchLeaderboard]);
 
-  // Realtime: re-fetch when any bracket points update
   useEffect(() => {
     const channel = supabase
       .channel('global-leaderboard')
@@ -94,7 +93,6 @@ export default function LeaderboardPage() {
     <div className="min-h-screen py-10 px-4">
       <div className="max-w-3xl mx-auto">
 
-        {/* Header */}
         <div className="text-center mb-10">
           <div
             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-widest mb-4 border"
@@ -110,7 +108,6 @@ export default function LeaderboardPage() {
           </p>
         </div>
 
-        {/* My rank banner */}
         {myEntry && myRank > 0 && (
           <div
             className="rounded-2xl border px-5 py-4 mb-8 flex items-center justify-between"
@@ -154,7 +151,6 @@ export default function LeaderboardPage() {
           </div>
         ) : (
           <>
-            {/* Podium — only show when 3+ entries */}
             {filtered.length >= 3 && (
               <div className="flex items-end justify-center gap-3 mb-10">
                 {podiumOrder.map((entry, i) => (
@@ -183,7 +179,6 @@ export default function LeaderboardPage() {
               </div>
             )}
 
-            {/* Search */}
             <div className="relative mb-5">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6f6796' }} />
               <input
@@ -200,12 +195,10 @@ export default function LeaderboardPage() {
               />
             </div>
 
-            {/* Table */}
             <div
               className="rounded-3xl border overflow-hidden"
               style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.08)' }}
             >
-              {/* Header */}
               <div
                 className="grid grid-cols-[44px_1fr_80px_70px] gap-2 px-5 py-3 text-xs font-bold uppercase tracking-widest border-b"
                 style={{ color: '#6f6796', borderColor: 'rgba(255,255,255,0.06)' }}
@@ -216,7 +209,7 @@ export default function LeaderboardPage() {
                 <span className="text-right">Points</span>
               </div>
 
-              {paginated.map((entry, i) => {
+              {paginated.map((entry) => {
                 const globalRank = filtered.indexOf(entry) + 1;
                 const isMe = entry.user_id === myUserId;
                 return (
