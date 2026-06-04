@@ -76,7 +76,7 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
               <HelpCircle className="w-4 h-4" style={{ color: '#a78bfa' }} />
             </div>
           </div>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#4b5563' }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: '#6b7280' }}>
             The 2026 World Cup is the first with 48 teams in 12 groups. The top 2 in each
             group advance automatically (24 teams), and the 8 best third-place teams (out of
             12) join them to fill the Round of 32. Pick which 8 third-place finishers you
@@ -96,7 +96,7 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
       {eligibleCount < 12 && (
         <p
           className="text-sm mb-4 px-4 py-3 rounded-xl"
-          style={{ background: 'rgba(185,28,28,0.10)', color: '#b91c1c' }}
+          style={{ background: 'rgba(255,255,255,0.08)', color: '#ffffff' }}
         >
           Finish ranking your groups first — {12 - eligibleCount} group
           {12 - eligibleCount > 1 ? 's' : ''} still {12 - eligibleCount > 1 ? 'need' : 'needs'} a 3rd-placed team.
@@ -141,12 +141,12 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
               </div>
 
               {/* Name */}
-              <span className="text-sm font-bold text-center leading-tight truncate w-full" style={{ color: team ? '#111827' : '#9ca3af' }}>
+              <span className="text-sm font-bold text-center leading-tight truncate w-full" style={{ color: team ? '#111827' : '#6b7280' }}>
                 {team?.name ?? 'Unranked'}
               </span>
 
               {/* Group + rank */}
-              <span className="text-[11px] font-medium" style={{ color: '#9ca3af' }}>
+              <span className="text-[11px] font-medium" style={{ color: '#6b7280' }}>
                 Grp {group}{team?.rank ? ` · #${team.rank}` : ''}
               </span>
             </button>

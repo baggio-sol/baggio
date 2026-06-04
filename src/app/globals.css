@@ -3,24 +3,24 @@
 @theme inline {
   --color-purple: #8b5cf6;
   --color-blue: #3b82f6;
-  --color-spice: #b91c1c;
+  --color-spice: #ffffff;
   --color-text: #f5f3ff;
   --color-muted: #c4bdec;
-  --color-faint: #6f6796;
+  --color-faint: #c4bdec;
   --color-tier-1: #60a5fa;
   --color-tier-2: #818cf8;
   --color-tier-3: #a78bfa;
   --color-tier-4: #f472b6;
-  --color-tier-5: #b91c1c;
+  --color-tier-5: #ffffff;
 }
 
 :root {
   --purple: #8b5cf6;
   --blue: #3b82f6;
-  --spice: #b91c1c;
+  --spice: #ffffff;
   --text: #f5f3ff;
   --muted: #c4bdec;
-  --faint: #6f6796;
+  --faint: #c4bdec;
   --surface: #ffffff;
   --border: rgba(0, 0, 0, 0.10);
 }
@@ -95,7 +95,7 @@ body::after {
 }
 
 .spice-glow {
-  text-shadow: 0 0 20px rgba(185, 28, 28, 0.6), 0 0 40px rgba(185, 28, 28, 0.3);
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.3);
 }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }

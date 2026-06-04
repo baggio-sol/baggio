@@ -38,10 +38,10 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
             </h2>
           </div>
           <div className="text-right flex-shrink-0">
-            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#b91c1c' }}>
+            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#ffffff' }}>
               {spice.score}
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#c4bdec' }}>
               Spice / 100
             </p>
           </div>
@@ -53,9 +53,9 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
         {/* Boldest call */}
         <div
           className="rounded-2xl px-4 py-3 my-5 border"
-          style={{ background: 'rgba(185,28,28,0.10)', borderColor: 'rgba(185,28,28,0.25)' }}
+          style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
         >
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#b91c1c' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#ffffff' }}>
             Boldest call
           </p>
           <p className="text-sm font-semibold" style={{ color: '#f5f3ff' }}>
@@ -77,12 +77,12 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
                   boxShadow: team ? `inset 3px 0 0 ${tierColor(team.tier)}` : 'none',
                 }}
               >
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#c4bdec' }}>
                   {h.icon} {h.label}
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-lg leading-none">{team?.flag ?? '—'}</span>
-                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f5f3ff' : '#6f6796' }}>
+                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f5f3ff' : '#c4bdec' }}>
                     {team?.name ?? 'TBD'}
                   </span>
                 </div>
@@ -133,7 +133,7 @@ function SpiceBar({ spice }: { spice: SpiceResult }) {
 }
 
 const SEGMENT_COLORS: Record<string, string> = {
-  champion: '#b91c1c',
+  champion: '#ffffff',
   finalist: '#f472b6',
   deepRuns: '#a78bfa',
   earlyExits: '#818cf8',

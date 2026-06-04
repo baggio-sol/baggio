@@ -67,7 +67,7 @@ export default function OnboardingModal() {
         <button
           onClick={dismiss}
           className="absolute top-4 right-4 p-2 rounded-xl transition-all hover:bg-white/10"
-          style={{ color: '#6f6796' }}
+          style={{ color: '#c4bdec' }}
           aria-label="Skip"
         >
           <X className="w-4 h-4" />
@@ -98,7 +98,7 @@ export default function OnboardingModal() {
 
         {/* Footer */}
         <div className="px-8 pb-8 flex items-center justify-between">
-          <span className="text-xs font-medium" style={{ color: '#6f6796' }}>
+          <span className="text-xs font-medium" style={{ color: '#c4bdec' }}>
             {step} of {STEPS.length}
           </span>
           <button
@@ -125,7 +125,7 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">⚽</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#c4bdec' }}>
         Welcome
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
@@ -137,11 +137,11 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 
       {/* Name input */}
       <div className="w-full mb-5">
-        <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#6f6796' }}>
+        <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#c4bdec' }}>
           What should we call you?
         </label>
         <div className="relative">
-          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6f6796' }} />
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#c4bdec' }} />
           <input
             autoFocus
             type="text"
@@ -166,9 +166,9 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 
       <div
         className="w-full rounded-2xl px-5 py-4 border text-center"
-        style={{ background: 'rgba(185,28,28,0.10)', borderColor: 'rgba(185,28,28,0.28)' }}
+        style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
       >
-        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#b91c1c' }}>
+        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#ffffff' }}>
           449 points
         </span>
         <p className="text-sm mt-1 font-medium" style={{ color: '#f5f3ff' }}>
@@ -182,7 +182,7 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 function Step2() {
   return (
     <div className="flex flex-col">
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#c4bdec' }}>
         Build your bracket
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-2" style={{ fontSize: 'clamp(1.6rem,4vw,2rem)', color: '#f5f3ff' }}>
@@ -228,7 +228,7 @@ function Step3() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">👥</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#c4bdec' }}>
         Compete
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
@@ -261,7 +261,7 @@ function Step4() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">🌶️</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#b91c1c' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#c4bdec' }}>
         You&apos;re ready
       </p>
       <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>

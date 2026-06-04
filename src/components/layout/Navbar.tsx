@@ -25,7 +25,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Spacer (wordmark removed) */}
           <Link href="/" className="font-display font-extrabold text-base tracking-tight" style={{ color: '#f5f3ff' }}>
-            WC&apos;26 <span style={{ color: '#b91c1c' }}>Predictor</span>
+            WC&apos;26 <span style={{ color: '#a78bfa' }}>Predictor</span>
           </Link>
 
           {/* Desktop nav */}
@@ -45,8 +45,8 @@ export default function Navbar() {
           <div className="flex items-center gap-3">
             <Link
               href="/predict"
-              className="hidden md:inline-flex items-center rounded-full px-5 py-2 text-sm font-bold text-white transition-all hover:opacity-90"
-              style={{ background: '#b91c1c' }}
+              className="hidden md:inline-flex items-center rounded-full px-5 py-2 text-sm font-bold transition-all hover:opacity-90"
+              style={{ background: '#ffffff', color: '#111827' }}
             >
               Start Predicting
             </Link>
@@ -85,8 +85,8 @@ export default function Navbar() {
             <Link
               href="/predict"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center rounded-full px-4 py-3 text-sm font-bold text-white mt-2"
-              style={{ background: '#b91c1c' }}
+              className="flex items-center justify-center rounded-full px-4 py-3 text-sm font-bold mt-2"
+              style={{ background: '#ffffff', color: '#111827' }}
             >
               Start Predicting
             </Link>

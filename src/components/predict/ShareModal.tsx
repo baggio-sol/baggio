@@ -138,7 +138,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
               </div>
             )}
           </div>
-          <p className="text-center text-[11px] font-bold tracking-widest uppercase mb-5" style={{ color: '#6f6796' }}>
+          <p className="text-center text-[11px] font-bold tracking-widest uppercase mb-5" style={{ color: '#c4bdec' }}>
             Bracket Ticket · 1080 × 1080
           </p>
 
@@ -148,7 +148,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}
           >
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#6f6796' }}>
+              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#c4bdec' }}>
                 Name on ticket
               </p>
               {editingName ? (
@@ -191,8 +191,8 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
             </button>
           </div>
 
-          <p className="text-[11px] leading-relaxed mt-4 flex items-start gap-1.5" style={{ color: '#6f6796' }}>
-            <Trophy className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: '#6f6796' }} />
+          <p className="text-[11px] leading-relaxed mt-4 flex items-start gap-1.5" style={{ color: '#c4bdec' }}>
+            <Trophy className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: '#c4bdec' }} />
             The preview above is exactly what gets downloaded and shared — your full bracket tree with real flags.
           </p>
         </div>

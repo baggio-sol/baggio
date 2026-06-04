@@ -9,7 +9,7 @@ export default function AwardsSection() {
         <p className="mt-1" style={{ color: '#c4bdec' }}>Award predictions coming in a future phase.</p>
       </div>
       <Card className="p-6 text-center">
-        <p style={{ color: '#6f6796' }}>Awards section under construction.</p>
+        <p style={{ color: '#c4bdec' }}>Awards section under construction.</p>
       </Card>
     </div>
   );

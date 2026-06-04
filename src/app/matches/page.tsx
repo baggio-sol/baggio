@@ -48,7 +48,7 @@ export default function MatchesPage() {
               'px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap border',
               !selectedGroup
                 ? 'border-[rgba(139,92,246,0.40)] text-[#8b5cf6]'
-                : 'border-white/10 text-[#6f6796] hover:text-[#c4bdec]'
+                : 'border-white/10 text-[#c4bdec] hover:text-[#c4bdec]'
             )}
             style={{ background: !selectedGroup ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.03)' }}
           >
@@ -62,7 +62,7 @@ export default function MatchesPage() {
                 'w-10 h-10 rounded-xl text-sm font-bold transition-all border',
                 selectedGroup === gid
                   ? 'border-[rgba(139,92,246,0.40)] text-[#8b5cf6]'
-                  : 'border-white/10 text-[#6f6796] hover:text-[#c4bdec]'
+                  : 'border-white/10 text-[#c4bdec] hover:text-[#c4bdec]'
               )}
               style={{ background: selectedGroup === gid ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.03)' }}
             >
@@ -89,7 +89,7 @@ export default function MatchesPage() {
                 {group.matches.map(match => (
                   <Card key={match.id} className="overflow-hidden transition-all">
                     <div className="p-4">
-                      <div className="flex items-center gap-2 text-xs mb-3" style={{ color: '#6f6796' }}>
+                      <div className="flex items-center gap-2 text-xs mb-3" style={{ color: '#c4bdec' }}>
                         <Clock className="w-3 h-3" />
                         <span>{match.date}</span>
                         <span>·</span>
@@ -107,7 +107,7 @@ export default function MatchesPage() {
                           className="flex-shrink-0 text-center rounded-xl px-4 py-2 border"
                           style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.10)' }}
                         >
-                          <span className="text-sm font-medium" style={{ color: '#6f6796' }}>VS</span>
+                          <span className="text-sm font-medium" style={{ color: '#c4bdec' }}>VS</span>
                         </div>
 
                         <div className="flex items-center gap-2 flex-1">

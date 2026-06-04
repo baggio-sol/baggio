@@ -41,7 +41,7 @@ const POS = [
   { label: '1st', bg: 'rgba(52,211,153,0.18)', color: '#34d399', border: 'rgba(52,211,153,0.35)' },
   { label: '2nd', bg: 'rgba(52,211,153,0.12)', color: '#6ee7b7', border: 'rgba(52,211,153,0.25)' },
   { label: '3rd', bg: 'rgba(251,146,60,0.15)', color: '#fb923c', border: 'rgba(251,146,60,0.35)' },
-  { label: '4th', bg: 'rgba(255,255,255,0.05)', color: '#6f6796', border: 'rgba(255,255,255,0.10)' },
+  { label: '4th', bg: 'rgba(0,0,0,0.04)', color: '#6b7280', border: 'rgba(0,0,0,0.10)' },
 ];
 
 interface GroupCardProps {
@@ -162,7 +162,7 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
                 className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0 border"
                 style={{
                   background: ranked ? pos.bg : 'rgba(0,0,0,0.04)',
-                  color: ranked ? pos.color : '#9ca3af',
+                  color: ranked ? pos.color : '#6b7280',
                   borderColor: ranked ? pos.border : 'rgba(0,0,0,0.06)',
                 }}
               >
@@ -185,7 +185,7 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
 
               {/* FIFA ranking */}
               {t.rank && (
-                <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#9ca3af' }}>
+                <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#6b7280' }}>
                   #{t.rank}
                 </span>
               )}

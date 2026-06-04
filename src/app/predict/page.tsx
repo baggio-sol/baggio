@@ -56,7 +56,7 @@ export default function PredictPage() {
             <button
               onClick={resetPredictions}
               className="flex items-center gap-1.5 text-xs font-semibold transition-colors hover:opacity-80"
-              style={{ color: '#b91c1c' }}
+              style={{ color: '#c4bdec' }}
             >
               <RotateCcw className="w-3 h-3" /> Reset
             </button>
@@ -165,12 +165,12 @@ export default function PredictPage() {
                 disabled={t.locked}
                 onClick={() => !t.locked && setTab(t.id)}
                 className="flex-1 flex flex-col items-center justify-center py-3.5 gap-0.5 transition-all"
-                style={{ color: t.locked ? '#3a3358' : isActive ? '#a78bfa' : '#6f6796' }}
+                style={{ color: t.locked ? '#3a3358' : isActive ? '#a78bfa' : '#c4bdec' }}
               >
                 {t.locked && <Lock className="w-3.5 h-3.5 mb-0.5" />}
                 <span className="text-xs font-bold">{t.label}</span>
                 {t.count && !t.locked && (
-                  <span className="text-[10px]" style={{ color: isActive ? '#8b5cf6' : '#6f6796' }}>
+                  <span className="text-[10px]" style={{ color: isActive ? '#8b5cf6' : '#c4bdec' }}>
                     {t.count}
                   </span>
                 )}
