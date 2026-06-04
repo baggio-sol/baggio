@@ -54,23 +54,39 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
     a.click();
   };
 
+  const buildShareUrl = () => {
+    const base = typeof window !== 'undefined' ? window.location.origin : 'https://wc26.baggio.app';
+    const p = new URLSearchParams({
+      score:     String(spice.score),
+      persona:   spice.persona,
+      emoji:     spice.personaEmoji,
+      boldest:   spice.boldestCall,
+      ...(spice.champion  ? { champion:  spice.champion }  : {}),
+      ...(spice.runnerUp  ? { runnerUp:  spice.runnerUp }  : {}),
+      ...(spice.darkHorse ? { darkHorse: spice.darkHorse } : {}),
+      ...(spice.earlyExit ? { earlyExit: spice.earlyExit } : {}),
+      ...(displayName !== 'Anonymous' ? { name: displayName } : {}),
+    });
+    return `${base}/share?${p.toString()}`;
+  };
+
   const handleShare = async () => {
+    const shareUrl = buildShareUrl();
     const text = `${spice.personaEmoji} ${spice.persona} — I've got ${champ?.name ?? 'my pick'} lifting the 2026 World Cup. Spice Score ${spice.score}/100.`;
-    const url = typeof window !== 'undefined' ? window.location.origin : 'https://baggio.app';
     try {
       // Prefer sharing the actual image file when supported.
       if (imgUrl && navigator.canShare) {
         const blob = await (await fetch(imgUrl)).blob();
         const file = new File([blob], 'wc26-predictor-bracket.png', { type: 'image/png' });
         if (navigator.canShare({ files: [file] })) {
-          await navigator.share({ files: [file], title: 'My World Cup 2026 Bracket', text });
+          await navigator.share({ files: [file], title: 'My World Cup 2026 Bracket', text, url: shareUrl });
           return;
         }
       }
       if (navigator.share) {
-        await navigator.share({ title: "My WC'26 Predictor Bracket", text, url });
+        await navigator.share({ title: "My WC'26 Predictor Bracket", text, url: shareUrl });
       } else {
-        await navigator.clipboard.writeText(`${text} ${url}`);
+        await navigator.clipboard.writeText(`${text} ${shareUrl}`);
         alert('Link copied to clipboard!');
       }
     } catch { /* user dismissed */ }
