@@ -26,14 +26,53 @@
 }
 
 html, body {
+  /* Layered "floodlit stadium at night" base.
+     Reads as a single light source up top spilling brand colour down into a
+     deep indigo pitch, with a hot spice ember low-left. Multiple tight stops
+     (not one lazy gradient) give it depth. Grain + grid layers sit on top. */
   background:
-    radial-gradient(900px 600px at 85% -5%, rgba(139,92,246,0.30), transparent 60%),
-    radial-gradient(900px 700px at 0% 110%, rgba(59,130,246,0.28), transparent 55%),
-    linear-gradient(160deg, #1a0d36, #120931 45%, #080f28);
+    /* main floodlight — cool white-violet beam from above the centre */
+    radial-gradient(1100px 720px at 50% -18%, rgba(168,139,250,0.22), transparent 62%),
+    /* secondary stadium light, upper right, cooler blue */
+    radial-gradient(820px 620px at 92% 4%, rgba(59,130,246,0.16), transparent 58%),
+    /* spice ember, lower left */
+    radial-gradient(760px 640px at 4% 102%, rgba(251,113,133,0.12), transparent 55%),
+    /* pitch glow rising from the very bottom (faint emerald = grass under lights) */
+    radial-gradient(1200px 460px at 50% 116%, rgba(52,160,120,0.10), transparent 62%),
+    /* deep vertical base */
+    linear-gradient(178deg, #170c31 0%, #130a2a 38%, #0d0822 68%, #080611 100%);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-montserrat, 'Montserrat'), sans-serif;
   min-height: 100vh;
+}
+
+/* ── Perspective pitch grid (sports identity, fades upward) ──────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(150,180,255,0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(150,180,255,0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  /* stronger toward the bottom (the "pitch"), gone near the top */
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.30) 42%, transparent 78%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.30) 42%, transparent 78%);
+}
+
+/* ── Film grain (kills banding, adds a premium print texture) ───────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .font-display {
