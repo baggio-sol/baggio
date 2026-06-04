@@ -13,7 +13,7 @@ function AuthForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [code, setCode] = useState(['', '', '', '', '', '', '', '']);
+  const [code, setCode] = useState(['', '', '', '', '', '']);
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState(errorParam ? 'Sign-in failed. Please try again.' : '');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -39,8 +39,8 @@ function AuthForm() {
     const newCode = [...code];
     newCode[index] = digit;
     setCode(newCode);
-    if (digit && index < 7) inputRefs.current[index + 1]?.focus();
-    if (newCode.every(d => d) && newCode.join('').length === 8) {
+    if (digit && index < 5) inputRefs.current[index + 1]?.focus();
+    if (newCode.every(d => d) && newCode.join('').length === 6) {
       verifyCode(newCode.join(''));
     }
   };
@@ -52,8 +52,8 @@ function AuthForm() {
   };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 8);
-    if (pasted.length === 8) {
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (pasted.length === 6) {
       setCode(pasted.split(''));
       verifyCode(pasted);
     }
