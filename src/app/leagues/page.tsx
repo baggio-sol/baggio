@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Users, Plus, Search, Copy, Check, ArrowRight, Loader2, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
@@ -46,6 +46,7 @@ export default function LeaguesPage() {
   const [activeLeague, setActiveLeague] = useState<League | null>(null);
   const [members, setMembers] = useState<LeagueMember[]>([]);
   const [loadingMembers, setLoadingMembers] = useState(false);
+  const realtimeChannelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
 
   const [copied, setCopied] = useState<string | null>(null);
 
@@ -185,29 +186,20 @@ export default function LeaguesPage() {
     fetchLeagues();
   };
 
-  const openDetail = async (league: League) => {
-    setActiveLeague(league);
-    setModal('detail');
-    setLoadingMembers(true);
-
+  const fetchMembers = useCallback(async (leagueId: string) => {
     const { data: memberRows } = await (supabase as any)
       .from('league_members')
       .select('user_id')
-      .eq('league_id', league.id);
+      .eq('league_id', leagueId);
 
     if (!memberRows?.length) { setMembers([]); setLoadingMembers(false); return; }
 
     const memberIds = memberRows.map((m: any) => m.user_id);
 
-    const { data: profiles } = await (supabase as any)
-      .from('profiles')
-      .select('id, display_name')
-      .in('id', memberIds);
-
-    const { data: brackets } = await (supabase as any)
-      .from('brackets')
-      .select('user_id, points, spice_score, persona')
-      .in('user_id', memberIds);
+    const [{ data: profiles }, { data: brackets }] = await Promise.all([
+      (supabase as any).from('profiles').select('id, display_name').in('id', memberIds),
+      (supabase as any).from('brackets').select('user_id, points, spice_score, persona').in('user_id', memberIds),
+    ]);
 
     const profileMap: Record<string, string> = {};
     profiles?.forEach((p: any) => { profileMap[p.id] = p.display_name; });
@@ -225,6 +217,31 @@ export default function LeaguesPage() {
     result.sort((a, b) => (b.points ?? -1) - (a.points ?? -1));
     setMembers(result);
     setLoadingMembers(false);
+  }, []);
+
+  const openDetail = (league: League) => {
+    // Unsubscribe from any previous channel
+    if (realtimeChannelRef.current) {
+      supabase.removeChannel(realtimeChannelRef.current);
+    }
+
+    setActiveLeague(league);
+    setModal('detail');
+    setLoadingMembers(true);
+    fetchMembers(league.id);
+
+    // Subscribe to bracket point changes for live leaderboard updates
+    const channel = supabase
+      .channel(`league-${league.id}-brackets`)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'brackets' }, () => {
+        fetchMembers(league.id);
+      })
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'league_members', filter: `league_id=eq.${league.id}` }, () => {
+        fetchMembers(league.id);
+      })
+      .subscribe();
+
+    realtimeChannelRef.current = channel;
   };
 
   const copyCode = (code: string) => {
@@ -234,6 +251,10 @@ export default function LeaguesPage() {
   };
 
   const closeModal = () => {
+    if (realtimeChannelRef.current) {
+      supabase.removeChannel(realtimeChannelRef.current);
+      realtimeChannelRef.current = null;
+    }
     setModal(null);
     setCreatedLeague(null);
     setCreateError('');
