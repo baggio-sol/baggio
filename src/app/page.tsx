@@ -8,15 +8,6 @@ export default function HomePage() {
     <div className="min-h-screen overflow-x-hidden">
       {/* ── Hero (text only, full viewport) ──────────────────────────── */}
       <section className="relative flex flex-col items-center justify-center min-h-[100svh] px-4 pt-24 pb-16 text-center">
-        {/* Ambient glows */}
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(700px 500px at 50% 35%, rgba(139,92,246,0.22), transparent 65%), ' +
-              'radial-gradient(600px 500px at 20% 90%, rgba(59,130,246,0.16), transparent 60%)',
-          }}
-        />
 
         {/* Badge */}
         <div
@@ -105,13 +96,6 @@ export default function HomePage() {
         className="relative flex items-center justify-center py-24 overflow-hidden"
         style={{ minHeight: '100svh' }}
       >
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{
-            background:
-              'radial-gradient(800px 800px at 50% 50%, rgba(139,92,246,0.14), transparent 65%)',
-          }}
-        />
         <div style={{ animation: 'float-up 8s ease-in-out infinite' }}>
           <FlagOrbitClient />
         </div>
