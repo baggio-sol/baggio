@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, X } from 'lucide-react';
+import { ArrowRight, X, User } from 'lucide-react';
+import { useProfileStore } from '@/lib/store';
 
 export const OPEN_ONBOARDING_EVENT = 'baggio:open-onboarding';
 
@@ -16,6 +17,8 @@ export default function OnboardingModal() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [visible, setVisible] = useState(false);
+  const [localName, setLocalName] = useState('');
+  const { setUserName } = useProfileStore();
 
   useEffect(() => {
     function open() {
@@ -31,6 +34,9 @@ export default function OnboardingModal() {
   }
 
   function next() {
+    if (step === 1 && localName.trim()) {
+      setUserName(localName.trim());
+    }
     if (step < 4) {
       setStep((s) => s + 1);
     } else {
@@ -84,7 +90,7 @@ export default function OnboardingModal() {
 
         {/* Content */}
         <div className="px-8 py-8">
-          {step === 1 && <Step1 />}
+          {step === 1 && <Step1 localName={localName} setLocalName={setLocalName} />}
           {step === 2 && <Step2 />}
           {step === 3 && <Step3 />}
           {step === 4 && <Step4 />}
@@ -104,7 +110,7 @@ export default function OnboardingModal() {
               boxShadow: '0 8px 24px -8px rgba(139,92,246,0.55)',
             }}
           >
-            {step === 4 ? 'Create my bracket' : 'Next'}
+            {step === 4 ? 'Create my bracket' : step === 1 && localName.trim() ? `Let's go, ${localName.trim().split(' ')[0]}!` : 'Next'}
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -115,27 +121,54 @@ export default function OnboardingModal() {
 
 /* ── Step screens ─────────────────────────────────────────────────────────── */
 
-function Step1() {
+function Step1({ localName, setLocalName }: { localName: string; setLocalName: (v: string) => void }) {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">⚽</span>
       <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
         Welcome
       </p>
-      <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
+      <h2 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
         World Cup 26&apos; Predictor
       </h2>
-      <p className="text-base leading-relaxed mb-8" style={{ color: '#c4bdec' }}>
-        48 teams. 104 matches. 12 groups across three nations.
+      <p className="text-sm mb-7 leading-relaxed" style={{ color: '#c4bdec' }}>
+        48 teams. 104 matches. Build your bracket and get a personalised share card — starting with your name.
       </p>
+
+      {/* Name input */}
+      <div className="w-full mb-5">
+        <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#6f6796' }}>
+          What should we call you?
+        </label>
+        <div className="relative">
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6f6796' }} />
+          <input
+            autoFocus
+            type="text"
+            placeholder="Your name or nickname"
+            value={localName}
+            maxLength={30}
+            onChange={(e) => setLocalName(e.target.value)}
+            className="w-full rounded-xl pl-11 pr-4 py-3.5 text-sm font-bold outline-none transition-all"
+            style={{
+              background: 'rgba(255,255,255,0.07)',
+              border: `1px solid ${localName.trim() ? 'rgba(139,92,246,0.5)' : 'rgba(255,255,255,0.12)'}`,
+              color: '#f5f3ff',
+            }}
+          />
+        </div>
+        {localName.trim() && (
+          <p className="text-xs mt-2 text-left font-medium" style={{ color: '#a78bfa' }}>
+            Your name will appear on your personalised bracket card 🎟️
+          </p>
+        )}
+      </div>
+
       <div
-        className="w-full rounded-2xl px-6 py-5 border text-center"
+        className="w-full rounded-2xl px-5 py-4 border text-center"
         style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.28)' }}
       >
-        <span
-          className="font-display font-extrabold"
-          style={{ fontSize: 'clamp(2rem,5vw,2.8rem)', color: '#fb7185' }}
-        >
+        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#fb7185' }}>
           449 points
         </span>
         <p className="text-sm mt-1 font-medium" style={{ color: '#f5f3ff' }}>

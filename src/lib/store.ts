@@ -184,6 +184,21 @@ export function teamName(code: string): string {
   return TEAM_BY_CODE[code]?.name ?? code;
 }
 
+interface ProfileState {
+  userName: string;
+  setUserName: (name: string) => void;
+}
+
+export const useProfileStore = create<ProfileState>()(
+  persist(
+    (set) => ({
+      userName: '',
+      setUserName: (name) => set({ userName: name }),
+    }),
+    { name: 'baggio-profile' },
+  ),
+);
+
 interface UIState {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
