@@ -1,5 +1,5 @@
 'use client';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Mail, ArrowRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -13,22 +13,68 @@ function AuthForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [code, setCode] = useState(['', '', '', '', '', '']);
+  const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState(errorParam ? 'Sign-in failed. Please try again.' : '');
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const supabase = createClient();
 
-  const handleMagicLink = async (e: React.FormEvent) => {
+  const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
     setLoading(true);
     setError('');
     const { error } = await supabase.auth.signInWithOtp({
       email: email.trim(),
-      options: { emailRedirectTo: `${location.origin}/auth/callback` },
+      options: { shouldCreateUser: true },
     });
     setLoading(false);
     if (error) { setError(error.message); return; }
     setSent(true);
+  };
+
+  const handleCodeInput = (index: number, value: string) => {
+    const digit = value.replace(/\D/g, '').slice(-1);
+    const newCode = [...code];
+    newCode[index] = digit;
+    setCode(newCode);
+    if (digit && index < 5) inputRefs.current[index + 1]?.focus();
+    if (newCode.every(d => d) && newCode.join('').length === 6) {
+      verifyCode(newCode.join(''));
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+    if (e.key === 'Backspace' && !code[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+    if (pasted.length === 6) {
+      setCode(pasted.split(''));
+      verifyCode(pasted);
+    }
+  };
+
+  const verifyCode = async (otp: string) => {
+    setVerifying(true);
+    setError('');
+    const { error } = await supabase.auth.verifyOtp({
+      email: email.trim(),
+      token: otp,
+      type: 'email',
+    });
+    setVerifying(false);
+    if (error) {
+      setError('Invalid code. Please try again.');
+      setCode(['', '', '', '', '', '']);
+      inputRefs.current[0]?.focus();
+      return;
+    }
+    router.push('/predict');
   };
 
   const handleGoogle = async () => {
@@ -42,19 +88,59 @@ function AuthForm() {
 
   if (sent) {
     return (
-      <div className="text-center">
-        <div className="text-5xl mb-4">📬</div>
-        <h2 className="font-display font-extrabold text-2xl mb-2" style={{ color: '#f5f3ff' }}>
-          Check your inbox
-        </h2>
-        <p className="text-sm mb-6" style={{ color: '#c4bdec' }}>
-          We sent a magic link to <strong style={{ color: '#f5f3ff' }}>{email}</strong>.<br />
-          Click the link to sign in — no password needed.
-        </p>
+      <div>
+        <div className="text-center mb-8">
+          <div className="text-5xl mb-4">📩</div>
+          <h2 className="font-display font-extrabold text-2xl mb-2" style={{ color: '#f5f3ff' }}>
+            Check your email
+          </h2>
+          <p className="text-sm" style={{ color: '#c4bdec' }}>
+            We sent a 6-digit code to<br />
+            <strong style={{ color: '#f5f3ff' }}>{email}</strong>
+          </p>
+        </div>
+
+        {error && (
+          <div className="mb-5 rounded-xl px-4 py-3 text-sm font-medium text-center"
+            style={{ background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.30)', color: '#fca5a5' }}>
+            {error}
+          </div>
+        )}
+
+        {/* 6-digit code inputs */}
+        <div className="flex gap-2 justify-center mb-6" onPaste={handlePaste}>
+          {code.map((digit, i) => (
+            <input
+              key={i}
+              ref={el => { inputRefs.current[i] = el; }}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              value={digit}
+              autoFocus={i === 0}
+              onChange={e => handleCodeInput(i, e.target.value)}
+              onKeyDown={e => handleKeyDown(i, e)}
+              className="w-12 h-14 text-center text-xl font-extrabold rounded-xl outline-none transition-all"
+              style={{
+                background: 'rgba(255,255,255,0.06)',
+                border: `2px solid ${digit ? '#8b5cf6' : 'rgba(255,255,255,0.12)'}`,
+                color: '#f5f3ff',
+              }}
+            />
+          ))}
+        </div>
+
+        {verifying && (
+          <div className="flex items-center justify-center gap-2 mb-4" style={{ color: '#c4bdec' }}>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="text-sm">Verifying…</span>
+          </div>
+        )}
+
         <button
-          onClick={() => setSent(false)}
-          className="text-sm font-semibold transition-opacity hover:opacity-70"
-          style={{ color: '#a78bfa' }}
+          onClick={() => { setSent(false); setCode(['', '', '', '', '', '']); setError(''); }}
+          className="w-full text-sm font-semibold text-center transition-opacity hover:opacity-70"
+          style={{ color: '#6f6796' }}
         >
           Use a different email
         </button>
@@ -116,8 +202,7 @@ function AuthForm() {
         </div>
       </div>
 
-      {/* Magic link form */}
-      <form onSubmit={handleMagicLink} className="flex flex-col gap-3">
+      <form onSubmit={handleSendCode} className="flex flex-col gap-3">
         <div className="relative">
           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6f6796' }} />
           <input
@@ -140,7 +225,7 @@ function AuthForm() {
           className="flex items-center justify-center gap-2 rounded-2xl py-3.5 font-display font-extrabold text-sm transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 disabled:hover:scale-100"
           style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)', color: '#fff' }}
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Send magic link <ArrowRight className="w-4 h-4" /></>}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <>Send code <ArrowRight className="w-4 h-4" /></>}
         </button>
       </form>
 
