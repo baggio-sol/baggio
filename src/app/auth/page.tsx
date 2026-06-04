@@ -74,7 +74,7 @@ function AuthForm() {
       inputRefs.current[0]?.focus();
       return;
     }
-    router.push('/predict');
+    router.push('/');
   };
 
   const handleGoogle = async () => {
