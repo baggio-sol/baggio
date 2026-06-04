@@ -20,7 +20,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "WC2026 Spice Bracket",
+  title: "WC'26 Predictor",
   description: "Predict the World Cup 2026 bracket and get your Spice Score — a 0–100 contrarian rating plus a persona that reveals how bold your picks really are.",
 };
 

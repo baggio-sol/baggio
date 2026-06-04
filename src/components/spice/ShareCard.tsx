@@ -93,7 +93,7 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
 
         {/* Footer */}
         <div className="flex items-center justify-between mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
-          <span className="text-sm font-display font-extrabold gradient-text">BAGGIO</span>
+          <span className="text-sm font-display font-extrabold gradient-text">WC&apos;26 Predictor</span>
           <span className="text-xs font-semibold" style={{ color: '#c4bdec' }}>
             {handle ? `@${handle}` : 'WC2026 Spice Bracket'}
           </span>

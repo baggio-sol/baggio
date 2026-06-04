@@ -50,7 +50,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
     if (!imgUrl) return;
     const a = document.createElement('a');
     a.href = imgUrl;
-    a.download = `baggio-bracket-${displayName.replace(/\s+/g, '-').toLowerCase()}.png`;
+    a.download = `wc26-predictor-${displayName.replace(/\s+/g, '-').toLowerCase()}.png`;
     a.click();
   };
 
@@ -61,14 +61,14 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
       // Prefer sharing the actual image file when supported.
       if (imgUrl && navigator.canShare) {
         const blob = await (await fetch(imgUrl)).blob();
-        const file = new File([blob], 'baggio-bracket.png', { type: 'image/png' });
+        const file = new File([blob], 'wc26-predictor-bracket.png', { type: 'image/png' });
         if (navigator.canShare({ files: [file] })) {
           await navigator.share({ files: [file], title: 'My World Cup 2026 Bracket', text });
           return;
         }
       }
       if (navigator.share) {
-        await navigator.share({ title: 'My World Cup 2026 Bracket', text, url });
+        await navigator.share({ title: "My WC'26 Predictor Bracket", text, url });
       } else {
         await navigator.clipboard.writeText(`${text} ${url}`);
         alert('Link copied to clipboard!');

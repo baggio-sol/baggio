@@ -5,7 +5,7 @@ export default function Footer() {
       style={{ borderColor: 'rgba(255,255,255,0.10)' }}
     >
       <p className="text-sm" style={{ color: '#c4bdec' }}>
-        WC2026 Spice Bracket · Built for the beautiful game
+        WC&apos;26 Predictor · Built for the beautiful game
       </p>
     </footer>
   );

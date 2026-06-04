@@ -259,7 +259,7 @@ export async function renderBracketTicket(params: {
   ctx.textBaseline = 'middle';
   ctx.fillStyle = C.goldLight;
   ctx.font = 'bold 22px "Georgia", serif';
-  ctx.fillText('BAGGIO', 28, HEADER_H / 2);
+  ctx.fillText("WC'26 Predictor", 28, HEADER_H / 2);
   ctx.textAlign = 'right';
   ctx.font = 'bold 12px "Courier New", monospace';
   ctx.letterSpacing = '4px';
@@ -491,7 +491,7 @@ export async function renderBracketTicket(params: {
   ctx.font = 'bold 13px "Georgia", serif';
   ctx.fillStyle = C.goldLight;
   ctx.textAlign = 'left';
-  ctx.fillText('baggio.app', 28, footerY);
+  ctx.fillText("wc26predictor.app", 28, footerY);
   ctx.textAlign = 'right';
   ctx.font = '10px "Courier New", monospace';
   ctx.fillStyle = C.goldLight;

@@ -26,7 +26,7 @@ export default function AuthPage() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
               <Trophy className="w-6 h-6 text-white" />
             </div>
-            <span className="font-black text-xl text-white">BAGGIO<span className="text-emerald-400">26</span></span>
+            <span className="font-black text-xl text-white">WC<span className="text-emerald-400">&apos;26 Predictor</span></span>
           </Link>
           <h2 className="text-2xl font-black text-white mt-4">
             {mode === 'login' ? 'Welcome back' : 'Create your account'}
