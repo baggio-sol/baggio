@@ -37,7 +37,7 @@ const C = {
   dash:      'rgba(26,61,43,0.25)',
 };
 
-// ── Bracket ordering ──────────────────────────────────────────────────────────
+// ── Bracket ordering ──────────────────────────────────────────────────────
 const LEFT_R32_GROUPS = [
   ['M74', 'M77'],
   ['M73', 'M75'],
@@ -60,7 +60,7 @@ const RIGHT_SF  = 'M102';
 
 const FINAL = 'M104';
 
-// ── Layout constants ──────────────────────────────────────────────────────────
+// ── Layout constants ──────────────────────────────────────────────────────
 const W = 1080;
 const H = 1080;
 const HEADER_H = 68;
@@ -92,7 +92,7 @@ const SLOT_W_R16 = LX.r16Right - LX.r16Left;
 const SLOT_W_QF  = LX.qfRight  - LX.qfLeft;
 const SLOT_W_SF  = LX.sfRight  - LX.sfLeft;
 
-// ── Flag image loading (cached, CORS-enabled) ─────────────────────────────────
+// ── Flag image loading (cached, CORS-enabled) ───────────────────────────────────
 type FlagMap = Record<string, HTMLImageElement>;
 const flagCache: FlagMap = {};
 
@@ -231,7 +231,7 @@ function connectBracket(
   ctx.stroke();
 }
 
-// ── Main renderer ─────────────────────────────────────────────────────────────
+// ── Main renderer ─────────────────────────────────────────────────────────────────
 export async function renderBracketTicket(params: {
   userName: string;
   bracket: import('./types').Bracket;
@@ -271,9 +271,7 @@ export async function renderBracketTicket(params: {
   for (let i = 0; i < headerDotColors.length; i++) {
     ctx.fillStyle = headerDotColors[i];
     const isDiamond = i === Math.floor(headerDotColors.length / 2);
-    // right side
     const rx = W / 2 + titleHalfW + dotGap + i * headerDotSpacing;
-    // left side (mirror)
     const lx = W / 2 - titleHalfW - dotGap - i * headerDotSpacing;
     for (const dx of [rx, lx]) {
       if (isDiamond) {
@@ -480,8 +478,8 @@ export async function renderBracketTicket(params: {
     ctx.beginPath(); ctx.moveTo(RX.sfLeft, sfWinnerY_R); ctx.lineTo(RX.sfLeft - 14, sfWinnerY_R); ctx.stroke();
   }
 
-  // ── Final / Champion box (centre) ─────────────────────────────────────────
-  const finalBoxW = 116;
+  // ── Final / Champion box (centre) ───────────────────────────────────────────────────
+const finalBoxW = 116;
   const finalBoxH = 78;
   const finalBoxX = LX.finalCx - finalBoxW / 2;
   const finalBoxY = (sfWinnerY_L + sfWinnerY_R) / 2 - finalBoxH / 2;
