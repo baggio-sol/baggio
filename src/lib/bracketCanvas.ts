@@ -252,19 +252,38 @@ export async function renderBracketTicket(params: {
   ctx.fillStyle = 'rgba(0,0,0,0.03)';
   for (let y = 0; y < H; y += 8) ctx.fillRect(0, y, W, 1);
 
-  // Header band
+  // Header band — FIFA style: centered title + dot decorations
   ctx.fillStyle = C.header;
   ctx.fillRect(0, 0, W, HEADER_H);
-  ctx.textAlign = 'left';
+
+  // Centered title
+  ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = C.goldLight;
-  ctx.font = 'bold 22px "Georgia", serif';
-  ctx.fillText("WC'26 Predictor", 28, HEADER_H / 2);
-  ctx.textAlign = 'right';
-  ctx.font = 'bold 12px "Courier New", monospace';
-  ctx.letterSpacing = '4px';
-  ctx.fillText('THE FINAL', W - 28, HEADER_H / 2);
-  ctx.letterSpacing = '0px';
+  ctx.font = 'bold 19px "Courier New", monospace';
+  ctx.fillText('FIFA WORLD CUP · 26', W / 2, HEADER_H / 2);
+
+  // Dot decorations on both sides of the title
+  const headerDotColors = ['#e8334a', '#c9a030', '#e8334a', '#c9a030', '#c9a030', '#c9a030', '#e8334a'];
+  const headerDotSpacing = 14;
+  const titleHalfW = 138; // approx half-width of the title text
+  const dotGap = 18;
+  for (let i = 0; i < headerDotColors.length; i++) {
+    ctx.fillStyle = headerDotColors[i];
+    const isDiamond = i === Math.floor(headerDotColors.length / 2);
+    // right side
+    const rx = W / 2 + titleHalfW + dotGap + i * headerDotSpacing;
+    // left side (mirror)
+    const lx = W / 2 - titleHalfW - dotGap - i * headerDotSpacing;
+    for (const dx of [rx, lx]) {
+      if (isDiamond) {
+        ctx.save(); ctx.translate(dx, HEADER_H / 2); ctx.rotate(Math.PI / 4);
+        ctx.fillRect(-3.5, -3.5, 7, 7); ctx.restore();
+      } else {
+        ctx.beginPath(); ctx.arc(dx, HEADER_H / 2, 2.5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+  }
 
   // Metadata row
   const metaY = HEADER_H + META_H / 2;
@@ -326,6 +345,26 @@ export async function renderBracketTicket(params: {
   ctx.lineWidth = 0.8;
   ctx.beginPath(); ctx.moveTo(28, ROAD_Y + 9); ctx.lineTo(W / 2 - 115, ROAD_Y + 9); ctx.stroke();
   ctx.beginPath(); ctx.moveTo(W / 2 + 115, ROAD_Y + 9); ctx.lineTo(W - 28, ROAD_Y + 9); ctx.stroke();
+
+  // Round column labels
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'alphabetic';
+  ctx.font = 'bold 7.5px "Courier New", monospace';
+  ctx.fillStyle = C.gold;
+  const roundCols: [string, number][] = [
+    ['R32',   (LX.r32Left  + LX.r32Right)  / 2],
+    ['R16',   (LX.r16Left  + LX.r16Right)  / 2],
+    ['QTR',   (LX.qfLeft   + LX.qfRight)   / 2],
+    ['SEMI',  (LX.sfLeft   + LX.sfRight)   / 2],
+    ['FINAL', LX.finalCx],
+    ['SEMI',  (RX.sfLeft   + RX.sfRight)   / 2],
+    ['QTR',   (RX.qfLeft   + RX.qfRight)   / 2],
+    ['R16',   (RX.r16Left  + RX.r16Right)  / 2],
+    ['R32',   (RX.r32Left  + RX.r32Right)  / 2],
+  ];
+  for (const [label, cx] of roundCols) {
+    ctx.fillText(label, cx, BRACKET_TOP - 6);
+  }
 
   // Bracket layout
   const r32Top = (matchIndex: number): number => {
