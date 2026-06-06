@@ -147,7 +147,6 @@ function drawFlag(
     ctx.fillRect(x, y, w, h);
   }
   ctx.restore();
-  // hairline border
   ctx.strokeStyle = 'rgba(0,0,0,0.18)';
   ctx.lineWidth = 0.5;
   rrect(ctx, x, y, w, h, 2);
@@ -173,11 +172,9 @@ function drawTeamRow(
     ctx.fillRect(x, y, 2.5, h);
   }
 
-  // Real flag image (full opacity for losers too)
   const fw = 16, fh = 11;
   drawFlag(ctx, flags, code, x + 5, y + (h - fh) / 2, fw, fh, false);
 
-  // Team code
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
   ctx.font = `${state === 'winner' ? 'bold ' : ''}8.5px "Courier New", monospace`;
@@ -256,17 +253,16 @@ export async function renderBracketTicket(params: {
   ctx.fillStyle = C.header;
   ctx.fillRect(0, 0, W, HEADER_H);
 
-  // Centered title
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillStyle = C.goldLight;
   ctx.font = 'bold 19px "Courier New", monospace';
   ctx.fillText('FIFA WORLD CUP · 26', W / 2, HEADER_H / 2);
 
-  // Dot decorations on both sides of the title
+  // Dot decorations flanking the title
   const headerDotColors = ['#e8334a', '#c9a030', '#e8334a', '#c9a030', '#c9a030', '#c9a030', '#e8334a'];
   const headerDotSpacing = 14;
-  const titleHalfW = 138; // approx half-width of the title text
+  const titleHalfW = 138;
   const dotGap = 18;
   for (let i = 0; i < headerDotColors.length; i++) {
     ctx.fillStyle = headerDotColors[i];
@@ -312,17 +308,14 @@ export async function renderBracketTicket(params: {
   ctx.font = 'bold 8.5px "Courier New", monospace';
   ctx.fillText('PRESENTING YOUR CHAMPION', champX, HEADER_H + META_H + 20);
 
-  // Big champion flag (real image)
   const bigFlagY = HEADER_H + META_H + 34;
   drawFlag(ctx, flags, champCode, champX, bigFlagY, 96, 64, false);
 
-  // Champion name
   ctx.fillStyle = C.header;
   ctx.font = `900 ${champCode ? 78 : 50}px "Georgia", serif`;
   const nameY = bigFlagY + 64 + 70;
   ctx.fillText(champCode ? champName.toUpperCase() : 'TBD', champX, nameY);
 
-  // Subtitle + gold rule
   ctx.fillStyle = C.gold;
   ctx.font = 'bold 9px "Courier New", monospace';
   ctx.fillText('FIFA WORLD CUP 2026 CHAMPION', champX, nameY + 16);
@@ -433,7 +426,6 @@ export async function renderBracketTicket(params: {
     ctx.beginPath(); ctx.moveTo(LX.sfRight, sfWinnerY_L); ctx.lineTo(LX.sfRight + 14, sfWinnerY_L); ctx.stroke();
   }
 
-  // Right side mirrored
   const rightR16Centers: number[] = [];
   RIGHT_R16.forEach((matchId, i) => {
     const [w0, m0] = rightR32Centers[i * 2];
@@ -478,8 +470,8 @@ export async function renderBracketTicket(params: {
     ctx.beginPath(); ctx.moveTo(RX.sfLeft, sfWinnerY_R); ctx.lineTo(RX.sfLeft - 14, sfWinnerY_R); ctx.stroke();
   }
 
-  // ── Final / Champion box (centre) ───────────────────────────────────────────────────
-const finalBoxW = 116;
+  // Final / Champion box
+  const finalBoxW = 116;
   const finalBoxH = 78;
   const finalBoxX = LX.finalCx - finalBoxW / 2;
   const finalBoxY = (sfWinnerY_L + sfWinnerY_R) / 2 - finalBoxH / 2;
@@ -492,13 +484,11 @@ const finalBoxW = 116;
   rrect(ctx, finalBoxX, finalBoxY, finalBoxW, finalBoxH, 7);
   ctx.stroke();
 
-  // Trophy + flag + champion code inside the box
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.font = '20px sans-serif';
   ctx.fillText('🏆', LX.finalCx, finalBoxY + 18);
 
-  // Champion flag image
   drawFlag(ctx, flags, champCode, LX.finalCx - 30, finalBoxY + 32, 24, 16, false);
   ctx.fillStyle = champCode ? '#fff' : C.muted;
   ctx.font = 'bold 15px "Courier New", monospace';
@@ -528,7 +518,7 @@ const finalBoxW = 116;
   ctx.font = 'bold 13px "Georgia", serif';
   ctx.fillStyle = C.goldLight;
   ctx.textAlign = 'left';
-  ctx.fillText("wc26predictor.app", 28, footerY);
+  ctx.fillText('wc26predictor.app', 28, footerY);
   ctx.textAlign = 'right';
   ctx.font = '10px "Courier New", monospace';
   ctx.fillStyle = C.goldLight;
