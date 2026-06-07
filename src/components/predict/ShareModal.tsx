@@ -3,7 +3,7 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { usePredictionStore, deriveTree, useProfileStore } from '@/lib/store';
 import { computeSpice } from '@/lib/spice';
 import { TEAM_BY_CODE } from '@/lib/tournament';
-import { renderBracketTicket } from '@/lib/bracketCanvas';
+import { renderBracketTicket, type BracketTheme } from '@/lib/bracketCanvas';
 import { Check, X, Share2, Download, Trophy, Pencil, Loader2 } from 'lucide-react';
 
 export default function ShareModal({ onClose }: { onClose: () => void }) {
@@ -11,6 +11,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
   const { userName, setUserName } = useProfileStore();
   const [editingName, setEditingName] = useState(false);
   const [localName, setLocalName] = useState(userName);
+  const [theme, setTheme] = useState<BracketTheme>('dark');
   const [imgUrl, setImgUrl] = useState<string | null>(null);
   const [rendering, setRendering] = useState(true);
   const closingRef = useRef(false);
@@ -25,19 +26,17 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
   const ruCode    = spice.runnerUp;
   const ru        = ruCode ? TEAM_BY_CODE[ruCode] : undefined;
 
-  // Render the real ticket image whenever the name (or bracket) changes.
-  // The preview shows EXACTLY what Download produces.
   useEffect(() => {
     if (!bracket || !derived) return;
     let cancelled = false;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setRendering(true);
-    renderBracketTicket({ userName: displayName, bracket, tree: derived.tree, winners: derived.winners })
+    renderBracketTicket({ userName: displayName, bracket, tree: derived.tree, winners: derived.winners, theme })
       .then((url) => { if (!cancelled) { setImgUrl(url); setRendering(false); } })
       .catch(() => { if (!cancelled) setRendering(false); });
     return () => { cancelled = true; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bracket, displayName]);
+  }, [bracket, displayName, theme]);
 
   if (!bracket || !derived) return null;
 
@@ -74,7 +73,6 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
     const shareUrl = buildShareUrl();
     const text = `${spice.personaEmoji} ${spice.persona} — I've got ${champ?.name ?? 'my pick'} lifting the 2026 World Cup. Spice Score ${spice.score}/100.`;
     try {
-      // Prefer sharing the actual image file when supported.
       if (imgUrl && navigator.canShare) {
         const blob = await (await fetch(imgUrl)).blob();
         const file = new File([blob], 'wc26-predictor-bracket.png', { type: 'image/png' });
@@ -112,7 +110,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* ── Header ──────────────────────────────────────────────────── */}
+        {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(167,139,250,0.20)' }}>
             <Check className="w-5 h-5" style={{ color: '#a78bfa' }} />
@@ -133,24 +131,54 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
         </div>
 
         <div className="p-5">
-          {/* ── Live preview (the exact downloaded image) ─────────────── */}
+          {/* Theme toggle */}
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <button
+              onClick={() => setTheme('dark')}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all"
+              style={{
+                background: theme === 'dark' ? 'linear-gradient(135deg,#8b5cf6,#3b82f6)' : 'rgba(255,255,255,0.06)',
+                color: theme === 'dark' ? '#fff' : '#c4bdec',
+                border: theme === 'dark' ? 'none' : '1px solid rgba(255,255,255,0.10)',
+              }}
+            >
+              🌙 Dark
+            </button>
+            <button
+              onClick={() => setTheme('light')}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all"
+              style={{
+                background: theme === 'light' ? 'linear-gradient(135deg,#8b5cf6,#3b82f6)' : 'rgba(255,255,255,0.06)',
+                color: theme === 'light' ? '#fff' : '#c4bdec',
+                border: theme === 'light' ? 'none' : '1px solid rgba(255,255,255,0.10)',
+              }}
+            >
+              ☀️ Light
+            </button>
+          </div>
+
+          {/* Live preview */}
           <div
             className="relative mx-auto mb-4 rounded-xl overflow-hidden flex items-center justify-center"
-            style={{ aspectRatio: '1 / 1', background: '#f0e6c8', border: '1px solid rgba(184,150,46,0.35)' }}
+            style={{
+              aspectRatio: '1 / 1',
+              background: theme === 'light' ? '#fdf8f0' : '#120931',
+              border: '1px solid rgba(139,92,246,0.25)',
+            }}
           >
             {imgUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={imgUrl} alt="Your bracket card" className="w-full h-full object-contain" />
             ) : (
-              <div className="flex flex-col items-center gap-2" style={{ color: '#7a6e50' }}>
+              <div className="flex flex-col items-center gap-2" style={{ color: '#c4bdec' }}>
                 <Loader2 className="w-6 h-6 animate-spin" />
-                <span className="text-xs font-bold">Rendering your ticket…</span>
+                <span className="text-xs font-bold">Rendering your bracket…</span>
               </div>
             )}
             {rendering && imgUrl && (
-              <div className="absolute top-2 right-2 rounded-full px-2 py-1 flex items-center gap-1" style={{ background: 'rgba(0,0,0,0.4)' }}>
-                <Loader2 className="w-3 h-3 animate-spin" style={{ color: '#d4ad45' }} />
-                <span className="text-[10px] font-bold" style={{ color: '#d4ad45' }}>updating</span>
+              <div className="absolute top-2 right-2 rounded-full px-2 py-1 flex items-center gap-1" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                <Loader2 className="w-3 h-3 animate-spin" style={{ color: '#a78bfa' }} />
+                <span className="text-[10px] font-bold" style={{ color: '#a78bfa' }}>updating</span>
               </div>
             )}
           </div>
@@ -158,7 +186,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
             Bracket Ticket · 1080 × 1080
           </p>
 
-          {/* ── Name on ticket ────────────────────────────────────────── */}
+          {/* Name on ticket */}
           <div
             className="flex items-center gap-3 rounded-xl px-4 py-3 mb-5"
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}
@@ -187,7 +215,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
             </button>
           </div>
 
-          {/* ── Actions ───────────────────────────────────────────────── */}
+          {/* Actions */}
           <div className="flex gap-3">
             <button
               onClick={handleShare}
