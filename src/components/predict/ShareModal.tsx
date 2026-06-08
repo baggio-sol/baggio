@@ -99,20 +99,20 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
         {/* ── Header ──────────────────────────────────────────────────── */}
         <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(167,139,250,0.20)' }}>
-            <Check className="w-5 h-5" style={{ color: '#a78bfa' }} />
+            <Check className="w-5 h-5" style={{ color: '#9d7fea' }} />
           </div>
           <div className="flex-1 min-w-0">
-            <h2 className="font-display font-extrabold text-lg leading-tight" style={{ color: '#f5f3ff' }}>
+            <h2 className="font-display font-extrabold text-lg leading-tight" style={{ color: '#f1f0f7' }}>
               Bracket Confirmed
             </h2>
-            <p className="text-xs font-medium flex items-center gap-1.5" style={{ color: '#c4bdec' }}>
+            <p className="text-xs font-medium flex items-center gap-1.5" style={{ color: '#a09db8' }}>
               Champion: <span className="text-base leading-none">{champ?.flag}</span>
-              <span className="font-bold" style={{ color: '#f5f3ff' }}>{champ?.name ?? 'TBD'}</span>
-              {ru && <span style={{ color: '#c4bdec' }}>· def. {ru.name}</span>}
+              <span className="font-bold" style={{ color: '#f1f0f7' }}>{champ?.name ?? 'TBD'}</span>
+              {ru && <span style={{ color: '#a09db8' }}>· def. {ru.name}</span>}
             </p>
           </div>
           <button onClick={close} className="p-1.5 rounded-lg transition-colors hover:bg-white/10">
-            <X className="w-5 h-5" style={{ color: '#c4bdec' }} />
+            <X className="w-5 h-5" style={{ color: '#a09db8' }} />
           </button>
         </div>
 
@@ -138,7 +138,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
               </div>
             )}
           </div>
-          <p className="text-center text-[11px] font-bold tracking-widest uppercase mb-5" style={{ color: '#6f6796' }}>
+          <p className="text-center text-[11px] font-bold tracking-widest uppercase mb-5" style={{ color: '#4a4668' }}>
             Bracket Ticket · 1080 × 1080
           </p>
 
@@ -148,7 +148,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
             style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.09)' }}
           >
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#6f6796' }}>
+              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: '#4a4668' }}>
                 Name on ticket
               </p>
               {editingName ? (
@@ -160,14 +160,14 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
                   onBlur={handleSaveName}
                   onKeyDown={(e) => e.key === 'Enter' && handleSaveName()}
                   className="w-full bg-transparent outline-none text-sm font-bold"
-                  style={{ color: '#f5f3ff' }}
+                  style={{ color: '#f1f0f7' }}
                 />
               ) : (
-                <p className="text-sm font-bold" style={{ color: '#f5f3ff' }}>{displayName}</p>
+                <p className="text-sm font-bold" style={{ color: '#f1f0f7' }}>{displayName}</p>
               )}
             </div>
             <button onClick={() => setEditingName((v) => !v)} className="p-1.5 rounded-lg hover:bg-white/10 transition-colors">
-              <Pencil className="w-3.5 h-3.5" style={{ color: '#a78bfa' }} />
+              <Pencil className="w-3.5 h-3.5" style={{ color: '#9d7fea' }} />
             </button>
           </div>
 
@@ -177,7 +177,7 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
               onClick={handleShare}
               disabled={!imgUrl}
               className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3.5 font-display font-extrabold text-white transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)' }}
+              style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)' }}
             >
               <Share2 className="w-5 h-5" /> Share
             </button>
@@ -185,14 +185,14 @@ export default function ShareModal({ onClose }: { onClose: () => void }) {
               onClick={handleDownload}
               disabled={!imgUrl}
               className="flex-1 flex items-center justify-center gap-2 rounded-2xl py-3.5 font-display font-extrabold transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f5f3ff' }}
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#f1f0f7' }}
             >
               <Download className="w-5 h-5" /> Download
             </button>
           </div>
 
-          <p className="text-[11px] leading-relaxed mt-4 flex items-start gap-1.5" style={{ color: '#6f6796' }}>
-            <Trophy className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: '#6f6796' }} />
+          <p className="text-[11px] leading-relaxed mt-4 flex items-start gap-1.5" style={{ color: '#4a4668' }}>
+            <Trophy className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: '#4a4668' }} />
             The preview above is exactly what gets downloaded and shared — your full bracket tree with real flags.
           </p>
         </div>

@@ -124,7 +124,7 @@ export default function FlagOrbit() {
         }}
       >
         <span className="text-2xl">⚽</span>
-        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#c4bdec' }}>2026</span>
+        <span className="text-[9px] font-bold uppercase tracking-widest mt-0.5" style={{ color: '#a09db8' }}>2026</span>
       </div>
     </div>
   );

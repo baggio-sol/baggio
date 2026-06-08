@@ -5,11 +5,11 @@ export default function AwardsSection() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-black" style={{ color: '#f5f3ff' }}>Tournament Awards</h2>
-        <p className="mt-1" style={{ color: '#c4bdec' }}>Award predictions coming in a future phase.</p>
+        <h2 className="text-2xl font-black" style={{ color: '#f1f0f7' }}>Tournament Awards</h2>
+        <p className="mt-1" style={{ color: '#a09db8' }}>Award predictions coming in a future phase.</p>
       </div>
       <Card className="p-6 text-center">
-        <p style={{ color: '#6f6796' }}>Awards section under construction.</p>
+        <p style={{ color: '#4a4668' }}>Awards section under construction.</p>
       </Card>
     </div>
   );

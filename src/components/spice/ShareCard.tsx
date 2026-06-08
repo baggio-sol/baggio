@@ -30,18 +30,18 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
         {/* Persona + score */}
         <div className="flex items-start justify-between gap-4 mb-5">
           <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: '#c4bdec' }}>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em]" style={{ color: '#a09db8' }}>
               Certified
             </p>
-            <h2 className="text-2xl font-display font-extrabold leading-tight" style={{ color: '#f5f3ff' }}>
+            <h2 className="text-2xl font-display font-extrabold leading-tight" style={{ color: '#f1f0f7' }}>
               {spice.persona} {spice.personaEmoji}
             </h2>
           </div>
           <div className="text-right flex-shrink-0">
-            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#fb7185' }}>
+            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#f43f5e' }}>
               {spice.score}
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#4a4668' }}>
               Spice / 100
             </p>
           </div>
@@ -55,10 +55,10 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
           className="rounded-2xl px-4 py-3 my-5 border"
           style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.25)' }}
         >
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#fb7185' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#f43f5e' }}>
             Boldest call
           </p>
-          <p className="text-sm font-semibold" style={{ color: '#f5f3ff' }}>
+          <p className="text-sm font-semibold" style={{ color: '#f1f0f7' }}>
             {spice.boldestCall}
           </p>
         </div>
@@ -77,12 +77,12 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
                   boxShadow: team ? `inset 3px 0 0 ${tierColor(team.tier)}` : 'none',
                 }}
               >
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4668' }}>
                   {h.icon} {h.label}
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-lg leading-none">{team?.flag ?? '—'}</span>
-                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f5f3ff' : '#6f6796' }}>
+                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f1f0f7' : '#4a4668' }}>
                     {team?.name ?? 'TBD'}
                   </span>
                 </div>
@@ -94,7 +94,7 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
         {/* Footer */}
         <div className="flex items-center justify-between mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
           <span className="text-sm font-display font-extrabold gradient-text">WC&apos;26 Predictor</span>
-          <span className="text-xs font-semibold" style={{ color: '#c4bdec' }}>
+          <span className="text-xs font-semibold" style={{ color: '#a09db8' }}>
             {handle ? `@${handle}` : 'WC2026 Spice Bracket'}
           </span>
         </div>
@@ -122,7 +122,7 @@ function SpiceBar({ spice }: { spice: SpiceResult }) {
         {spice.categories
           .filter((c) => c.value >= 0.5)
           .map((c) => (
-            <span key={c.key} className="text-[10px] font-medium flex items-center gap-1" style={{ color: '#c4bdec' }}>
+            <span key={c.key} className="text-[10px] font-medium flex items-center gap-1" style={{ color: '#a09db8' }}>
               <span className="w-2 h-2 rounded-full" style={{ background: SEGMENT_COLORS[c.key] }} />
               {c.label}
             </span>
@@ -133,9 +133,9 @@ function SpiceBar({ spice }: { spice: SpiceResult }) {
 }
 
 const SEGMENT_COLORS: Record<string, string> = {
-  champion: '#fb7185',
+  champion: '#f43f5e',
   finalist: '#f472b6',
-  deepRuns: '#a78bfa',
+  deepRuns: '#9d7fea',
   earlyExits: '#818cf8',
   groupUpsets: '#60a5fa',
 };

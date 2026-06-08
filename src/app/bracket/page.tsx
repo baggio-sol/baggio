@@ -28,15 +28,15 @@ export default function BracketPage() {
           <Link
             href="/predict"
             className="p-2 rounded-xl border transition-all"
-            style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.10)', color: '#c4bdec' }}
+            style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.10)', color: '#a09db8' }}
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="text-3xl font-display font-extrabold" style={{ color: '#f5f3ff' }}>
+            <h1 className="text-3xl font-display font-extrabold" style={{ color: '#f1f0f7' }}>
               Knockout Bracket
             </h1>
-            <p style={{ color: '#c4bdec' }}>Pick every winner — your Spice Score updates live.</p>
+            <p style={{ color: '#a09db8' }}>Pick every winner — your Spice Score updates live.</p>
           </div>
         </div>
 
@@ -53,10 +53,10 @@ export default function BracketPage() {
             ) : (
               <div className="rounded-3xl border p-6 text-center glass" style={{ borderColor: 'rgba(255,255,255,0.10)' }}>
                 <div className="text-4xl mb-3">🌶️</div>
-                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f5f3ff' }}>
+                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f1f0f7' }}>
                   Your Spice Score is waiting
                 </h3>
-                <p className="text-sm" style={{ color: '#c4bdec' }}>
+                <p className="text-sm" style={{ color: '#a09db8' }}>
                   Finish the group stage and pick your bracket to reveal your persona and share card.
                 </p>
               </div>

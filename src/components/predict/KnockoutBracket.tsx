@@ -76,7 +76,7 @@ export default function KnockoutBracket() {
 
   if (!bracket || !derived) {
     return (
-      <p className="text-sm px-4 py-3 rounded-xl" style={{ background: 'rgba(251,113,133,0.12)', color: '#fb7185' }}>
+      <p className="text-sm px-4 py-3 rounded-xl" style={{ background: 'rgba(251,113,133,0.12)', color: '#f43f5e' }}>
         Finish your groups and best-3rd picks to unlock the knockout bracket.
       </p>
     );
@@ -106,19 +106,19 @@ export default function KnockoutBracket() {
               onClick={() => setRound(r.key)}
               className="flex-1 flex flex-col items-center justify-center py-2 rounded-xl transition-all"
               style={{
-                background: isActive ? 'linear-gradient(135deg,#8b5cf6,#3b82f6)' : 'rgba(255,255,255,0.05)',
+                background: isActive ? 'linear-gradient(135deg,#7c3aed,#2563eb)' : 'rgba(255,255,255,0.05)',
                 border: `1px solid ${isActive ? 'transparent' : 'rgba(255,255,255,0.08)'}`,
               }}
             >
               <span
                 className="font-display font-extrabold text-sm leading-none"
-                style={{ color: isActive ? '#fff' : '#c4bdec' }}
+                style={{ color: isActive ? '#fff' : '#a09db8' }}
               >
                 {r.short}
               </span>
               <span
                 className="text-[10px] font-bold mt-1 tabular-nums"
-                style={{ color: isActive ? 'rgba(255,255,255,0.85)' : '#6f6796' }}
+                style={{ color: isActive ? 'rgba(255,255,255,0.85)' : '#4a4668' }}
               >
                 {picked}/{r.total}
               </span>
@@ -130,10 +130,10 @@ export default function KnockoutBracket() {
       {/* ── Round header + segmented progress ─────────────────────────── */}
       <div className="mb-3">
         <div className="flex items-baseline justify-between mb-2">
-          <h2 className="font-display font-extrabold text-lg" style={{ color: '#f5f3ff' }}>
+          <h2 className="font-display font-extrabold text-lg" style={{ color: '#f1f0f7' }}>
             {active.name}
           </h2>
-          <span className="text-xs font-bold" style={{ color: '#6f6796' }}>
+          <span className="text-xs font-bold" style={{ color: '#4a4668' }}>
             {pickedHere} of {active.total} picked
           </span>
         </div>
@@ -144,7 +144,7 @@ export default function KnockoutBracket() {
               className="flex-1 h-1.5 rounded-full transition-all"
               style={{
                 background: winners[id]
-                  ? 'linear-gradient(90deg,#8b5cf6,#3b82f6)'
+                  ? 'linear-gradient(90deg,#7c3aed,#2563eb)'
                   : 'rgba(255,255,255,0.08)',
               }}
               data-i={i}
@@ -212,7 +212,7 @@ export default function KnockoutBracket() {
                     {/* Standing label */}
                     <span
                       className="w-8 text-xs font-bold tabular-nums flex-shrink-0"
-                      style={{ color: isWinner ? '#a78bfa' : '#6f6796' }}
+                      style={{ color: isWinner ? '#9d7fea' : '#4a4668' }}
                     >
                       {label || '—'}
                     </span>
@@ -228,7 +228,7 @@ export default function KnockoutBracket() {
                     {/* Name */}
                     <span
                       className="flex-1 min-w-0 text-sm font-bold truncate"
-                      style={{ color: team ? '#f5f3ff' : '#6f6796' }}
+                      style={{ color: team ? '#f1f0f7' : '#4a4668' }}
                     >
                       {team?.name ?? `Winner of ${m[slot === 'home' ? 'homeSource' : 'awaySource'].replace('W:', '')}`}
                     </span>
@@ -237,12 +237,12 @@ export default function KnockoutBracket() {
                     {isWinner ? (
                       <span
                         className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                        style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)' }}
+                        style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)' }}
                       >
                         <Check className="w-3 h-3 text-white" />
                       </span>
                     ) : team?.rank ? (
-                      <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#6f6796' }}>
+                      <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#4a4668' }}>
                         #{team.rank}
                       </span>
                     ) : (
@@ -259,15 +259,15 @@ export default function KnockoutBracket() {
               >
                 {round === 'final' ? (
                   <>
-                    <Trophy className="w-3.5 h-3.5" style={{ color: winner ? '#fb7185' : '#6f6796' }} />
-                    <span className="text-[11px] font-semibold" style={{ color: winner ? '#fb7185' : '#6f6796' }}>
+                    <Trophy className="w-3.5 h-3.5" style={{ color: winner ? '#f43f5e' : '#4a4668' }} />
+                    <span className="text-[11px] font-semibold" style={{ color: winner ? '#f43f5e' : '#4a4668' }}>
                       {winner ? `${TEAM_BY_CODE[winner]?.name} are your champions` : 'Pick your World Cup champion'}
                     </span>
                   </>
                 ) : (
                   <>
-                    <Info className="w-3.5 h-3.5" style={{ color: '#6f6796' }} />
-                    <span className="text-[11px] font-medium" style={{ color: '#6f6796' }}>
+                    <Info className="w-3.5 h-3.5" style={{ color: '#4a4668' }} />
+                    <span className="text-[11px] font-medium" style={{ color: '#4a4668' }}>
                       {winner
                         ? `${TEAM_BY_CODE[winner]?.name} advance to ${active.nextName}`
                         : bothKnown
@@ -287,7 +287,7 @@ export default function KnockoutBracket() {
         <button
           onClick={() => setShareOpen(true)}
           className="w-full mt-5 flex items-center justify-center gap-2 rounded-2xl py-4 font-display font-extrabold text-white transition-all hover:scale-[1.02] active:scale-95"
-          style={{ background: 'linear-gradient(135deg,#fb7185,#8b5cf6)' }}
+          style={{ background: 'linear-gradient(135deg,#f43f5e,#7c3aed)' }}
         >
           <Share2 className="w-5 h-5" />
           Confirm bracket &amp; share

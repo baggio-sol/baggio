@@ -15,12 +15,12 @@ export default function HomePage() {
           style={{
             background: 'rgba(139,92,246,0.12)',
             borderColor: 'rgba(139,92,246,0.35)',
-            color: '#c4bdec',
+            color: '#a09db8',
           }}
         >
           <span
             className="w-1.5 h-1.5 rounded-full inline-block"
-            style={{ background: '#fb7185', animation: 'pulse 2s infinite' }}
+            style={{ background: '#f43f5e', animation: 'pulse 2s infinite' }}
           />
           FIFA World Cup 2026
         </div>
@@ -30,14 +30,14 @@ export default function HomePage() {
           className="font-display font-extrabold leading-none mb-5"
           style={{
             fontSize: 'clamp(2.8rem, 6vw, 5rem)',
-            color: '#f5f3ff',
+            color: '#f1f0f7',
             letterSpacing: '-0.02em',
           }}
         >
           World Cup{' '}
           <span
             style={{
-              background: 'linear-gradient(135deg, #8b5cf6 0%, #3b82f6 50%, #fb7185 100%)',
+              background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #f43f5e 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -51,7 +51,7 @@ export default function HomePage() {
         {/* Sub-headline */}
         <p
           className="max-w-xl text-base sm:text-lg mb-8 leading-relaxed"
-          style={{ color: '#c4bdec' }}
+          style={{ color: '#a09db8' }}
         >
           Create your free 2026 World Cup bracket, predict the group standings
           and knockout rounds and compete with friends to see who knows ball.
@@ -59,7 +59,7 @@ export default function HomePage() {
 
         {/* Countdown */}
         <div className="mb-10 flex flex-col items-center gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#6f6796' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4668' }}>
             Tournament kicks off in
           </p>
           <CountdownTimer />
@@ -70,7 +70,7 @@ export default function HomePage() {
           <OnboardingTrigger
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+              background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
               color: '#fff',
               boxShadow: '0 8px 32px -8px rgba(139,92,246,0.55)',
             }}
@@ -83,7 +83,7 @@ export default function HomePage() {
             style={{
               background: 'rgba(255,255,255,0.05)',
               borderColor: 'rgba(255,255,255,0.12)',
-              color: '#c4bdec',
+              color: '#a09db8',
             }}
           >
             See an example
@@ -104,10 +104,10 @@ export default function HomePage() {
       {/* ── How it works (step by step) ──────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-3xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
             How it works
           </p>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
             Five steps, start to finish
           </h2>
         </div>
@@ -148,7 +148,7 @@ export default function HomePage() {
               <span
                 className="font-display font-extrabold text-3xl sm:text-4xl flex-shrink-0 leading-none"
                 style={{
-                  background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+                  background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',
@@ -157,10 +157,10 @@ export default function HomePage() {
                 {s.n}
               </span>
               <div>
-                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f5f3ff' }}>
+                <h3 className="font-display font-extrabold text-lg mb-1" style={{ color: '#f1f0f7' }}>
                   {s.title}
                 </h3>
-                <p className="text-sm leading-relaxed" style={{ color: '#c4bdec' }}>
+                <p className="text-sm leading-relaxed" style={{ color: '#a09db8' }}>
                   {s.body}
                 </p>
               </div>
@@ -172,10 +172,10 @@ export default function HomePage() {
       {/* ── By the numbers ───────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-5xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
             The full bracket
           </p>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
             One tournament, every call
           </h2>
         </div>
@@ -183,8 +183,8 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
             { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#60a5fa' },
-            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#a78bfa' },
-            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#fb7185' },
+            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#9d7fea' },
+            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#f43f5e' },
           ].map((s) => (
             <div
               key={s.label}
@@ -197,10 +197,10 @@ export default function HomePage() {
               >
                 {s.value}
               </span>
-              <span className="font-display font-extrabold text-lg" style={{ color: '#f5f3ff' }}>
+              <span className="font-display font-extrabold text-lg" style={{ color: '#f1f0f7' }}>
                 {s.label}
               </span>
-              <span className="text-sm mt-1" style={{ color: '#c4bdec' }}>
+              <span className="text-sm mt-1" style={{ color: '#a09db8' }}>
                 {s.sub}
               </span>
             </div>
@@ -211,13 +211,13 @@ export default function HomePage() {
       {/* ── Earn points ──────────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
             Scoring
           </p>
-          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f5f3ff' }}>
+          <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
             Earn points while you predict
           </h2>
-          <p className="mt-4" style={{ color: '#c4bdec' }}>
+          <p className="mt-4" style={{ color: '#a09db8' }}>
             Every correct call adds up. The deeper the round, the more it’s worth.
           </p>
         </div>
@@ -230,7 +230,7 @@ export default function HomePage() {
           >
             <div className="flex items-center gap-2 mb-5">
               <span className="text-2xl">📋</span>
-              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f1f0f7' }}>
                 Group phase
               </h3>
             </div>
@@ -245,7 +245,7 @@ export default function HomePage() {
                   className="flex items-center justify-between py-3"
                   style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none' }}
                 >
-                  <span className="text-sm" style={{ color: '#c4bdec' }}>{r.label}</span>
+                  <span className="text-sm" style={{ color: '#a09db8' }}>{r.label}</span>
                   <span
                     className="font-display font-extrabold text-base tabular-nums px-3 py-1 rounded-lg"
                     style={{ color: '#60a5fa', background: 'rgba(96,165,250,0.12)' }}
@@ -264,7 +264,7 @@ export default function HomePage() {
           >
             <div className="flex items-center gap-2 mb-5">
               <span className="text-2xl">🏆</span>
-              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f5f3ff' }}>
+              <h3 className="font-display font-extrabold text-xl" style={{ color: '#f1f0f7' }}>
                 Knockout phase
               </h3>
             </div>
@@ -284,14 +284,14 @@ export default function HomePage() {
                 >
                   <span
                     className="text-sm"
-                    style={{ color: r.big ? '#f5f3ff' : '#c4bdec', fontWeight: r.big ? 700 : 400 }}
+                    style={{ color: r.big ? '#f1f0f7' : '#a09db8', fontWeight: r.big ? 700 : 400 }}
                   >
                     {r.label}
                   </span>
                   <span
                     className="font-display font-extrabold tabular-nums px-3 py-1 rounded-lg"
                     style={{
-                      color: '#fb7185',
+                      color: '#f43f5e',
                       background: r.big ? 'rgba(251,113,133,0.20)' : 'rgba(251,113,133,0.12)',
                       fontSize: r.big ? '1.05rem' : '1rem',
                     }}
@@ -307,16 +307,16 @@ export default function HomePage() {
 
       {/* ── Bottom CTA ─────────────────────────────────────────────── */}
       <section className="text-center py-20 px-4">
-        <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-4" style={{ color: '#f5f3ff' }}>
+        <h2 className="font-display font-extrabold text-3xl sm:text-4xl mb-4" style={{ color: '#f1f0f7' }}>
           Ready to make your picks?
         </h2>
-        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#c4bdec' }}>
+        <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#a09db8' }}>
           Build your bracket in minutes. Your Spice Score updates live as you go.
         </p>
         <OnboardingTrigger
           className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
           style={{
-            background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+            background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
             color: '#fff',
             boxShadow: '0 8px 40px -8px rgba(139,92,246,0.60)',
           }}

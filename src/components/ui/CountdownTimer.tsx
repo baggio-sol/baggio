@@ -33,14 +33,14 @@ export default function CountdownTimer() {
             >
               <span
                 className="text-2xl sm:text-3xl font-display font-extrabold tabular-nums"
-                style={{ color: '#f5f3ff' }}
+                style={{ color: '#f1f0f7' }}
               >
                 {String(value).padStart(2, '0')}
               </span>
             </div>
             <span
               className="text-[10px] font-bold uppercase tracking-widest mt-1.5"
-              style={{ color: '#6f6796' }}
+              style={{ color: '#4a4668' }}
             >
               {label}
             </span>

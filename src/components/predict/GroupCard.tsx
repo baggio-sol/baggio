@@ -41,7 +41,7 @@ const POS = [
   { label: '1st', bg: 'rgba(52,211,153,0.18)', color: '#34d399', border: 'rgba(52,211,153,0.35)' },
   { label: '2nd', bg: 'rgba(52,211,153,0.12)', color: '#6ee7b7', border: 'rgba(52,211,153,0.25)' },
   { label: '3rd', bg: 'rgba(251,146,60,0.15)', color: '#fb923c', border: 'rgba(251,146,60,0.35)' },
-  { label: '4th', bg: 'rgba(255,255,255,0.05)', color: '#6f6796', border: 'rgba(255,255,255,0.10)' },
+  { label: '4th', bg: 'rgba(255,255,255,0.05)', color: '#4a4668', border: 'rgba(255,255,255,0.10)' },
 ];
 
 interface GroupCardProps {
@@ -88,26 +88,26 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
         <div className="flex items-center gap-3">
           <div
             className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-base"
-            style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)', color: '#fff' }}
+            style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)', color: '#fff' }}
           >
             {groupId}
           </div>
           <div>
-            <h2 className="font-display font-extrabold text-base leading-tight" style={{ color: '#f5f3ff' }}>
+            <h2 className="font-display font-extrabold text-base leading-tight" style={{ color: '#f1f0f7' }}>
               Group {groupId}
             </h2>
-            <p className="text-[11px]" style={{ color: '#6f6796' }}>
+            <p className="text-[11px]" style={{ color: '#4a4668' }}>
               {complete ? 'Complete' : `Tap to rank · ${order.length}/4`}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          {complete && <CheckCircle2 className="w-5 h-5" style={{ color: '#a78bfa' }} />}
+          {complete && <CheckCircle2 className="w-5 h-5" style={{ color: '#9d7fea' }} />}
           {order.length > 0 && (
             <button
               onClick={() => clearGroup(groupId)}
               className="text-[11px] font-semibold px-3 py-1 rounded-full border transition-all hover:opacity-80"
-              style={{ color: '#6f6796', borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.04)' }}
+              style={{ color: '#4a4668', borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.04)' }}
             >
               Clear
             </button>
@@ -132,7 +132,7 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
             );
           })}
           {order.length === 2 && (
-            <span className="text-[11px] font-medium" style={{ color: '#6f6796' }}>· Advance</span>
+            <span className="text-[11px] font-medium" style={{ color: '#4a4668' }}>· Advance</span>
           )}
         </div>
       )}
@@ -178,14 +178,14 @@ export default function GroupCard({ groupId, teams, onComplete }: GroupCardProps
               {/* Name */}
               <span
                 className="flex-1 min-w-0 text-sm font-semibold truncate"
-                style={{ color: ranked ? '#f5f3ff' : '#c4bdec' }}
+                style={{ color: ranked ? '#f1f0f7' : '#a09db8' }}
               >
                 {t.name}
               </span>
 
               {/* FIFA ranking */}
               {t.rank && (
-                <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#6f6796' }}>
+                <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#4a4668' }}>
                   #{t.rank}
                 </span>
               )}

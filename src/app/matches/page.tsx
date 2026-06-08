@@ -36,8 +36,8 @@ export default function MatchesPage() {
     <div className="min-h-screen py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-black" style={{ color: '#f5f3ff' }}>Match Center</h1>
-          <p className="mt-1" style={{ color: '#c4bdec' }}>All WC2026 fixtures — 12 groups, 104 matches</p>
+          <h1 className="text-3xl md:text-4xl font-black" style={{ color: '#f1f0f7' }}>Match Center</h1>
+          <p className="mt-1" style={{ color: '#a09db8' }}>All WC2026 fixtures — 12 groups, 104 matches</p>
         </div>
 
         {/* Group filter */}
@@ -47,8 +47,8 @@ export default function MatchesPage() {
             className={cn(
               'px-4 py-2 rounded-xl text-sm font-semibold transition-all whitespace-nowrap border',
               !selectedGroup
-                ? 'border-[rgba(139,92,246,0.40)] text-[#8b5cf6]'
-                : 'border-white/10 text-[#6f6796] hover:text-[#c4bdec]'
+                ? 'border-[rgba(139,92,246,0.40)] text-[#7c3aed]'
+                : 'border-white/10 text-[#4a4668] hover:text-[#a09db8]'
             )}
             style={{ background: !selectedGroup ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.03)' }}
           >
@@ -61,8 +61,8 @@ export default function MatchesPage() {
               className={cn(
                 'w-10 h-10 rounded-xl text-sm font-bold transition-all border',
                 selectedGroup === gid
-                  ? 'border-[rgba(139,92,246,0.40)] text-[#8b5cf6]'
-                  : 'border-white/10 text-[#6f6796] hover:text-[#c4bdec]'
+                  ? 'border-[rgba(139,92,246,0.40)] text-[#7c3aed]'
+                  : 'border-white/10 text-[#4a4668] hover:text-[#a09db8]'
               )}
               style={{ background: selectedGroup === gid ? 'rgba(139,92,246,0.15)' : 'rgba(255,255,255,0.03)' }}
             >
@@ -77,11 +77,11 @@ export default function MatchesPage() {
               <div className="flex items-center gap-3 mb-4">
                 <div
                   className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-sm"
-                  style={{ background: 'linear-gradient(135deg, #8b5cf6, #3b82f6)' }}
+                  style={{ background: 'linear-gradient(135deg, #7c3aed, #2563eb)' }}
                 >
                   {group.gid}
                 </div>
-                <h2 className="text-lg font-bold" style={{ color: '#f5f3ff' }}>Group {group.gid}</h2>
+                <h2 className="text-lg font-bold" style={{ color: '#f1f0f7' }}>Group {group.gid}</h2>
                 <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.10)' }} />
               </div>
 
@@ -89,7 +89,7 @@ export default function MatchesPage() {
                 {group.matches.map(match => (
                   <Card key={match.id} className="overflow-hidden transition-all">
                     <div className="p-4">
-                      <div className="flex items-center gap-2 text-xs mb-3" style={{ color: '#6f6796' }}>
+                      <div className="flex items-center gap-2 text-xs mb-3" style={{ color: '#4a4668' }}>
                         <Clock className="w-3 h-3" />
                         <span>{match.date}</span>
                         <span>·</span>
@@ -99,7 +99,7 @@ export default function MatchesPage() {
 
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2 flex-1 justify-end">
-                          <span className="font-semibold text-sm md:text-base" style={{ color: '#f5f3ff' }}>{match.home.name}</span>
+                          <span className="font-semibold text-sm md:text-base" style={{ color: '#f1f0f7' }}>{match.home.name}</span>
                           <span className="text-2xl">{match.home.flag}</span>
                         </div>
 
@@ -107,12 +107,12 @@ export default function MatchesPage() {
                           className="flex-shrink-0 text-center rounded-xl px-4 py-2 border"
                           style={{ background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.10)' }}
                         >
-                          <span className="text-sm font-medium" style={{ color: '#6f6796' }}>VS</span>
+                          <span className="text-sm font-medium" style={{ color: '#4a4668' }}>VS</span>
                         </div>
 
                         <div className="flex items-center gap-2 flex-1">
                           <span className="text-2xl">{match.away.flag}</span>
-                          <span className="font-semibold text-sm md:text-base" style={{ color: '#f5f3ff' }}>{match.away.name}</span>
+                          <span className="font-semibold text-sm md:text-base" style={{ color: '#f1f0f7' }}>{match.away.name}</span>
                         </div>
                       </div>
                     </div>

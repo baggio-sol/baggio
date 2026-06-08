@@ -66,17 +66,17 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
           style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}
         >
           <div className="flex items-start justify-between gap-3 mb-2">
-            <h3 className="font-display font-extrabold text-lg" style={{ color: '#f5f3ff' }}>
+            <h3 className="font-display font-extrabold text-lg" style={{ color: '#f1f0f7' }}>
               Pick 8 of 12 third-place teams
             </h3>
             <div
               className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
               style={{ background: 'rgba(167,139,250,0.20)' }}
             >
-              <HelpCircle className="w-4 h-4" style={{ color: '#a78bfa' }} />
+              <HelpCircle className="w-4 h-4" style={{ color: '#9d7fea' }} />
             </div>
           </div>
-          <p className="text-sm leading-relaxed mb-4" style={{ color: '#c4bdec' }}>
+          <p className="text-sm leading-relaxed mb-4" style={{ color: '#a09db8' }}>
             The 2026 World Cup is the first with 48 teams in 12 groups. The top 2 in each
             group advance automatically (24 teams), and the 8 best third-place teams (out of
             12) join them to fill the Round of 32. Pick which 8 third-place finishers you
@@ -85,7 +85,7 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
           <button
             onClick={() => setShowHelp(false)}
             className="rounded-xl px-4 py-2 text-sm font-bold transition-all hover:opacity-90"
-            style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)', color: '#fff' }}
+            style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)', color: '#fff' }}
           >
             Got it, thanks
           </button>
@@ -96,7 +96,7 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
       {eligibleCount < 12 && (
         <p
           className="text-sm mb-4 px-4 py-3 rounded-xl"
-          style={{ background: 'rgba(251,113,133,0.12)', color: '#fb7185' }}
+          style={{ background: 'rgba(251,113,133,0.12)', color: '#f43f5e' }}
         >
           Finish ranking your groups first — {12 - eligibleCount} group
           {12 - eligibleCount > 1 ? 's' : ''} still {12 - eligibleCount > 1 ? 'need' : 'needs'} a 3rd-placed team.
@@ -128,7 +128,7 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
               {isSelected && (
                 <span
                   className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center"
-                  style={{ background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)' }}
+                  style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)' }}
                 >
                   <Check className="w-3 h-3 text-white" />
                 </span>
@@ -141,12 +141,12 @@ export default function ThirdPlaceSelector({ onComplete }: { onComplete?: () => 
               </div>
 
               {/* Name */}
-              <span className="text-sm font-bold text-center leading-tight truncate w-full" style={{ color: team ? '#f5f3ff' : '#6f6796' }}>
+              <span className="text-sm font-bold text-center leading-tight truncate w-full" style={{ color: team ? '#f1f0f7' : '#4a4668' }}>
                 {team?.name ?? 'Unranked'}
               </span>
 
               {/* Group + rank */}
-              <span className="text-[11px] font-medium" style={{ color: '#6f6796' }}>
+              <span className="text-[11px] font-medium" style={{ color: '#4a4668' }}>
                 Grp {group}{team?.rank ? ` · #${team.rank}` : ''}
               </span>
             </button>

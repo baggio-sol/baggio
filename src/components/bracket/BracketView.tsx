@@ -43,7 +43,7 @@ function TeamSlot({
       <span className="text-base leading-none w-5">{team?.flag ?? ''}</span>
       <span
         className="flex-1 text-xs font-semibold truncate"
-        style={{ color: team ? (isWinner ? '#f5f3ff' : '#c4bdec') : '#6f6796' }}
+        style={{ color: team ? (isWinner ? '#f1f0f7' : '#a09db8') : '#4a4668' }}
       >
         {team?.name ?? placeholder}
       </span>
@@ -96,14 +96,14 @@ export default function BracketView() {
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
           style={{ background: 'rgba(255,255,255,0.05)' }}>
-          <Lock className="w-6 h-6" style={{ color: '#6f6796' }} />
+          <Lock className="w-6 h-6" style={{ color: '#4a4668' }} />
         </div>
-        <p className="text-sm max-w-sm" style={{ color: '#c4bdec' }}>
+        <p className="text-sm max-w-sm" style={{ color: '#a09db8' }}>
           Finish the group stage first — rank all 12 groups and pick your 8 third-place
           qualifiers to unlock the knockout bracket.
         </p>
         <Link href="/predict"
-          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#fb7185' }}>
+          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#f43f5e' }}>
           Go to group stage
         </Link>
       </div>
@@ -130,7 +130,7 @@ export default function BracketView() {
 
         {/* Final + champion */}
         <div className="flex flex-col gap-3 justify-center">
-          <h4 className="text-[11px] font-bold uppercase tracking-wider text-center" style={{ color: '#6f6796' }}>
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-center" style={{ color: '#4a4668' }}>
             Final
           </h4>
           <MatchCard match={finalMatch} winner={champion} onPick={(c) => setKnockoutWinner('M104', c)} />
@@ -141,11 +141,11 @@ export default function BracketView() {
               Champion
             </p>
             {champion ? (
-              <p className="text-sm font-black" style={{ color: '#f5f3ff' }}>
+              <p className="text-sm font-black" style={{ color: '#f1f0f7' }}>
                 {TEAM_BY_CODE[champion]?.flag} {TEAM_BY_CODE[champion]?.name}
               </p>
             ) : (
-              <p className="text-xs" style={{ color: '#6f6796' }}>Pick the final</p>
+              <p className="text-xs" style={{ color: '#4a4668' }}>Pick the final</p>
             )}
           </div>
         </div>
@@ -172,10 +172,10 @@ function RoundColumn({
   return (
     <div className="flex flex-col gap-3 justify-around">
       <div className="text-center">
-        <h4 className="text-[11px] font-bold uppercase tracking-wider" style={{ color: '#6f6796' }}>
+        <h4 className="text-[11px] font-bold uppercase tracking-wider" style={{ color: '#4a4668' }}>
           {label}
         </h4>
-        <span className="text-[10px]" style={{ color: done === total ? '#8b5cf6' : '#6f6796' }}>
+        <span className="text-[10px]" style={{ color: done === total ? '#7c3aed' : '#4a4668' }}>
           {done}/{total}
         </span>
       </div>

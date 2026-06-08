@@ -16,12 +16,12 @@ const sizeClasses = {
 
 const variantClasses = {
   primary: 'text-white font-bold transition-opacity hover:opacity-90 active:scale-95',
-  ghost: 'glass text-[#f5f3ff] font-bold hover:bg-white/10 transition-all active:scale-95',
-  outline: 'border border-[rgba(255,255,255,0.20)] text-[#f5f3ff] font-bold hover:bg-white/10 transition-all active:scale-95',
+  ghost: 'glass text-[#f1f0f7] font-bold hover:bg-white/10 transition-all active:scale-95',
+  outline: 'border border-[rgba(255,255,255,0.20)] text-[#f1f0f7] font-bold hover:bg-white/10 transition-all active:scale-95',
 };
 
 const variantStyles: Record<string, React.CSSProperties> = {
-  primary: { background: 'linear-gradient(135deg, #fb7185, #f43f5e)' },
+  primary: { background: 'linear-gradient(135deg, #f43f5e, #f43f5e)' },
   ghost: {},
   outline: {},
 };

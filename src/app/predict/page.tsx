@@ -50,18 +50,18 @@ export default function PredictPage() {
           }}
         >
           <div className="flex items-center justify-between mb-1">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6f6796' }}>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#4a4668' }}>
               Your Bracket
             </p>
             <button
               onClick={resetPredictions}
               className="flex items-center gap-1.5 text-xs font-semibold transition-colors hover:opacity-80"
-              style={{ color: '#fb7185' }}
+              style={{ color: '#f43f5e' }}
             >
               <RotateCcw className="w-3 h-3" /> Reset
             </button>
           </div>
-          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f5f3ff' }}>
+          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f1f0f7' }}>
             {tab === 'thirds'
               ? `Best 3rd ${thirds}/8`
               : tab === 'knockout'
@@ -79,7 +79,7 @@ export default function PredictPage() {
                     ? Math.round((koPicked / 31) * 100)
                     : Math.round((done / GROUP_IDS.length) * 100)
                 }%`,
-                background: 'linear-gradient(90deg, #8b5cf6, #3b82f6)',
+                background: 'linear-gradient(90deg, #7c3aed, #2563eb)',
               }}
             />
           </div>
@@ -105,11 +105,11 @@ export default function PredictPage() {
                   className="flex-shrink-0 w-11 h-11 rounded-full font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
                   style={{
                     background: isActive
-                      ? 'linear-gradient(135deg, #8b5cf6, #3b82f6)'
+                      ? 'linear-gradient(135deg, #7c3aed, #2563eb)'
                       : complete
                       ? 'rgba(139,92,246,0.20)'
                       : 'rgba(255,255,255,0.06)',
-                    color: isActive ? '#fff' : complete ? '#a78bfa' : '#c4bdec',
+                    color: isActive ? '#fff' : complete ? '#9d7fea' : '#a09db8',
                     border: isActive ? 'none' : '1px solid rgba(255,255,255,0.10)',
                   }}
                 >
@@ -165,19 +165,19 @@ export default function PredictPage() {
                 disabled={t.locked}
                 onClick={() => !t.locked && setTab(t.id)}
                 className="flex-1 flex flex-col items-center justify-center py-3.5 gap-0.5 transition-all"
-                style={{ color: t.locked ? '#3a3358' : isActive ? '#a78bfa' : '#6f6796' }}
+                style={{ color: t.locked ? '#3a3358' : isActive ? '#9d7fea' : '#4a4668' }}
               >
                 {t.locked && <Lock className="w-3.5 h-3.5 mb-0.5" />}
                 <span className="text-xs font-bold">{t.label}</span>
                 {t.count && !t.locked && (
-                  <span className="text-[10px]" style={{ color: isActive ? '#8b5cf6' : '#6f6796' }}>
+                  <span className="text-[10px]" style={{ color: isActive ? '#7c3aed' : '#4a4668' }}>
                     {t.count}
                   </span>
                 )}
                 {isActive && (
                   <div
                     className="absolute bottom-0 h-0.5 w-12 rounded-full"
-                    style={{ background: '#8b5cf6' }}
+                    style={{ background: '#7c3aed' }}
                   />
                 )}
               </button>

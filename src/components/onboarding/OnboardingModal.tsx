@@ -67,7 +67,7 @@ export default function OnboardingModal() {
         <button
           onClick={dismiss}
           className="absolute top-4 right-4 p-2 rounded-xl transition-all hover:bg-white/10"
-          style={{ color: '#6f6796' }}
+          style={{ color: '#4a4668' }}
           aria-label="Skip"
         >
           <X className="w-4 h-4" />
@@ -81,7 +81,7 @@ export default function OnboardingModal() {
               className="h-1 flex-1 rounded-full transition-all duration-300"
               style={{
                 background: s.id <= step
-                  ? 'linear-gradient(90deg,#8b5cf6,#3b82f6)'
+                  ? 'linear-gradient(90deg,#7c3aed,#2563eb)'
                   : 'rgba(255,255,255,0.10)',
               }}
             />
@@ -98,14 +98,14 @@ export default function OnboardingModal() {
 
         {/* Footer */}
         <div className="px-8 pb-8 flex items-center justify-between">
-          <span className="text-xs font-medium" style={{ color: '#6f6796' }}>
+          <span className="text-xs font-medium" style={{ color: '#4a4668' }}>
             {step} of {STEPS.length}
           </span>
           <button
             onClick={next}
             className="flex items-center gap-2 rounded-2xl px-6 py-3 font-display font-extrabold text-sm transition-all hover:scale-105 active:scale-95"
             style={{
-              background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)',
+              background: 'linear-gradient(135deg,#7c3aed,#2563eb)',
               color: '#fff',
               boxShadow: '0 8px 24px -8px rgba(139,92,246,0.55)',
             }}
@@ -125,23 +125,23 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">⚽</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
         Welcome
       </p>
-      <h2 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
+      <h2 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f1f0f7' }}>
         World Cup 26&apos; Predictor
       </h2>
-      <p className="text-sm mb-7 leading-relaxed" style={{ color: '#c4bdec' }}>
+      <p className="text-sm mb-7 leading-relaxed" style={{ color: '#a09db8' }}>
         48 teams. 104 matches. Build your bracket and get a personalised share card — starting with your name.
       </p>
 
       {/* Name input */}
       <div className="w-full mb-5">
-        <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#6f6796' }}>
+        <label className="block text-xs font-bold uppercase tracking-widest mb-2 text-left" style={{ color: '#4a4668' }}>
           What should we call you?
         </label>
         <div className="relative">
-          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#6f6796' }} />
+          <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: '#4a4668' }} />
           <input
             autoFocus
             type="text"
@@ -153,12 +153,12 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
             style={{
               background: 'rgba(255,255,255,0.07)',
               border: `1px solid ${localName.trim() ? 'rgba(139,92,246,0.5)' : 'rgba(255,255,255,0.12)'}`,
-              color: '#f5f3ff',
+              color: '#f1f0f7',
             }}
           />
         </div>
         {localName.trim() && (
-          <p className="text-xs mt-2 text-left font-medium" style={{ color: '#a78bfa' }}>
+          <p className="text-xs mt-2 text-left font-medium" style={{ color: '#9d7fea' }}>
             Your name will appear on your personalised bracket card 🎟️
           </p>
         )}
@@ -168,10 +168,10 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
         className="w-full rounded-2xl px-5 py-4 border text-center"
         style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.28)' }}
       >
-        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#fb7185' }}>
+        <span className="font-display font-extrabold" style={{ fontSize: 'clamp(1.8rem,4vw,2.4rem)', color: '#f43f5e' }}>
           449 points
         </span>
-        <p className="text-sm mt-1 font-medium" style={{ color: '#f5f3ff' }}>
+        <p className="text-sm mt-1 font-medium" style={{ color: '#f1f0f7' }}>
           to be won — predict every result before kick-off
         </p>
       </div>
@@ -182,13 +182,13 @@ function Step1({ localName, setLocalName }: { localName: string; setLocalName: (
 function Step2() {
   return (
     <div className="flex flex-col">
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
         Build your bracket
       </p>
-      <h2 className="font-display font-extrabold leading-tight mb-2" style={{ fontSize: 'clamp(1.6rem,4vw,2rem)', color: '#f5f3ff' }}>
+      <h2 className="font-display font-extrabold leading-tight mb-2" style={{ fontSize: 'clamp(1.6rem,4vw,2rem)', color: '#f1f0f7' }}>
         15 minutes to build the perfect prediction
       </h2>
-      <p className="text-sm mb-7" style={{ color: '#c4bdec' }}>
+      <p className="text-sm mb-7" style={{ color: '#a09db8' }}>
         Three steps. Done before your tea gets cold.
       </p>
       <ol className="flex flex-col gap-3">
@@ -205,7 +205,7 @@ function Step2() {
             <span
               className="font-display font-extrabold text-xl flex-shrink-0 leading-none"
               style={{
-                background: 'linear-gradient(135deg,#8b5cf6,#3b82f6)',
+                background: 'linear-gradient(135deg,#7c3aed,#2563eb)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -214,8 +214,8 @@ function Step2() {
               {s.n}
             </span>
             <div>
-              <p className="font-bold text-sm" style={{ color: '#f5f3ff' }}>{s.title}</p>
-              <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#c4bdec' }}>{s.body}</p>
+              <p className="font-bold text-sm" style={{ color: '#f1f0f7' }}>{s.title}</p>
+              <p className="text-xs mt-0.5 leading-relaxed" style={{ color: '#a09db8' }}>{s.body}</p>
             </div>
           </li>
         ))}
@@ -228,13 +228,13 @@ function Step3() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">👥</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
         Compete
       </p>
-      <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
+      <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f1f0f7' }}>
         Compete with friends
       </h2>
-      <p className="text-base leading-relaxed mb-7" style={{ color: '#c4bdec' }}>
+      <p className="text-base leading-relaxed mb-7" style={{ color: '#a09db8' }}>
         Create a private league, invite your friends, and track the leaderboard as the real results come in. Bragging rights on the line.
       </p>
       <div className="grid grid-cols-3 gap-3 w-full">
@@ -249,7 +249,7 @@ function Step3() {
             style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
           >
             <span className="text-2xl">{f.icon}</span>
-            <span className="text-xs font-semibold text-center" style={{ color: '#c4bdec' }}>{f.label}</span>
+            <span className="text-xs font-semibold text-center" style={{ color: '#a09db8' }}>{f.label}</span>
           </div>
         ))}
       </div>
@@ -261,21 +261,21 @@ function Step4() {
   return (
     <div className="flex flex-col items-center text-center">
       <span className="text-5xl mb-5">🌶️</span>
-      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#fb7185' }}>
+      <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
         You&apos;re ready
       </p>
-      <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f5f3ff' }}>
+      <h2 className="font-display font-extrabold leading-tight mb-4" style={{ fontSize: 'clamp(1.7rem,4vw,2.2rem)', color: '#f1f0f7' }}>
         One bracket to rule them all
       </h2>
-      <p className="text-base leading-relaxed mb-6" style={{ color: '#c4bdec' }}>
-        Your picks are saved as you go. Come back any time before kick-off on <strong style={{ color: '#f5f3ff' }}>June 11, 2026</strong> to update them.
+      <p className="text-base leading-relaxed mb-6" style={{ color: '#a09db8' }}>
+        Your picks are saved as you go. Come back any time before kick-off on <strong style={{ color: '#f1f0f7' }}>June 11, 2026</strong> to update them.
       </p>
       <div
         className="w-full rounded-2xl px-5 py-4 border"
         style={{ background: 'rgba(139,92,246,0.10)', borderColor: 'rgba(139,92,246,0.28)' }}
       >
-        <p className="text-sm font-semibold" style={{ color: '#c4bdec' }}>
-          Hit <span style={{ color: '#f5f3ff' }}>&quot;Create my bracket&quot;</span> below to start — it takes about 15 minutes.
+        <p className="text-sm font-semibold" style={{ color: '#a09db8' }}>
+          Hit <span style={{ color: '#f1f0f7' }}>&quot;Create my bracket&quot;</span> below to start — it takes about 15 minutes.
         </p>
       </div>
     </div>
