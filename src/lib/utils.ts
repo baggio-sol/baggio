@@ -44,11 +44,11 @@ export const TIER_COLORS: Record<number, string> = {
   2: '#818cf8',
   3: '#a78bfa',
   4: '#f472b6',
-  5: '#fb7185',
+  5: '#ffffff',
 };
 
 export function tierColor(tier: number): string {
-  return TIER_COLORS[tier] ?? '#6f6796';
+  return TIER_COLORS[tier] ?? '#c4bdec';
 }
 
 const TIER_LABELS: Record<number, string> = {

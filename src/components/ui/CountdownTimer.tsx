@@ -40,7 +40,7 @@ export default function CountdownTimer() {
             </div>
             <span
               className="text-[10px] font-bold uppercase tracking-widest mt-1.5"
-              style={{ color: '#4a4668' }}
+              style={{ color: '#a09db8' }}
             >
               {label}
             </span>

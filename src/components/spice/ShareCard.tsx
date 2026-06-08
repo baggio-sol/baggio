@@ -1,7 +1,38 @@
 'use client';
+import Image from 'next/image';
 import type { SpiceResult } from '@/lib/types';
 import { TEAM_BY_CODE } from '@/lib/tournament';
 import { tierColor } from '@/lib/utils';
+
+const ISO2: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', KSA: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
+function FlagImg({ code, name }: { code: string; name: string }) {
+  const iso = ISO2[code];
+  if (!iso) return null;
+  return (
+    <Image
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      alt={name}
+      width={57}
+      height={40}
+      className="object-cover rounded-sm flex-shrink-0"
+      unoptimized
+    />
+  );
+}
 
 /**
  * The live share card. The numbers here come from computeSpice() — the SAME
@@ -38,10 +69,10 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
             </h2>
           </div>
           <div className="text-right flex-shrink-0">
-            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#f43f5e' }}>
+            <div className="text-5xl font-display font-extrabold spice-glow" style={{ color: '#ffffff' }}>
               {spice.score}
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#4a4668' }}>
+            <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#a09db8' }}>
               Spice / 100
             </p>
           </div>
@@ -53,9 +84,9 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
         {/* Boldest call */}
         <div
           className="rounded-2xl px-4 py-3 my-5 border"
-          style={{ background: 'rgba(251,113,133,0.10)', borderColor: 'rgba(251,113,133,0.25)' }}
+          style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.15)' }}
         >
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#f43f5e' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#ffffff' }}>
             Boldest call
           </p>
           <p className="text-sm font-semibold" style={{ color: '#f1f0f7' }}>
@@ -77,12 +108,12 @@ export default function ShareCard({ spice, handle }: { spice: SpiceResult; handl
                   boxShadow: team ? `inset 3px 0 0 ${tierColor(team.tier)}` : 'none',
                 }}
               >
-                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4668' }}>
+                <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#a09db8' }}>
                   {h.icon} {h.label}
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg leading-none">{team?.flag ?? '—'}</span>
-                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f1f0f7' : '#4a4668' }}>
+                  {team && <FlagImg code={team.code} name={team.name} />}
+                  <span className="text-sm font-bold truncate" style={{ color: team ? '#f1f0f7' : '#a09db8' }}>
                     {team?.name ?? 'TBD'}
                   </span>
                 </div>
@@ -133,7 +164,7 @@ function SpiceBar({ spice }: { spice: SpiceResult }) {
 }
 
 const SEGMENT_COLORS: Record<string, string> = {
-  champion: '#f43f5e',
+  champion: '#ffffff',
   finalist: '#f472b6',
   deepRuns: '#9d7fea',
   earlyExits: '#818cf8',

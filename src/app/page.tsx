@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import CountdownTimer from '@/components/ui/CountdownTimer';
 import FlagOrbitClient from '@/components/landing/FlagOrbitClient';
-import OnboardingTrigger from '@/components/onboarding/OnboardingTrigger';
+import BuildBracketButton from '@/components/landing/BuildBracketButton';
+
 
 export default function HomePage() {
   return (
@@ -20,7 +21,7 @@ export default function HomePage() {
         >
           <span
             className="w-1.5 h-1.5 rounded-full inline-block"
-            style={{ background: '#f43f5e', animation: 'pulse 2s infinite' }}
+            style={{ background: '#ffffff', animation: 'pulse 2s infinite' }}
           />
           FIFA World Cup 2026
         </div>
@@ -37,7 +38,7 @@ export default function HomePage() {
           World Cup{' '}
           <span
             style={{
-              background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #f43f5e 100%)',
+              background: 'linear-gradient(135deg, #7c3aed 0%, #2563eb 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -59,7 +60,7 @@ export default function HomePage() {
 
         {/* Countdown */}
         <div className="mb-10 flex flex-col items-center gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#4a4668' }}>
+          <p className="text-[10px] font-bold uppercase tracking-widest mb-1" style={{ color: '#a09db8' }}>
             Tournament kicks off in
           </p>
           <CountdownTimer />
@@ -67,7 +68,7 @@ export default function HomePage() {
 
         {/* CTAs */}
         <div className="flex flex-wrap justify-center gap-3">
-          <OnboardingTrigger
+          <BuildBracketButton
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base transition-all hover:scale-105 active:scale-95"
             style={{
               background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
@@ -76,7 +77,7 @@ export default function HomePage() {
             }}
           >
             Build My Bracket →
-          </OnboardingTrigger>
+          </BuildBracketButton>
           <Link
             href="/bracket"
             className="rounded-2xl px-8 py-3.5 font-display font-extrabold text-base border transition-all hover:scale-105 active:scale-95"
@@ -104,7 +105,7 @@ export default function HomePage() {
       {/* ── How it works (step by step) ──────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-3xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#a09db8' }}>
             How it works
           </p>
           <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
@@ -172,7 +173,7 @@ export default function HomePage() {
       {/* ── By the numbers ───────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-5xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#a09db8' }}>
             The full bracket
           </p>
           <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
@@ -182,9 +183,9 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
-            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#60a5fa' },
-            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#9d7fea' },
-            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#f43f5e' },
+            { value: '48', label: 'Teams to predict', sub: 'across 12 groups of 4', color: '#f1f0f7' },
+            { value: '104', label: 'Total matches', sub: 'group stage to the final', color: '#f1f0f7' },
+            { value: '449', label: 'Points up for grabs', sub: 'a perfect bracket', color: '#f1f0f7' },
           ].map((s) => (
             <div
               key={s.label}
@@ -211,7 +212,7 @@ export default function HomePage() {
       {/* ── Earn points ──────────────────────────────────────────────── */}
       <section className="relative min-h-[100svh] flex flex-col justify-center max-w-4xl mx-auto px-4 py-24">
         <div className="text-center mb-14">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#f43f5e' }}>
+          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#a09db8' }}>
             Scoring
           </p>
           <h2 className="font-display font-extrabold text-3xl sm:text-5xl" style={{ color: '#f1f0f7' }}>
@@ -248,7 +249,7 @@ export default function HomePage() {
                   <span className="text-sm" style={{ color: '#a09db8' }}>{r.label}</span>
                   <span
                     className="font-display font-extrabold text-base tabular-nums px-3 py-1 rounded-lg"
-                    style={{ color: '#60a5fa', background: 'rgba(96,165,250,0.12)' }}
+                    style={{ color: '#f1f0f7', background: 'rgba(255,255,255,0.10)' }}
                   >
                     {r.pts} pts
                   </span>
@@ -260,7 +261,7 @@ export default function HomePage() {
           {/* Knockout phase */}
           <div
             className="rounded-3xl p-6 border"
-            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(251,113,133,0.25)' }}
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.15)' }}
           >
             <div className="flex items-center gap-2 mb-5">
               <span className="text-2xl">🏆</span>
@@ -291,8 +292,8 @@ export default function HomePage() {
                   <span
                     className="font-display font-extrabold tabular-nums px-3 py-1 rounded-lg"
                     style={{
-                      color: '#f43f5e',
-                      background: r.big ? 'rgba(251,113,133,0.20)' : 'rgba(251,113,133,0.12)',
+                      color: '#ffffff',
+                      background: r.big ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)',
                       fontSize: r.big ? '1.05rem' : '1rem',
                     }}
                   >
@@ -313,7 +314,7 @@ export default function HomePage() {
         <p className="text-base mb-8 max-w-md mx-auto" style={{ color: '#a09db8' }}>
           Build your bracket in minutes. Your Spice Score updates live as you go.
         </p>
-        <OnboardingTrigger
+        <BuildBracketButton
           className="inline-block rounded-2xl px-10 py-4 font-display font-extrabold text-lg transition-all hover:scale-105 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #7c3aed, #2563eb)',
@@ -322,7 +323,7 @@ export default function HomePage() {
           }}
         >
           Start for free →
-        </OnboardingTrigger>
+        </BuildBracketButton>
       </section>
     </div>
   );

@@ -1,9 +1,40 @@
 'use client';
+import Image from 'next/image';
 import { usePredictionStore, deriveTree } from '@/lib/store';
 import { TEAM_BY_CODE, type KnockoutMatch, type KnockoutTree } from '@/lib/tournament';
 import { tierColor, cn } from '@/lib/utils';
 import { Lock } from 'lucide-react';
 import Link from 'next/link';
+
+const ISO2: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', KSA: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
+function FlagImg({ code, name }: { code: string; name: string }) {
+  const iso = ISO2[code];
+  if (!iso) return null;
+  return (
+    <Image
+      src={`https://flagcdn.com/w40/${iso}.png`}
+      alt={name}
+      width={57}
+      height={40}
+      className="object-cover rounded-sm"
+      unoptimized
+    />
+  );
+}
 
 const ROUNDS: { key: 'r32' | 'r16' | 'qf' | 'sf'; label: string }[] = [
   { key: 'r32', label: 'Round of 32' },
@@ -40,10 +71,12 @@ function TeamSlot({
         opacity: picked && !isWinner ? 0.45 : 1,
       }}
     >
-      <span className="text-base leading-none w-5">{team?.flag ?? ''}</span>
+      <span className="flex-shrink-0 flex items-center" style={{ width: 57, height: 40 }}>
+        {team ? <FlagImg code={team.code} name={team.name} /> : null}
+      </span>
       <span
         className="flex-1 text-xs font-semibold truncate"
-        style={{ color: team ? (isWinner ? '#f1f0f7' : '#a09db8') : '#4a4668' }}
+        style={{ color: team ? (isWinner ? '#111827' : '#6b7280') : '#6b7280' }}
       >
         {team?.name ?? placeholder}
       </span>
@@ -65,7 +98,7 @@ function MatchCard({
   return (
     <div
       className="rounded-lg border overflow-hidden w-[180px] divide-y"
-      style={{ borderColor: 'rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)' }}
+      style={{ borderColor: 'rgba(0,0,0,0.10)', background: '#ffffff' }}
     >
       <TeamSlot
         code={match.home}
@@ -74,7 +107,7 @@ function MatchCard({
         onPick={() => match.home && onPick(match.home)}
         placeholder="—"
       />
-      <div style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
+      <div style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
         <TeamSlot
           code={match.away}
           isWinner={picked && winner === match.away}
@@ -96,14 +129,14 @@ export default function BracketView() {
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
           style={{ background: 'rgba(255,255,255,0.05)' }}>
-          <Lock className="w-6 h-6" style={{ color: '#4a4668' }} />
+          <Lock className="w-6 h-6" style={{ color: '#a09db8' }} />
         </div>
         <p className="text-sm max-w-sm" style={{ color: '#a09db8' }}>
           Finish the group stage first — rank all 12 groups and pick your 8 third-place
           qualifiers to unlock the knockout bracket.
         </p>
         <Link href="/predict"
-          className="text-white font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#f43f5e' }}>
+          className="text-gray-900 font-bold px-6 py-3 rounded-xl text-sm" style={{ background: '#ffffff' }}>
           Go to group stage
         </Link>
       </div>
@@ -130,7 +163,7 @@ export default function BracketView() {
 
         {/* Final + champion */}
         <div className="flex flex-col gap-3 justify-center">
-          <h4 className="text-[11px] font-bold uppercase tracking-wider text-center" style={{ color: '#4a4668' }}>
+          <h4 className="text-[11px] font-bold uppercase tracking-wider text-center" style={{ color: '#a09db8' }}>
             Final
           </h4>
           <MatchCard match={finalMatch} winner={champion} onPick={(c) => setKnockoutWinner('M104', c)} />
@@ -141,11 +174,14 @@ export default function BracketView() {
               Champion
             </p>
             {champion ? (
-              <p className="text-sm font-black" style={{ color: '#f1f0f7' }}>
-                {TEAM_BY_CODE[champion]?.flag} {TEAM_BY_CODE[champion]?.name}
-              </p>
+              <div className="flex items-center justify-center gap-1.5">
+                {TEAM_BY_CODE[champion] && <FlagImg code={champion} name={TEAM_BY_CODE[champion]!.name} />}
+                <p className="text-sm font-black" style={{ color: '#f1f0f7' }}>
+                  {TEAM_BY_CODE[champion]?.name}
+                </p>
+              </div>
             ) : (
-              <p className="text-xs" style={{ color: '#4a4668' }}>Pick the final</p>
+              <p className="text-xs" style={{ color: '#a09db8' }}>Pick the final</p>
             )}
           </div>
         </div>
@@ -172,10 +208,10 @@ function RoundColumn({
   return (
     <div className="flex flex-col gap-3 justify-around">
       <div className="text-center">
-        <h4 className="text-[11px] font-bold uppercase tracking-wider" style={{ color: '#4a4668' }}>
+        <h4 className="text-[11px] font-bold uppercase tracking-wider" style={{ color: '#a09db8' }}>
           {label}
         </h4>
-        <span className="text-[10px]" style={{ color: done === total ? '#7c3aed' : '#4a4668' }}>
+        <span className="text-[10px]" style={{ color: done === total ? '#7c3aed' : '#a09db8' }}>
           {done}/{total}
         </span>
       </div>

@@ -76,7 +76,7 @@ export default function KnockoutBracket() {
 
   if (!bracket || !derived) {
     return (
-      <p className="text-sm px-4 py-3 rounded-xl" style={{ background: 'rgba(251,113,133,0.12)', color: '#f43f5e' }}>
+      <p className="text-sm px-4 py-3 rounded-xl" style={{ background: 'rgba(255,255,255,0.08)', color: '#ffffff' }}>
         Finish your groups and best-3rd picks to unlock the knockout bracket.
       </p>
     );
@@ -107,7 +107,7 @@ export default function KnockoutBracket() {
               className="flex-1 flex flex-col items-center justify-center py-2 rounded-xl transition-all"
               style={{
                 background: isActive ? 'linear-gradient(135deg,#7c3aed,#2563eb)' : 'rgba(255,255,255,0.05)',
-                border: `1px solid ${isActive ? 'transparent' : 'rgba(255,255,255,0.08)'}`,
+                border: `1px solid ${isActive ? 'transparent' : 'rgba(0,0,0,0.08)'}`,
               }}
             >
               <span
@@ -118,7 +118,7 @@ export default function KnockoutBracket() {
               </span>
               <span
                 className="text-[10px] font-bold mt-1 tabular-nums"
-                style={{ color: isActive ? 'rgba(255,255,255,0.85)' : '#4a4668' }}
+                style={{ color: isActive ? 'rgba(255,255,255,0.85)' : '#a09db8' }}
               >
                 {picked}/{r.total}
               </span>
@@ -133,7 +133,7 @@ export default function KnockoutBracket() {
           <h2 className="font-display font-extrabold text-lg" style={{ color: '#f1f0f7' }}>
             {active.name}
           </h2>
-          <span className="text-xs font-bold" style={{ color: '#4a4668' }}>
+          <span className="text-xs font-bold" style={{ color: '#a09db8' }}>
             {pickedHere} of {active.total} picked
           </span>
         </div>
@@ -166,13 +166,13 @@ export default function KnockoutBracket() {
               key={id}
               className="rounded-2xl overflow-hidden transition-all"
               style={{
-                background: 'rgba(255,255,255,0.05)',
+                background: '#ffffff',
                 border: `1px solid ${
                   picked
                     ? 'rgba(139,92,246,0.40)'
                     : bothKnown
-                    ? 'rgba(251,113,133,0.45)'
-                    : 'rgba(255,255,255,0.08)'
+                    ? 'rgba(255,255,255,0.15)'
+                    : 'rgba(0,0,0,0.08)'
                 }`,
               }}
             >
@@ -204,7 +204,7 @@ export default function KnockoutBracket() {
                       (!bothKnown || !code) && 'cursor-default',
                     )}
                     style={{
-                      borderColor: 'rgba(255,255,255,0.06)',
+                      borderColor: 'rgba(0,0,0,0.06)',
                       background: isWinner ? 'rgba(139,92,246,0.16)' : 'transparent',
                       opacity: isLoser ? 0.45 : 1,
                     }}
@@ -212,23 +212,23 @@ export default function KnockoutBracket() {
                     {/* Standing label */}
                     <span
                       className="w-8 text-xs font-bold tabular-nums flex-shrink-0"
-                      style={{ color: isWinner ? '#9d7fea' : '#4a4668' }}
+                      style={{ color: isWinner ? '#9d7fea' : '#6b7280' }}
                     >
                       {label || '—'}
                     </span>
 
                     {/* Flag */}
                     <div
-                      className="w-8 h-6 rounded-sm overflow-hidden flex items-center justify-center flex-shrink-0"
-                      style={{ background: 'rgba(255,255,255,0.06)' }}
+                      className="rounded overflow-hidden flex items-center justify-center flex-shrink-0"
+                      style={{ width: 57, height: 40, background: 'rgba(0,0,0,0.06)' }}
                     >
-                      {team ? <FlagImg code={code!} name={team.name} size={32} /> : null}
+                      {team ? <FlagImg code={code!} name={team.name} size={57} /> : null}
                     </div>
 
                     {/* Name */}
                     <span
                       className="flex-1 min-w-0 text-sm font-bold truncate"
-                      style={{ color: team ? '#f1f0f7' : '#4a4668' }}
+                      style={{ color: team ? '#111827' : '#6b7280' }}
                     >
                       {team?.name ?? `Winner of ${m[slot === 'home' ? 'homeSource' : 'awaySource'].replace('W:', '')}`}
                     </span>
@@ -242,7 +242,7 @@ export default function KnockoutBracket() {
                         <Check className="w-3 h-3 text-white" />
                       </span>
                     ) : team?.rank ? (
-                      <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#4a4668' }}>
+                      <span className="text-xs font-bold tabular-nums flex-shrink-0" style={{ color: '#6b7280' }}>
                         #{team.rank}
                       </span>
                     ) : (
@@ -255,19 +255,19 @@ export default function KnockoutBracket() {
               {/* Footer */}
               <div
                 className="px-4 py-2 flex items-center gap-1.5"
-                style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+                style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}
               >
                 {round === 'final' ? (
                   <>
-                    <Trophy className="w-3.5 h-3.5" style={{ color: winner ? '#f43f5e' : '#4a4668' }} />
-                    <span className="text-[11px] font-semibold" style={{ color: winner ? '#f43f5e' : '#4a4668' }}>
+                    <Trophy className="w-3.5 h-3.5" style={{ color: winner ? '#ffffff' : '#6b7280' }} />
+                    <span className="text-[11px] font-semibold" style={{ color: winner ? '#ffffff' : '#6b7280' }}>
                       {winner ? `${TEAM_BY_CODE[winner]?.name} are your champions` : 'Pick your World Cup champion'}
                     </span>
                   </>
                 ) : (
                   <>
-                    <Info className="w-3.5 h-3.5" style={{ color: '#4a4668' }} />
-                    <span className="text-[11px] font-medium" style={{ color: '#4a4668' }}>
+                    <Info className="w-3.5 h-3.5" style={{ color: '#6b7280' }} />
+<span className="text-[11px] font-medium" style={{ color: '#6b7280' }}>
                       {winner
                         ? `${TEAM_BY_CODE[winner]?.name} advance to ${active.nextName}`
                         : bothKnown
@@ -287,7 +287,7 @@ export default function KnockoutBracket() {
         <button
           onClick={() => setShareOpen(true)}
           className="w-full mt-5 flex items-center justify-center gap-2 rounded-2xl py-4 font-display font-extrabold text-white transition-all hover:scale-[1.02] active:scale-95"
-          style={{ background: 'linear-gradient(135deg,#f43f5e,#7c3aed)' }}
+          style={{ background: 'linear-gradient(135deg,#7c3aed,#2563eb)' }}
         >
           <Share2 className="w-5 h-5" />
           Confirm bracket &amp; share

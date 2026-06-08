@@ -7,10 +7,32 @@ import ThirdPlaceSelector from '@/components/predict/ThirdPlaceSelector';
 import KnockoutBracket from '@/components/predict/KnockoutBracket';
 import { GroupId } from '@/lib/types';
 import { Lock, RotateCcw } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import { OPEN_ONBOARDING_EVENT } from '@/components/onboarding/OnboardingModal';
+
+function useOnboardingForNewUsers() {
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: profile } = await (supabase as any)
+        .from('profiles')
+        .select('display_name')
+        .eq('id', user.id)
+        .single();
+      if (!profile?.display_name) {
+        const name = user.user_metadata?.full_name || user.user_metadata?.name || '';
+        window.dispatchEvent(new CustomEvent(OPEN_ONBOARDING_EVENT, { detail: { name } }));
+      }
+    });
+  }, []);
+}
 
 type Tab = 'groups' | 'thirds' | 'knockout';
 
 export default function PredictPage() {
+  useOnboardingForNewUsers();
   const { bracket, resetPredictions } = usePredictionStore();
   const [mounted, setMounted] = useState(false);
   const [activeGroup, setActiveGroup] = useState<GroupId>('A');
@@ -45,30 +67,30 @@ export default function PredictPage() {
         <div
           className="rounded-2xl p-5"
           style={{
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.10)',
+            background: '#ffffff',
+            border: '1px solid rgba(0,0,0,0.10)',
           }}
         >
           <div className="flex items-center justify-between mb-1">
-            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#4a4668' }}>
+            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#6b7280' }}>
               Your Bracket
             </p>
             <button
               onClick={resetPredictions}
               className="flex items-center gap-1.5 text-xs font-semibold transition-colors hover:opacity-80"
-              style={{ color: '#f43f5e' }}
+              style={{ color: '#a09db8' }}
             >
               <RotateCcw className="w-3 h-3" /> Reset
             </button>
           </div>
-          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#f1f0f7' }}>
+          <h1 className="font-display font-extrabold text-2xl mb-3" style={{ color: '#111827' }}>
             {tab === 'thirds'
               ? `Best 3rd ${thirds}/8`
               : tab === 'knockout'
               ? `Knockout ${koPicked}/31`
               : `Groups ${done}/${GROUP_IDS.length}`}
           </h1>
-          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+          <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(0,0,0,0.08)' }}>
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{
@@ -165,12 +187,12 @@ export default function PredictPage() {
                 disabled={t.locked}
                 onClick={() => !t.locked && setTab(t.id)}
                 className="flex-1 flex flex-col items-center justify-center py-3.5 gap-0.5 transition-all"
-                style={{ color: t.locked ? '#3a3358' : isActive ? '#9d7fea' : '#4a4668' }}
+                style={{ color: t.locked ? '#3a3358' : isActive ? '#9d7fea' : '#a09db8' }}
               >
                 {t.locked && <Lock className="w-3.5 h-3.5 mb-0.5" />}
                 <span className="text-xs font-bold">{t.label}</span>
                 {t.count && !t.locked && (
-                  <span className="text-[10px]" style={{ color: isActive ? '#7c3aed' : '#4a4668' }}>
+                  <span className="text-[10px]" style={{ color: isActive ? '#7c3aed' : '#a09db8' }}>
                     {t.count}
                   </span>
                 )}
